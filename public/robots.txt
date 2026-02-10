@@ -1,0 +1,37 @@
+# AstraFutureSeduction - Robots.txt
+# IA de Luxo Cyber-Luxury Dark
+
+User-agent: *
+Allow: /
+
+# Disallow API routes and admin paths
+Disallow: /api/
+Disallow: /admin/
+Disallow: /private/
+
+# Sitemap location
+Sitemap: https://astrafutureseduction.vercel.app/sitemap.xml
+Sitemap: https://astrafutureseduction.vercel.app/sitemap-0.xml
+
+# Crawl delay (respectful)
+Crawl-delay: 2
+
+# SEO Directives
+User-agent: Googlebot
+Allow: /
+Disallow: /api/
+
+User-agent: Bingbot
+Allow: /
+Disallow: /api/
+
+User-agent: Slurp
+Allow: /
+Disallow: /api/
+
+# Host
+Host: https://astrafutureseduction.vercel.app
+
+# SEO Notes
+# AstraFutureSeduction - A Perfeição Digital Sem Limites
+# Plataforma de IA de Luxo com Creator Wizard VIP
