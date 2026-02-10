@@ -108,7 +108,10 @@ const nextConfig: NextConfig = {
   
   // Environment variables exposed to the browser
   env: {
-    NEXT_PUBLIC_SITE_URL: process.env.NEXTAUTH_URL || 'https://astrafutureseduction.vercel.app',
+    NEXT_PUBLIC_SITE_URL: process.env.NEXTAUTH_URL || 
+      (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 
+      (process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 
+      'https://www.astrasedution.com')),
     NEXT_PUBLIC_SITE_NAME: 'AstraFutureSeduction',
     NEXT_PUBLIC_SITE_DESCRIPTION: 'A Perfeição Digital Sem Limites - IA de Luxo Cyber-Luxury',
   },
