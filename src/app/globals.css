@@ -3,6 +3,13 @@
 :root {
   --background: #000000;
   --foreground: #ffffff;
+  /* Astra Seduction Theme Colors */
+  --deep-space-start: #020617;
+  --deep-space-end: #050b18;
+  --brand-glow: #06b6d4;
+  --brand-glow-light: #22d3ee;
+  --brand-glow-dark: #0891b2;
+  /* Legacy Gold Colors */
   --gold-primary: #D4AF37;
   --gold-secondary: #FFD700;
   --gold-accent: #FFE55C;
@@ -15,11 +22,19 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-playfair-display), ui-serif, Georgia, serif;
+  /* Astra Seduction Colors */
+  --color-deep-space-start: var(--deep-space-start);
+  --color-deep-space-end: var(--deep-space-end);
+  --color-brand-glow: var(--brand-glow);
+  --color-brand-glow-light: var(--brand-glow-light);
+  --color-brand-glow-dark: var(--brand-glow-dark);
+  /* Gold Colors */
   --color-gold-primary: var(--gold-primary);
   --color-gold-secondary: var(--gold-secondary);
   --color-gold-accent: var(--gold-accent);
   --animate-glow: glow 2s ease-in-out infinite alternate;
   --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-glow: pulse-glow 3s ease-in-out infinite;
 }
 
 @layer base {
@@ -68,6 +83,23 @@
   .text-glow {
     text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
   }
+
+  /* Astra Seduction Utilities */
+  .bg-deep-space {
+    background: linear-gradient(135deg, var(--deep-space-start) 0%, var(--deep-space-end) 100%);
+  }
+
+  .brand-glow {
+    color: var(--brand-glow);
+  }
+
+  .brand-glow-shadow {
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.4), 0 0 40px rgba(6, 182, 212, 0.2);
+  }
+
+  .text-brand-glow {
+    text-shadow: 0 0 15px rgba(6, 182, 212, 0.6), 0 0 30px rgba(34, 211, 238, 0.3);
+  }
 }
 
 @keyframes glow {
@@ -85,5 +117,14 @@
   }
   50% {
     transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(6, 182, 212, 0.3), 0 0 20px rgba(6, 182, 212, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(6, 182, 212, 0.6), 0 0 50px rgba(34, 211, 238, 0.3);
   }
 }

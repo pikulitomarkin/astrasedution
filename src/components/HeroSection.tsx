@@ -1,93 +1,337 @@
-import { Brain, Zap, Shield } from 'lucide-react';
+"use client";
+
+import { Sparkles, ArrowRight } from 'lucide-react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function HeroSection() {
+  const router = useRouter();
+  const sectionRef = useRef<HTMLElement>(null);
+  
+  // Parallax effect mais suave para não cortar conteúdo
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"]
+  });
+
+  // Background move mais devagar (reduzido de 150px para 100px)
+  const backgroundY = useTransform(scrollYProgress, [0, 1], [0, 100]);
+  // Conteúdo frontal move menos (reduzido de 300px para 150px)
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, 150]);
+
   return (
-    <section className="relative min-h-screen overflow-hidden pt-20">
-      {/* Video Background */}
+    <section 
+      ref={sectionRef}
+      className="relative min-h-screen overflow-hidden pt-32 pb-32"
+    >
+      {/* Video Background Layer */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-black/50 z-10"></div>
+        <div className="absolute inset-0 bg-black/60 z-10"></div>
         <video
           autoPlay
           muted
           loop
           playsInline
-          className="absolute inset-0 h-full w-full object-cover opacity-70"
+          className="absolute inset-0 h-full w-full object-cover opacity-40"
           poster="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072"
         >
           <source
             src="/videos/astra-model-cyberluxury-bg.mp4"
             type="video/mp4"
           />
-          Your browser does not support the video tag.
         </video>
       </div>
 
-      {/* Hero Content */}
-      <div className="relative z-20 mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8 lg:py-40">
-        <div className="mx-auto max-w-3xl text-center">
-          {/* Badge */}
-          <div className="mb-8 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-gold-primary/20 to-gold-accent/20 px-4 py-2">
-            <Zap className="h-4 w-4 text-gold-secondary" />
-            <span className="text-sm font-semibold gold-gradient">
-              TECNOLOGIA DE PONTA
+      {/* Parallax Background - Gradiente com estrelas sutis */}
+      <motion.div 
+        className="absolute inset-0 z-[5]"
+        style={{ y: backgroundY }}
+      >
+        {/* Gradiente base */}
+        <div 
+          className="absolute inset-0"
+          style={{
+            background: `
+              radial-gradient(ellipse at 30% 20%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
+              radial-gradient(ellipse at 70% 60%, rgba(34, 211, 238, 0.1) 0%, transparent 50%),
+              radial-gradient(ellipse at 50% 80%, rgba(6, 182, 212, 0.08) 0%, transparent 60%)
+            `
+          }}
+        />
+
+        {/* Estrelas sutis */}
+        <div 
+          className="absolute inset-0 opacity-30"
+          style={{
+            backgroundImage: `
+              radial-gradient(2px 2px at 20% 30%, rgba(255, 255, 255, 0.8), transparent),
+              radial-gradient(2px 2px at 60% 70%, rgba(255, 255, 255, 0.6), transparent),
+              radial-gradient(1px 1px at 50% 50%, rgba(255, 255, 255, 0.4), transparent),
+              radial-gradient(1px 1px at 80% 10%, rgba(255, 255, 255, 0.7), transparent),
+              radial-gradient(2px 2px at 90% 60%, rgba(255, 255, 255, 0.5), transparent),
+              radial-gradient(1px 1px at 33% 80%, rgba(255, 255, 255, 0.6), transparent),
+              radial-gradient(1px 1px at 15% 60%, rgba(255, 255, 255, 0.4), transparent)
+            `,
+            backgroundSize: '200% 200%',
+          }}
+        />
+
+        {/* Grid overlay sutil */}
+        <div 
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(6, 182, 212, 0.3) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(6, 182, 212, 0.3) 1px, transparent 1px)
+            `,
+            backgroundSize: '50px 50px',
+          }}
+        />
+      </motion.div>
+
+      {/* Conteúdo Principal com Parallax */}
+      <motion.div 
+        className="relative z-20 mx-auto max-w-7xl px-6 lg:px-8"
+        style={{ y: contentY }}
+      >
+        <div className="mx-auto max-w-5xl">
+          {/* Badge Superior */}
+          <motion.div
+            className="mb-8 flex justify-center"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="inline-flex items-center gap-2 rounded-full px-5 py-2 glass-effect border border-brand-glow/30">
+              <Sparkles className="h-4 w-4 text-brand-glow" />
+              <span className="text-sm font-semibold text-brand-glow">
+                TECNOLOGIA DE REALISMO EXTREMO
+              </span>
+            </div>
+          </motion.div>
+
+          {/* Título Principal com Gradiente */}
+          <motion.h1 
+            className="text-center text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+          >
+            <span className="block text-white">Sedução Digital</span>
+            <span 
+              className="block mt-2 bg-gradient-to-r from-brand-glow via-brand-glow-light to-brand-glow-dark bg-clip-text text-transparent"
+              style={{
+                textShadow: '0 0 40px rgba(6, 182, 212, 0.3)',
+              }}
+            >
+              Realismo Extremo
             </span>
-          </div>
+          </motion.h1>
 
-          {/* Main Headline */}
-          <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl lg:text-7xl">
-            <span className="block">A Perfeição</span>
-            <span className="block gold-gradient mt-2">Digital Sem Limites</span>
-          </h1>
+          {/* Subtítulo */}
+          <motion.p 
+            className="text-center text-xl sm:text-2xl text-zinc-300 max-w-3xl mx-auto mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.4 }}
+          >
+            Onde a inteligência artificial encontra a arte da sedução.
+            <span className="block mt-2 text-brand-glow/80">
+              Crie companheiras virtuais com detalhes foto-realistas impossíveis de distinguir.
+            </span>
+          </motion.p>
 
-          {/* Subheadline */}
-          <p className="mx-auto mt-8 max-w-2xl text-xl text-zinc-300">
-            A primeira plataforma de IA de luxo que combina inteligência artificial 
-            avançada com design cibernético premium para uma experiência verdadeiramente única.
-          </p>
+          {/* Teaser Visual - Container de Imagem */}
+          <motion.div
+            className="relative mb-12 mx-auto max-w-4xl"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+          >
+            {/* Container com blur lateral */}
+            <div className="relative rounded-3xl overflow-hidden glass-effect border border-brand-glow/20">
+              {/* Blur gradiente lateral */}
+              <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-black/80 via-black/40 to-transparent z-10 backdrop-blur-sm" />
+              <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-black/80 via-black/40 to-transparent z-10 backdrop-blur-sm" />
+              
+              {/* Imagem Placeholder */}
+              <div className="relative aspect-[16/10] bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900">
+                <img
+                  src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?q=80&w=2787&auto=format&fit=crop"
+                  alt="Exemplo de Realismo Extremo"
+                  className="w-full h-full object-cover opacity-80"
+                />
+                
+                {/* Watermark elegante */}
+                <div className="absolute inset-0 flex items-center justify-center z-20">
+                  <motion.div
+                    className="glass-effect-light px-8 py-4 rounded-2xl border border-white/10"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 1, delay: 1 }}
+                  >
+                    <p className="text-white/90 text-lg sm:text-xl font-light tracking-wide text-center">
+                      Exemplo de{' '}
+                      <span className="font-semibold text-brand-glow text-brand-glow">
+                        Realismo Extremo
+                      </span>
+                    </p>
+                  </motion.div>
+                </div>
 
-
-
-          {/* Stats */}
-          <div className="mt-24 grid grid-cols-2 gap-8 sm:grid-cols-4">
-            <div className="text-center">
-              <div className="glass-effect-light mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-2xl">
-                <Brain className="h-10 w-10 text-gold-primary" />
+                {/* Overlay de brilho sutil */}
+                <div 
+                  className="absolute inset-0 opacity-20"
+                  style={{
+                    background: 'radial-gradient(circle at 50% 50%, rgba(6, 182, 212, 0.3) 0%, transparent 70%)',
+                  }}
+                />
               </div>
-              <div className="text-3xl font-bold text-white">99.9%</div>
-              <div className="text-sm text-zinc-400">Precisão da IA</div>
             </div>
-            <div className="text-center">
-              <div className="glass-effect-light mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-2xl">
-                <Zap className="h-10 w-10 text-gold-primary" />
+
+            {/* Efeito de glow ao redor da imagem */}
+            <div className="absolute -inset-1 bg-gradient-to-r from-brand-glow/20 via-brand-glow-light/20 to-brand-glow/20 rounded-3xl blur-2xl -z-10 opacity-50" />
+          </motion.div>
+
+          {/* CTA Button */}
+          <motion.div
+            className="flex justify-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.8 }}
+          >
+            <motion.button
+              onClick={() => router.push('/create')}
+              className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-full text-lg font-semibold text-white overflow-hidden"
+              style={{
+                background: 'linear-gradient(135deg, #06b6d4 0%, #22d3ee 100%)',
+                boxShadow: '0 0 30px rgba(6, 182, 212, 0.5), 0 0 60px rgba(34, 211, 238, 0.3)',
+              }}
+              whileHover={{ 
+                scale: 1.05,
+                boxShadow: '0 0 40px rgba(6, 182, 212, 0.7), 0 0 80px rgba(34, 211, 238, 0.5)',
+              }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.2 }}
+            >
+              {/* Overlay animado no hover */}
+              <motion.div
+                className="absolute inset-0 bg-white/20"
+                initial={{ x: '-100%' }}
+                whileHover={{ x: '100%' }}
+                transition={{ duration: 0.5 }}
+              />
+              
+              <span className="relative z-10">Começar Agora</span>
+              <ArrowRight className="relative z-10 h-5 w-5 transition-transform group-hover:translate-x-1" />
+            </motion.button>
+          </motion.div>
+
+          {/* Video Demo Section */}
+          <motion.div
+            className="relative mb-16 mx-auto max-w-4xl"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.9 }}
+          >
+            <div className="relative rounded-3xl overflow-hidden glass-effect border border-brand-glow/20">
+              <div className="relative aspect-video bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900">
+                <video
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="w-full h-full object-cover"
+                  poster="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072"
+                >
+                  <source
+                    src="/videos/astra-model-cyberluxury-bg.mp4"
+                    type="video/mp4"
+                  />
+                </video>
+                
+                {/* Overlay decorativo */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                
+                {/* Badge "Em Demonstração" */}
+                <div className="absolute top-4 right-4 z-10">
+                  <div className="glass-effect-light px-4 py-2 rounded-full border border-brand-glow/30">
+                    <span className="text-xs font-semibold text-brand-glow">
+                      🎬 DEMONSTRAÇÃO
+                    </span>
+                  </div>
+                </div>
               </div>
-              <div className="text-3xl font-bold text-white">24/7</div>
-              <div className="text-sm text-zinc-400">Disponibilidade</div>
             </div>
-            <div className="text-center">
-              <div className="glass-effect-light mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-2xl">
-                <Shield className="h-10 w-10 text-gold-primary" />
-              </div>
-              <div className="text-3xl font-bold text-white">100%</div>
-              <div className="text-sm text-zinc-400">Segurança</div>
-            </div>
-            <div className="text-center">
-              <div className="glass-effect-light mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-2xl">
-                <div className="text-2xl font-bold gold-gradient">AI</div>
-              </div>
-              <div className="text-3xl font-bold text-white">∞</div>
-              <div className="text-sm text-zinc-400">Possibilidades</div>
-            </div>
-          </div>
+
+            {/* Efeito de glow */}
+            <div className="absolute -inset-1 bg-gradient-to-r from-brand-glow/20 via-brand-glow-light/20 to-brand-glow/20 rounded-3xl blur-2xl -z-10 opacity-30" />
+          </motion.div>
+
+          {/* Stats ou Features */}
+          <motion.div
+            className="mt-20 grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1 }}
+          >
+            {[
+              { number: '8K', label: 'Resolução Ultra HD' },
+              { number: '∞', label: 'Personalizações' },
+              { number: '99.9%', label: 'Realismo Visual' },
+            ].map((stat, index) => (
+              <motion.div
+                key={index}
+                className="text-center glass-effect rounded-2xl p-6 border border-brand-glow/10"
+                whileHover={{ scale: 1.05, borderColor: 'rgba(6, 182, 212, 0.3)' }}
+                transition={{ duration: 0.2 }}
+              >
+                <div className="text-4xl font-bold text-brand-glow mb-2">
+                  {stat.number}
+                </div>
+                <div className="text-sm text-zinc-400">
+                  {stat.label}
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
 
-      {/* Floating Elements */}
-      <div className="absolute left-10 top-1/4 animate-float">
-        <div className="h-32 w-32 rounded-full bg-gradient-to-r from-gold-primary/10 to-transparent blur-2xl"></div>
-      </div>
-      <div className="absolute right-10 bottom-1/4 animate-float" style={{ animationDelay: '2s' }}>
-        <div className="h-40 w-40 rounded-full bg-gradient-to-l from-gold-secondary/10 to-transparent blur-2xl"></div>
-      </div>
+      {/* Floating Glow Elements */}
+      <motion.div
+        className="absolute top-1/4 left-10 w-96 h-96 rounded-full opacity-20 blur-3xl pointer-events-none"
+        style={{
+          background: 'radial-gradient(circle, rgba(6, 182, 212, 0.6) 0%, transparent 70%)',
+        }}
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.15, 0.25, 0.15],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+      
+      <motion.div
+        className="absolute bottom-1/4 right-10 w-80 h-80 rounded-full opacity-20 blur-3xl pointer-events-none"
+        style={{
+          background: 'radial-gradient(circle, rgba(34, 211, 238, 0.5) 0%, transparent 70%)',
+        }}
+        animate={{
+          scale: [1, 1.3, 1],
+          opacity: [0.12, 0.22, 0.12],
+        }}
+        transition={{
+          duration: 10,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 2,
+        }}
+      />
     </section>
   );
 }

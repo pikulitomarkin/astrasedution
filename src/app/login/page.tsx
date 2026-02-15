@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import { LogIn, Mail, Lock, AlertCircle } from 'lucide-react';
 
 export default function LoginPage() {
@@ -41,6 +42,41 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-black p-4">
       <div className="w-full max-w-md">
+        {/* Logo */}
+        <motion.div
+          className="flex justify-center mb-8"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="relative">
+            <motion.div
+              className="w-32 h-32 rounded-full overflow-hidden relative"
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.3 }}
+            >
+              <img
+                src="/logo-astra.png"
+                alt="Astra Seduction Logo"
+                className="w-full h-full object-contain"
+              />
+            </motion.div>
+            {/* Glow effect pulsante */}
+            <motion.div
+              className="absolute -inset-3 bg-gradient-to-r from-brand-glow/20 via-gold-primary/20 to-brand-glow/20 rounded-full blur-2xl -z-10"
+              animate={{
+                opacity: [0.3, 0.6, 0.3],
+                scale: [1, 1.1, 1],
+              }}
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+          </div>
+        </motion.div>
+
         {/* Glassmorphism card */}
         <div className="glass-panel border border-gold-light/20 rounded-2xl p-8 backdrop-blur-xl">
           {/* Header */}

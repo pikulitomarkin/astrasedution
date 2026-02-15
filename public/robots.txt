@@ -1,37 +1,47 @@
-# AstraFutureSeduction - Robots.txt
-# IA de Luxo Cyber-Luxury Dark
+# Astra Seduction - Robots.txt
+# Plataforma Premium de IA com Realismo Extremo
 
 User-agent: *
 Allow: /
+Allow: /cadastro
+Allow: /login
 
-# Disallow API routes and admin paths
+# Disallow API routes, admin paths, and protected areas
 Disallow: /api/
 Disallow: /admin/
 Disallow: /private/
+Disallow: /create
 
 # Sitemap location
-Sitemap: https://astrafutureseduction.vercel.app/sitemap.xml
-Sitemap: https://astrafutureseduction.vercel.app/sitemap-0.xml
+Sitemap: https://astraseduction.com/sitemap.xml
+Sitemap: https://astraseduction.com/sitemap-0.xml
 
 # Crawl delay (respectful)
-Crawl-delay: 2
+Crawl-delay: 1
 
 # SEO Directives
 User-agent: Googlebot
 Allow: /
+Allow: /cadastro
 Disallow: /api/
+Disallow: /create
+Crawl-delay: 1
 
 User-agent: Bingbot
 Allow: /
+Allow: /cadastro
 Disallow: /api/
+Disallow: /create
+Crawl-delay: 1
 
 User-agent: Slurp
 Allow: /
 Disallow: /api/
+Disallow: /create
 
 # Host
-Host: https://astrafutureseduction.vercel.app
+Host: https://astraseduction.com
 
 # SEO Notes
-# AstraFutureSeduction - A Perfeição Digital Sem Limites
-# Plataforma de IA de Luxo com Creator Wizard VIP
+# Astra Seduction - Crie Modelos IA com Realismo Extremo
+# 10.000 créditos mensais | Resolução 8K | Suporte VIP

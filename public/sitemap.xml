@@ -4,46 +4,46 @@
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   
-  <!-- AstraFutureSeduction - Sitemap -->
-  <!-- IA de Luxo Cyber-Luxury Dark -->
-  <!-- Gerado em: 2026-02-09 -->
+  <!-- Astra Seduction - Sitemap -->
+  <!-- Plataforma Premium de IA com Realismo Extremo -->
+  <!-- Gerado em: 2026-02-15 -->
   
   <!-- Página Inicial -->
   <url>
-    <loc>https://astrafutureseduction.vercel.app/</loc>
-    <lastmod>2026-02-09</lastmod>
+    <loc>https://astraseduction.com/</loc>
+    <lastmod>2026-02-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   
   <!-- Página de Login -->
   <url>
-    <loc>https://astrafutureseduction.vercel.app/login</loc>
-    <lastmod>2026-02-09</lastmod>
+    <loc>https://astraseduction.com/login</loc>
+    <lastmod>2026-02-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <!-- Página de Cadastro -->
   <url>
-    <loc>https://astrafutureseduction.vercel.app/cadastro</loc>
-    <lastmod>2026-02-09</lastmod>
+    <loc>https://astraseduction.com/cadastro</loc>
+    <lastmod>2026-02-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <!-- Creator Wizard (Área VIP) -->
   <url>
-    <loc>https://astrafutureseduction.vercel.app/create</loc>
-    <lastmod>2026-02-09</lastmod>
+    <loc>https://astraseduction.com/create</loc>
+    <lastmod>2026-02-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
-  <!-- Features Section -->
+  <!-- Pricing Section -->
   <url>
-    <loc>https://astrafutureseduction.vercel.app/#features</loc>
-    <lastmod>2026-02-09</lastmod>
+    <loc>https://astraseduction.com/#pricing</loc>
+    <lastmod>2026-02-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

@@ -1,13 +1,16 @@
 'use client';
 
-import { Menu, X, Sparkles, User, LogOut } from 'lucide-react';
-import { useState } from 'react';
+import { Menu, X, Sparkles, User, LogOut, Zap } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [freeGenerations] = useState(3); // Hook: Gerações gratuitas
   const { data: session } = useSession();
   const router = useRouter();
 
@@ -19,10 +22,28 @@ export default function Header() {
     { label: 'Contato', href: '#contact' },
   ];
 
+  // Detectar scroll para efeito de backdrop-blur
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <header className="fixed top-0 z-50 w-full">
       <div className="mx-auto max-w-7xl px-6 py-4 lg:px-8">
-        <nav className="glass-effect flex items-center justify-between rounded-2xl px-6 py-4">
+        <nav 
+          className={`
+            flex items-center justify-between rounded-2xl px-6 py-4 transition-all duration-300
+            ${isScrolled 
+              ? 'glass-effect-light backdrop-blur-xl bg-black/30' 
+              : 'glass-effect'
+            }
+          `}
+        >
           {/* Logo */}
           <div className="flex items-center space-x-2">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-gold-primary to-gold-secondary p-2">
@@ -37,6 +58,77 @@ export default function Header() {
               </span>
             </div>
           </div>
+
+          {/* Free Generations Hook - Widget de Status */}
+          <motion.div 
+            className="hidden lg:flex items-center gap-3 px-5 py-2.5 rounded-full relative overflow-hidden"
+            style={{
+              background: 'linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(34, 211, 238, 0.05) 100%)',
+              border: '1px solid transparent',
+              backgroundClip: 'padding-box',
+            }}
+            whileHover={{ scale: 1.02 }}
+            transition={{ duration: 0.2 }}
+          >
+            {/* Borda em degradê */}
+            <div 
+              className="absolute inset-0 rounded-full opacity-50"
+              style={{
+                background: 'linear-gradient(135deg, #06b6d4 0%, #22d3ee 50%, #0891b2 100%)',
+                padding: '1px',
+                mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                maskComposite: 'exclude',
+                WebkitMaskComposite: 'xor',
+              }}
+            />
+
+            {/* Ponto pulsante (glow indicator) */}
+            <motion.div
+              className="relative flex items-center justify-center"
+              animate={{
+                scale: [1, 1.2, 1],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            >
+              <div className="w-2 h-2 rounded-full bg-brand-glow brand-glow-shadow" />
+              <motion.div 
+                className="absolute w-2 h-2 rounded-full bg-brand-glow"
+                animate={{
+                  scale: [1, 1.5, 1],
+                  opacity: [0.8, 0, 0.8],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              />
+            </motion.div>
+
+            {/* Ícone de raio */}
+            <Zap className="w-4 h-4 text-brand-glow" fill="currentColor" />
+
+            {/* Texto do contador */}
+            <span className="text-sm font-semibold text-white">
+              Gerações Gratuitas:
+            </span>
+            
+            {/* Número com destaque */}
+            <motion.span 
+              className="text-lg font-bold text-brand-glow text-brand-glow min-w-[24px] text-center"
+              key={freeGenerations}
+              initial={{ scale: 1.3, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              {freeGenerations}
+            </motion.span>
+          </motion.div>
 
           {/* Desktop Navigation */}
           <div className="hidden items-center space-x-8 md:flex">
@@ -108,6 +200,64 @@ export default function Header() {
         {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="glass-effect-light mt-2 rounded-2xl p-6 md:hidden">
+            {/* Free Generations Hook - Versão Mobile */}
+            <motion.div 
+              className="mb-4 flex items-center gap-3 px-4 py-3 rounded-full relative overflow-hidden"
+              style={{
+                background: 'linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(34, 211, 238, 0.05) 100%)',
+                border: '1px solid transparent',
+                backgroundClip: 'padding-box',
+              }}
+            >
+              {/* Borda em degradê */}
+              <div 
+                className="absolute inset-0 rounded-full opacity-50"
+                style={{
+                  background: 'linear-gradient(135deg, #06b6d4 0%, #22d3ee 50%, #0891b2 100%)',
+                  padding: '1px',
+                  mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                  WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                  maskComposite: 'exclude',
+                  WebkitMaskComposite: 'xor',
+                }}
+              />
+
+              {/* Ponto pulsante */}
+              <motion.div
+                className="relative flex items-center justify-center"
+                animate={{
+                  scale: [1, 1.2, 1],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              >
+                <div className="w-2 h-2 rounded-full bg-brand-glow brand-glow-shadow" />
+                <motion.div 
+                  className="absolute w-2 h-2 rounded-full bg-brand-glow"
+                  animate={{
+                    scale: [1, 1.5, 1],
+                    opacity: [0.8, 0, 0.8],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                />
+              </motion.div>
+
+              <Zap className="w-4 h-4 text-brand-glow" fill="currentColor" />
+              <span className="text-sm font-semibold text-white flex-1">
+                Gerações Gratuitas:
+              </span>
+              <span className="text-lg font-bold text-brand-glow text-brand-glow">
+                {freeGenerations}
+              </span>
+            </motion.div>
+
             <div className="flex flex-col space-y-4">
               {menuItems.map((item) => (
                 <a

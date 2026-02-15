@@ -1,6 +1,6 @@
 'use client';
 
-import { Header, HeroSection, Footer } from '@/components';
+import { Header, HeroSection, Footer, PricingSection, FloatingCTA } from '@/components';
 import { Cpu, Lock, Sparkles, Globe, Zap, Shield } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
@@ -81,6 +81,9 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Pricing Section */}
+      <PricingSection />
+
       {/* CTA Section */}
       <section className="py-24">
         <div className="mx-auto max-w-4xl px-6 lg:px-8">
@@ -115,6 +118,9 @@ export default function Home() {
       </section>
 
       <Footer />
+      
+      {/* Floating CTA */}
+      <FloatingCTA />
     </div>
   );
 }

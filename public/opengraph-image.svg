@@ -1,0 +1,49 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#020617;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#050b18;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="glow-gradient" cx="50%" cy="50%">
+      <stop offset="0%" style="stop-color:#06b6d4;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:0" />
+    </radialGradient>
+    <linearGradient id="text-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#06b6d4;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#D4AF37;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg-gradient)"/>
+  
+  <!-- Glow effects -->
+  <ellipse cx="200" cy="200" rx="300" ry="300" fill="url(#glow-gradient)"/>
+  <ellipse cx="1000" cy="430" rx="300" ry="300" fill="url(#glow-gradient)"/>
+  
+  <!-- Logo circle (placeholder - will use actual logo) -->
+  <circle cx="600" cy="200" r="80" fill="#D4AF37" opacity="0.9"/>
+  
+  <!-- Main title -->
+  <text x="600" y="350" font-family="Arial, sans-serif" font-size="72" font-weight="bold" text-anchor="middle" fill="url(#text-gradient)">
+    Astra Seduction
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="600" y="420" font-family="Arial, sans-serif" font-size="32" text-anchor="middle" fill="#94a3b8">
+    Crie Modelos IA com Realismo Extremo
+  </text>
+  
+  <!-- Features -->
+  <text x="600" y="490" font-family="Arial, sans-serif" font-size="24" text-anchor="middle" fill="#06b6d4" font-weight="600">
+    10.000 Créditos • Resolução 8K • Suporte VIP
+  </text>
+  
+  <!-- CTA -->
+  <rect x="450" y="520" width="300" height="60" rx="30" fill="#06b6d4" opacity="0.2"/>
+  <text x="600" y="560" font-family="Arial, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#ffffff">
+    Começar Agora
+  </text>
+</svg>
