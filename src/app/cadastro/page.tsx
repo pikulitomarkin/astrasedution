@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { UserPlus, User, Mail, Lock, AlertCircle } from 'lucide-react';
 
@@ -57,10 +58,13 @@ export default function CadastroPage() {
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.3 }}
             >
-              <img
+              <Image
                 src="/logo-astra.png"
                 alt="Astra Seduction Logo"
+                width={128}
+                height={128}
                 className="w-full h-full object-contain"
+                priority={false}
               />
             </motion.div>
             {/* Glow effect pulsante */}

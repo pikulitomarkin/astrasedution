@@ -62,11 +62,10 @@ export default function BackgroundWrapper({ children }: BackgroundWrapperProps) 
           background: "radial-gradient(circle, rgba(6, 182, 212, 0.4) 0%, transparent 70%)",
         }}
         animate={{
-          scale: [1, 1.2, 1],
           opacity: [0.1, 0.15, 0.1],
         }}
         transition={{
-          duration: 8,
+          duration: 12,
           repeat: Infinity,
           ease: "easeInOut",
         }}
@@ -78,11 +77,10 @@ export default function BackgroundWrapper({ children }: BackgroundWrapperProps) 
           background: "radial-gradient(circle, rgba(34, 211, 238, 0.3) 0%, transparent 70%)",
         }}
         animate={{
-          scale: [1, 1.3, 1],
           opacity: [0.08, 0.12, 0.08],
         }}
         transition={{
-          duration: 10,
+          duration: 15,
           repeat: Infinity,
           ease: "easeInOut",
           delay: 1,

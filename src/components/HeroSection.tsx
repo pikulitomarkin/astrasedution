@@ -28,23 +28,19 @@ export default function HeroSection() {
       ref={sectionRef}
       className="relative min-h-screen overflow-hidden pt-32 pb-32"
     >
-      {/* Video Background Layer */}
+      {/* Background Gradient Layer */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-black/60 z-10"></div>
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          className="absolute inset-0 h-full w-full object-cover opacity-40"
-          poster="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop"
-        >
-          <source
-            src="/videos/astra-model-cyberluxury-bg.mp4"
-            type="video/mp4"
-          />
-        </video>
+        <div 
+          className="absolute inset-0"
+          style={{
+            background: `
+              radial-gradient(ellipse at 30% 20%, rgba(6, 182, 212, 0.2) 0%, transparent 50%),
+              radial-gradient(ellipse at 70% 60%, rgba(34, 211, 238, 0.15) 0%, transparent 50%),
+              radial-gradient(ellipse at 50% 80%, rgba(6, 182, 212, 0.12) 0%, transparent 60%),
+              linear-gradient(135deg, #020617 0%, #050b18 100%)
+            `
+          }}
+        />
       </div>
 
       {/* Parallax Background - Gradiente com estrelas sutis */}
@@ -250,7 +246,7 @@ export default function HeroSection() {
                   muted
                   loop
                   playsInline
-                  preload="metadata"
+                  preload="none"
                   className="w-full h-full object-cover"
                   poster="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop"
                 >
