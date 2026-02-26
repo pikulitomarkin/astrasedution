@@ -4,6 +4,7 @@ import { Sparkles, ArrowRight } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 export default function HeroSection() {
   const router = useRouter();
@@ -33,8 +34,9 @@ export default function HeroSection() {
           muted
           loop
           playsInline
+          preload="metadata"
           className="absolute inset-0 h-full w-full object-cover opacity-40"
-          poster="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072"
+          poster="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop"
         >
           <source
             src="/videos/astra-model-cyberluxury-bg.mp4"
@@ -157,10 +159,14 @@ export default function HeroSection() {
               
               {/* Imagem Placeholder */}
               <div className="relative aspect-[16/10] bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900">
-                <img
+                <Image
                   src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?q=80&w=2787&auto=format&fit=crop"
                   alt="Exemplo de Realismo Extremo"
-                  className="w-full h-full object-cover opacity-80"
+                  fill
+                  sizes="100vw"
+                  className="object-cover opacity-80"
+                  quality={75}
+                  priority={false}
                 />
                 
                 {/* Watermark elegante */}
@@ -242,8 +248,9 @@ export default function HeroSection() {
                   muted
                   loop
                   playsInline
+                  preload="metadata"
                   className="w-full h-full object-cover"
-                  poster="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072"
+                  poster="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop"
                 >
                   <source
                     src="/videos/astra-model-cyberluxury-bg.mp4"
@@ -299,39 +306,7 @@ export default function HeroSection() {
         </div>
       </motion.div>
 
-      {/* Floating Glow Elements */}
-      <motion.div
-        className="absolute top-1/4 left-10 w-96 h-96 rounded-full opacity-20 blur-3xl pointer-events-none"
-        style={{
-          background: 'radial-gradient(circle, rgba(6, 182, 212, 0.6) 0%, transparent 70%)',
-        }}
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.15, 0.25, 0.15],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      />
-      
-      <motion.div
-        className="absolute bottom-1/4 right-10 w-80 h-80 rounded-full opacity-20 blur-3xl pointer-events-none"
-        style={{
-          background: 'radial-gradient(circle, rgba(34, 211, 238, 0.5) 0%, transparent 70%)',
-        }}
-        animate={{
-          scale: [1, 1.3, 1],
-          opacity: [0.12, 0.22, 0.12],
-        }}
-        transition={{
-          duration: 10,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 2,
-        }}
-      />
+
     </section>
   );
 }

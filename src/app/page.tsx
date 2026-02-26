@@ -1,8 +1,13 @@
 'use client';
 
-import { Header, HeroSection, Footer, PricingSection, FloatingCTA } from '@/components';
+import { Header, HeroSection } from '@/components';
 import { Cpu, Lock, Sparkles, Globe, Zap, Shield } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import dynamic from 'next/dynamic';
+
+const PricingSection = dynamic(() => import('@/components').then(mod => mod.PricingSection), { ssr: false });
+const Footer = dynamic(() => import('@/components').then(mod => mod.Footer), { ssr: false });
+const FloatingCTA = dynamic(() => import('@/components').then(mod => mod.FloatingCTA), { ssr: false });
 
 export default function Home() {
   const router = useRouter();
