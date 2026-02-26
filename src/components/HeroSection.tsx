@@ -5,10 +5,12 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { useTranslation } from '@/hooks/useTranslation';
 
 export default function HeroSection() {
   const router = useRouter();
   const sectionRef = useRef<HTMLElement>(null);
+  const t = useTranslation();
   
   // Parallax effect mais suave para não cortar conteúdo
   const { scrollYProgress } = useScroll({
@@ -108,7 +110,7 @@ export default function HeroSection() {
             <div className="inline-flex items-center gap-2 rounded-full px-5 py-2 glass-effect border border-brand-glow/30">
               <Sparkles className="h-4 w-4 text-brand-glow" />
               <span className="text-sm font-semibold text-brand-glow">
-                TECNOLOGIA DE REALISMO EXTREMO
+                {t.hero.extremeRealismTechnology}
               </span>
             </div>
           </motion.div>
@@ -120,14 +122,14 @@ export default function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
           >
-            <span className="block text-white">Sedução Digital</span>
+            <span className="block text-white">{t.hero.digitalSeduction}</span>
             <span 
               className="block mt-2 bg-gradient-to-r from-brand-glow via-brand-glow-light to-brand-glow-dark bg-clip-text text-transparent"
               style={{
                 textShadow: '0 0 40px rgba(6, 182, 212, 0.3)',
               }}
             >
-              Realismo Extremo
+              {t.hero.extremeRealism}
             </span>
           </motion.h1>
 
@@ -138,9 +140,9 @@ export default function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.4 }}
           >
-            Onde a inteligência artificial encontra a arte da sedução.
+            {t.hero.subtitle1}
             <span className="block mt-2 text-brand-glow/80">
-              Crie companheiras virtuais com detalhes foto-realistas impossíveis de distinguir.
+              {t.hero.subtitle2}
             </span>
           </motion.p>
 
@@ -161,7 +163,7 @@ export default function HeroSection() {
               <div className="relative aspect-[16/10] bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900">
                 <Image
                   src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?q=80&w=2787&auto=format&fit=crop"
-                  alt="Exemplo de Realismo Extremo"
+                  alt={`${t.hero.example} ${t.hero.extremeRealism}`}
                   fill
                   sizes="100vw"
                   className="object-cover opacity-80"
@@ -178,9 +180,9 @@ export default function HeroSection() {
                     transition={{ duration: 1, delay: 1 }}
                   >
                     <p className="text-white/90 text-lg sm:text-xl font-light tracking-wide text-center">
-                      Exemplo de{' '}
+                      {t.hero.example}{' '}
                       <span className="font-semibold text-brand-glow text-brand-glow">
-                        Realismo Extremo
+                        {t.hero.extremeRealism}
                       </span>
                     </p>
                   </motion.div>
@@ -229,7 +231,7 @@ export default function HeroSection() {
                 transition={{ duration: 0.5 }}
               />
               
-              <span className="relative z-10">Começar Agora</span>
+              <span className="relative z-10">{t.common.startNow}</span>
               <ArrowRight className="relative z-10 h-5 w-5 transition-transform group-hover:translate-x-1" />
             </motion.button>
           </motion.div>
@@ -265,7 +267,7 @@ export default function HeroSection() {
                 <div className="absolute top-4 right-4 z-10">
                   <div className="glass-effect-light px-4 py-2 rounded-full border border-brand-glow/30">
                     <span className="text-xs font-semibold text-brand-glow">
-                      🎬 DEMONSTRAÇÃO
+                      {t.hero.demo}
                     </span>
                   </div>
                 </div>
@@ -284,9 +286,9 @@ export default function HeroSection() {
             transition={{ duration: 0.8, delay: 1 }}
           >
             {[
-              { number: '8K', label: 'Resolução Ultra HD' },
-              { number: '∞', label: 'Personalizações' },
-              { number: '99.9%', label: 'Realismo Visual' },
+              { number: '8K', label: t.hero.stats.resolution },
+              { number: '∞', label: t.hero.stats.customizations },
+              { number: '99.9%', label: t.hero.stats.realism },
             ].map((stat, index) => (
               <motion.div
                 key={index}

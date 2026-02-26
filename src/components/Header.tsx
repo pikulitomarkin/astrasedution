@@ -5,6 +5,9 @@ import { useState, useEffect } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
+import LanguageSelector from './LanguageSelector';
+import CurrencySelector from './CurrencySelector';
+import { useTranslation } from '@/hooks/useTranslation';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -13,13 +16,14 @@ export default function Header() {
   const [freeGenerations] = useState(3); // Hook: Gerações gratuitas
   const { data: session } = useSession();
   const router = useRouter();
+  const t = useTranslation();
 
   const menuItems = [
-    { label: 'Início', href: '/' },
-    { label: 'Recursos', href: '#features' },
-    { label: 'Tecnologia', href: '#technology' },
-    { label: 'Preços', href: '#pricing' },
-    { label: 'Contato', href: '#contact' },
+    { label: t.navigation.home, href: '/' },
+    { label: t.navigation.features, href: '#features' },
+    { label: t.navigation.technology, href: '#technology' },
+    { label: t.navigation.pricing, href: '#pricing' },
+    { label: t.navigation.contact, href: '#contact' },
   ];
 
   // Detectar scroll para efeito de backdrop-blur
@@ -115,7 +119,7 @@ export default function Header() {
 
             {/* Texto do contador */}
             <span className="text-sm font-semibold text-white">
-              Gerações Gratuitas:
+              {t.common.freeGenerations}:
             </span>
             
             {/* Número com destaque */}
@@ -141,6 +145,12 @@ export default function Header() {
                 {item.label}
               </a>
             ))}
+            
+            <div className="flex items-center gap-2">
+              <LanguageSelector />
+              <CurrencySelector />
+            </div>
+            
             {session ? (
               <div className="relative">
                 <button
@@ -161,14 +171,14 @@ export default function Header() {
                       onClick={() => router.push('/create')}
                       className="w-full text-left px-3 py-2 text-sm text-white hover:bg-white/5 rounded-lg transition-colors"
                     >
-                      Meu Criador
+                      {t.common.myCreator}
                     </button>
                     <button
                       onClick={() => signOut({ callbackUrl: '/' })}
                       className="w-full text-left px-3 py-2 text-sm text-red-400 hover:bg-red-500/10 rounded-lg transition-colors flex items-center gap-2"
                     >
                       <LogOut className="h-4 w-4" />
-                      Sair
+                      {t.common.logout}
                     </button>
                   </div>
                 )}
@@ -178,7 +188,7 @@ export default function Header() {
                 onClick={() => router.push('/login')}
                 className="gold-border rounded-full px-6 py-2 text-sm font-semibold text-white transition-all hover:bg-gold-primary/10 hover:gold-shadow"
               >
-                Acesso VIP
+                {t.common.vipAccess}
               </button>
             )}
           </div>
@@ -251,7 +261,7 @@ export default function Header() {
 
               <Zap className="w-4 h-4 text-brand-glow" fill="currentColor" />
               <span className="text-sm font-semibold text-white flex-1">
-                Gerações Gratuitas:
+                {t.common.freeGenerations}:
               </span>
               <span className="text-lg font-bold text-brand-glow text-brand-glow">
                 {freeGenerations}
@@ -269,6 +279,12 @@ export default function Header() {
                   {item.label}
                 </a>
               ))}
+              
+              <div className="py-2 space-y-2">
+                <LanguageSelector />
+                <CurrencySelector />
+              </div>
+              
               {session ? (
                 <div className="mt-4 space-y-2">
                   <div className="p-3 rounded-lg bg-white/5 border border-gold-light/20">
@@ -279,14 +295,14 @@ export default function Header() {
                     onClick={() => router.push('/create')}
                     className="w-full text-left px-4 py-3 text-base font-medium text-white hover:bg-white/5 rounded-lg transition-colors border border-white/20"
                   >
-                    Meu Criador
+                    {t.common.myCreator}
                   </button>
                   <button
                     onClick={() => signOut({ callbackUrl: '/' })}
                     className="w-full text-left px-4 py-3 text-base font-medium text-red-400 hover:bg-red-500/10 rounded-lg transition-colors border border-red-500/20 flex items-center gap-2"
                   >
                     <LogOut className="h-5 w-5" />
-                    Sair
+                    {t.common.logout}
                   </button>
                 </div>
               ) : (
@@ -294,7 +310,7 @@ export default function Header() {
                   onClick={() => router.push('/login')}
                   className="gold-border mt-4 rounded-full px-6 py-3 text-base font-semibold text-white transition-all hover:bg-gold-primary/10"
                 >
-                  Acesso VIP
+                  {t.common.vipAccess}
                 </button>
               )}
             </div>

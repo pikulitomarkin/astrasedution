@@ -3,6 +3,8 @@
 import { motion } from 'framer-motion';
 import { Check, Sparkles, Crown, Zap } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useTranslation } from '@/hooks/useTranslation';
+import { useCurrency } from '@/contexts/CurrencyContext';
 
 interface PlanFeature {
   text: string;
@@ -21,65 +23,69 @@ interface Plan {
   gradient: string;
 }
 
-const plans: Plan[] = [
-  {
-    name: 'Standard',
-    tagline: 'Para Iniciantes',
-    price: 'R$ 49',
-    period: '/mês',
-    credits: '500 créditos/mês',
-    icon: <Zap className="h-6 w-6" />,
-    gradient: 'from-zinc-700 to-zinc-800',
-    features: [
-      { text: '500 gerações mensais' },
-      { text: 'Resolução HD (1080p)' },
-      { text: 'Suporte por email' },
-      { text: 'Biblioteca básica de estilos' },
-      { text: 'Exportação em PNG' },
-    ],
-  },
-  {
-    name: 'Premium',
-    tagline: 'Mais Popular',
-    price: 'R$ 149',
-    period: '/mês',
-    credits: '2.000 créditos/mês',
-    recommended: true,
-    icon: <Sparkles className="h-6 w-6" />,
-    gradient: 'from-brand-glow to-brand-glow-light',
-    features: [
-      { text: '2.000 gerações mensais', highlight: true },
-      { text: 'Resolução Ultra HD (4K)', highlight: true },
-      { text: 'Suporte prioritário 24/7' },
-      { text: 'Biblioteca completa de estilos' },
-      { text: 'Exportação em PNG, JPEG, WebP' },
-      { text: 'API access', highlight: true },
-      { text: 'Removedor de marca d\'água' },
-    ],
-  },
-  {
-    name: 'Deluxe',
-    tagline: 'Experiência VIP',
-    price: 'R$ 399',
-    period: '/mês',
-    credits: '10.000 créditos/mês',
-    icon: <Crown className="h-6 w-6" />,
-    gradient: 'from-gold-primary to-gold-secondary',
-    features: [
-      { text: '10.000 créditos mensais', highlight: true },
-      { text: 'Resolução 8K', highlight: true },
-      { text: 'Suporte VIP dedicado' },
-      { text: 'Acesso antecipado a novos recursos', highlight: true },
-      { text: 'Biblioteca premium exclusiva' },
-      { text: 'API ilimitada', highlight: true },
-      { text: 'Treinamento personalizado de IA' },
-      { text: 'Consultoria 1-on-1' },
-    ],
-  },
-];
+
 
 export default function PricingSection() {
   const router = useRouter();
+  const t = useTranslation();
+  const { formatPrice } = useCurrency();
+
+  const plans: Plan[] = [
+    {
+      name: 'Standard',
+      tagline: t.pricing.forBeginners,
+      price: formatPrice(49),
+      period: t.pricing.monthly,
+      credits: `500 ${t.pricing.creditsMonth}`,
+      icon: <Zap className="h-6 w-6" />,
+      gradient: 'from-zinc-700 to-zinc-800',
+      features: [
+        { text: `500 ${t.pricing.features.generationsMonthly}` },
+        { text: t.pricing.features.hdResolution },
+        { text: t.pricing.features.emailSupport },
+        { text: t.pricing.features.basicStyleLibrary },
+        { text: t.pricing.features.pngExport },
+      ],
+    },
+    {
+      name: 'Premium',
+      tagline: t.pricing.mostPopular,
+      price: formatPrice(149),
+      period: t.pricing.monthly,
+      credits: `2.000 ${t.pricing.creditsMonth}`,
+      recommended: true,
+      icon: <Sparkles className="h-6 w-6" />,
+      gradient: 'from-brand-glow to-brand-glow-light',
+      features: [
+        { text: `2.000 ${t.pricing.features.generationsMonthly}`, highlight: true },
+        { text: t.pricing.features.ultraHdResolution, highlight: true },
+        { text: t.pricing.features.prioritySupport },
+        { text: t.pricing.features.completeStyleLibrary },
+        { text: t.pricing.features.multipleExportFormats },
+        { text: t.pricing.features.apiAccess, highlight: true },
+        { text: t.pricing.features.watermarkRemover },
+      ],
+    },
+    {
+      name: 'Deluxe',
+      tagline: t.pricing.vipExperience,
+      price: formatPrice(399),
+      period: t.pricing.monthly,
+      credits: `10.000 ${t.pricing.creditsMonth}`,
+      icon: <Crown className="h-6 w-6" />,
+      gradient: 'from-gold-primary to-gold-secondary',
+      features: [
+        { text: `10.000 ${t.pricing.features.generationsMonthly}`, highlight: true },
+        { text: t.pricing.features.resolution8k, highlight: true },
+        { text: t.pricing.features.vipSupport },
+        { text: t.pricing.features.earlyAccess, highlight: true },
+        { text: t.pricing.features.premiumLibrary },
+        { text: t.pricing.features.unlimitedApi, highlight: true },
+        { text: t.pricing.features.personalizedTraining },
+        { text: t.pricing.features.oneOnOneConsulting },
+      ],
+    },
+  ];
 
   return (
     <section className="py-24 relative overflow-hidden" id="pricing">
@@ -107,18 +113,15 @@ export default function PricingSection() {
           >
             <Sparkles className="h-4 w-4 text-brand-glow" />
             <span className="text-sm font-semibold text-brand-glow">
-              PLANOS E PREÇOS
+              {t.pricing.plansAndPrices}
             </span>
           </motion.div>
 
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-            Escolha Seu{' '}
-            <span className="bg-gradient-to-r from-brand-glow via-brand-glow-light to-brand-glow-dark bg-clip-text text-transparent">
-              Poder Criativo
-            </span>
+            {t.pricing.chooseYourCreativePower}
           </h2>
           <p className="text-xl text-zinc-400 max-w-3xl mx-auto">
-            Planos flexíveis para todos os níveis. Comece com o Standard e escale conforme sua criatividade cresce.
+            {t.pricing.flexiblePlans}
           </p>
         </motion.div>
 
@@ -293,10 +296,10 @@ export default function PricingSection() {
           transition={{ duration: 0.6, delay: 0.4 }}
         >
           <p className="text-zinc-500 text-sm">
-            Todos os planos incluem criptografia de ponta a ponta e suporte técnico especializado
+            {t.pricing.includes}
           </p>
           <p className="text-zinc-600 text-xs mt-2">
-            Cancele a qualquer momento • Sem taxas ocultas • Pagamento seguro
+            {t.pricing.cancelAnytime}
           </p>
         </motion.div>
       </div>

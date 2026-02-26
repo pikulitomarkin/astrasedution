@@ -4,6 +4,7 @@ import { Header, HeroSection } from '@/components';
 import { Cpu, Lock, Sparkles, Globe, Zap, Shield } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
+import { useTranslation } from '@/hooks/useTranslation';
 
 const PricingSection = dynamic(() => import('@/components').then(mod => mod.PricingSection), { ssr: false });
 const Footer = dynamic(() => import('@/components').then(mod => mod.Footer), { ssr: false });
@@ -11,41 +12,42 @@ const FloatingCTA = dynamic(() => import('@/components').then(mod => mod.Floatin
 
 export default function Home() {
   const router = useRouter();
+  const t = useTranslation();
   const features = [
     {
       icon: <Cpu className="h-8 w-8" />,
-      title: 'IA Avançada',
-      description: 'Algoritmos de machine learning de última geração para resultados precisos e instantâneos.',
+      title: t.features.advancedAI,
+      description: t.features.advancedAIDesc,
       color: 'from-blue-500/20 to-cyan-500/20',
     },
     {
       icon: <Lock className="h-8 w-8" />,
-      title: 'Segurança Máxima',
-      description: 'Criptografia de ponta a ponta e protocolos de segurança empresariais.',
+      title: t.features.maximumSecurity,
+      description: t.features.maximumSecurityDesc,
       color: 'from-emerald-500/20 to-green-500/20',
     },
     {
       icon: <Sparkles className="h-8 w-8" />,
-      title: 'Design Premium',
-      description: 'Interface ciber-luxo com elementos de glassmorphism e animações fluidas.',
+      title: t.features.premiumDesign,
+      description: t.features.premiumDesignDesc,
       color: 'from-purple-500/20 to-pink-500/20',
     },
     {
       icon: <Globe className="h-8 w-8" />,
-      title: 'Global Scale',
-      description: 'Infraestrutura distribuída globalmente para latência mínima e alta disponibilidade.',
+      title: t.features.globalScale,
+      description: t.features.globalScaleDesc,
       color: 'from-amber-500/20 to-orange-500/20',
     },
     {
       icon: <Zap className="h-8 w-8" />,
-      title: 'Performance',
-      description: 'Processamento em tempo real com otimização para dispositivos de alta performance.',
+      title: t.features.performance,
+      description: t.features.performanceDesc,
       color: 'from-red-500/20 to-rose-500/20',
     },
     {
       icon: <Shield className="h-8 w-8" />,
-      title: 'Conformidade',
-      description: 'Totalmente compatível com GDPR, HIPAA e outras regulamentações internacionais.',
+      title: t.features.compliance,
+      description: t.features.complianceDesc,
       color: 'from-indigo-500/20 to-violet-500/20',
     },
   ];
@@ -60,10 +62,10 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="text-center">
             <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
-              Tecnologia <span className="gold-gradient">Exclusiva</span>
+              {t.features.exclusiveTechnology}
             </h2>
             <p className="mx-auto mt-6 max-w-2xl text-lg text-zinc-400">
-              Descubra os recursos que fazem da AstraFutureSeduction a plataforma de IA mais avançada do mercado.
+              {t.features.discoverFeatures}
             </p>
           </div>
           <div className="mt-20 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -94,11 +96,11 @@ export default function Home() {
         <div className="mx-auto max-w-4xl px-6 lg:px-8">
           <div className="glass-effect rounded-3xl p-12 text-center">
             <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
-              Pronto para a <span className="gold-gradient">Revolução Digital?</span>
+              {t.cta.readyForDigitalRevolution}
             </h2>
             <p className="mx-auto mt-6 max-w-2xl text-lg text-zinc-400">
-              Junte-se a milhares de visionários que já estão transformando seus negócios com IA de luxo.
-            </p>
+                {t.cta.joinThousands}
+              </p>
             
             <div className="mt-10 flex justify-center">
               <button
@@ -106,17 +108,17 @@ export default function Home() {
                 className="group gold-border rounded-full px-8 py-3 text-lg font-semibold text-white transition-all hover:bg-gold-primary/10 hover:gold-shadow flex items-center gap-2"
               >
                 <Sparkles className="h-5 w-5 text-gold-primary group-hover:scale-110 transition-transform" />
-                Comece agora gratuitamente
+                {t.common.startNow}
               </button>
             </div>
 
             <div className="mt-10">
               <p className="text-lg text-gray-300">
-                Obtenha <span className="font-bold text-gold-light">1.000 créditos de geração</span> e acesso ao Criador VIP através do login
+                {t.cta.getFreeCredits}
               </p>
             </div>
             <p className="mt-8 text-sm text-zinc-500">
-              1.000 créditos de geração • Sem compromisso • Suporte 24/7
+              {t.cta.creditsGeneration}
             </p>
           </div>
         </div>
