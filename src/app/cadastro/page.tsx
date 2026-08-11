@@ -22,15 +22,26 @@ export default function CadastroPage() {
     setError('');
 
     try {
+      const registerResponse = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      const registerData = await registerResponse.json().catch(() => ({}));
+      if (!registerResponse.ok) {
+        setError(registerData.error || 'Erro ao criar conta');
+        return;
+      }
+
       const result = await signIn('credentials', {
         email,
         password,
-        name,
         redirect: false,
       });
 
       if (result?.error) {
-        setError(result.error === 'CredentialsSignin' ? 'Email já cadastrado ou credenciais inválidas' : result.error);
+        setError('Conta criada, mas falhou o login automático. Faça login manualmente.');
       } else {
         router.push('/create');
         router.refresh();

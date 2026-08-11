@@ -1,0 +1,17 @@
+node_modules
+.next
+.git
+.gitignore
+.env
+.env.*
+!.env.example
+dev.db
+/kling_*.mp4
+npm-debug.log*
+coverage
+.vercel
+.tsbuildinfo
+deploy/nginx/certs/*
+!deploy/nginx/certs/.gitkeep
+README.md
+SEO-STRUCTURE.md

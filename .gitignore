@@ -32,6 +32,17 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
+
+# credenciais e contexto sensível da VPS (não versionar)
+contexto.md
+context.md
+**/contexto.md
+**/context.md
+
+# local sqlite leftovers
+dev.db
+dev.db-journal
 
 # vercel
 .vercel
