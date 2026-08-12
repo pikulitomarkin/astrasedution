@@ -47,7 +47,15 @@
 
 ```bash
 BASE_URL=http://184.107.160.119 ./deploy/e2e-fase1.sh
+BASE_URL=http://184.107.160.119 ./deploy/smoke-fase1.sh
 ```
+
+## PDF de entrega ao cliente
+
+Documento consolidado com todas as rodadas (Dias 1–5) e resultados dos smoke tests:
+
+- **Arquivo:** `deploy/FASE1-ENTREGA-CLIENTE.pdf`
+- **Regenerar:** `pip install -r deploy/requirements-pdf.txt && python3 deploy/generate-fase1-pdf.py`
 
 ---
 
