@@ -105,6 +105,64 @@ export interface Translations {
     noHiddenFees: string;
     securePayment: string;
   };
+  auth: {
+    loginTitle: string;
+    loginSubtitle: string;
+    signupTitle: string;
+    signupSubtitle: string;
+    loggingIn: string;
+    creatingAccount: string;
+    createAccount: string;
+    exclusiveAccess: string;
+    creatorAccess: string;
+    realTimePreview: string;
+    emailPlaceholder: string;
+    namePlaceholder: string;
+  };
+  waitlist: {
+    title: string;
+    subtitle: string;
+    nameOptional: string;
+    join: string;
+    errorGeneric: string;
+  };
+  dashboard: {
+    vipPanel: string;
+    hello: string;
+    tagline: string;
+    confirmEmail: string;
+    verifyToUnlock: string;
+    verifyNow: string;
+    currentPlan: string;
+    freeTeasers: string;
+    premiumActive: string;
+    creditsLeft: string;
+    ofFreePlan: string;
+    accountStatus: string;
+    active: string;
+    pendingVerification: string;
+    readyToCreate: string;
+    awaitingEmail: string;
+    generationsCreated: string;
+    generateTeaser: string;
+    generateHint: string;
+    generateImage: string;
+    generating: string;
+    verifyToGenerate: string;
+    noCredits: string;
+    yourGenerations: string;
+    noImagesYet: string;
+    styleLifestyle: string;
+    styleGolden: string;
+    styleStudio: string;
+    credit: string;
+    credits: string;
+  };
+  floating: {
+    create: string;
+    freeAvailable: string;
+  };
+  recommended: string;
 }
 
 const translations: Record<Language, Translations> = {
@@ -129,7 +187,7 @@ const translations: Record<Language, Translations> = {
       signupHere: 'Sign up here',
       minimumChars: 'Minimum 6 characters',
       benefits: 'VIP Benefits',
-      freeCredits: '1,000 free generation credits',
+      freeCredits: '1,000 generation credits on first recharge',
       highResExport: 'High resolution export',
       exclusiveStyles: 'Exclusive style library',
     },
@@ -174,8 +232,8 @@ const translations: Record<Language, Translations> = {
     cta: {
       readyForDigitalRevolution: 'Ready for the Digital Revolution?',
       joinThousands: 'Join thousands of visionaries who are already transforming their businesses with luxury AI.',
-      getFreeCredits: 'Get 1,000 generation credits and VIP Creator access through login',
-      creditsGeneration: '1,000 generation credits • No commitment • 24/7 Support',
+      getFreeCredits: 'Get 1,000 generation credits and VIP Creator access after your first recharge',
+      creditsGeneration: '1,000 credits on first recharge • No commitment • 24/7 Support',
       noCommitment: 'No commitment',
       support: '24/7 Support',
     },
@@ -213,6 +271,64 @@ const translations: Record<Language, Translations> = {
       noHiddenFees: 'No hidden fees',
       securePayment: 'Secure payment',
     },
+    auth: {
+      loginTitle: 'VIP Access',
+      loginSubtitle: 'Enter your exclusive creation panel',
+      signupTitle: 'VIP Sign Up',
+      signupSubtitle: 'Create your account to access the exclusive creator',
+      loggingIn: 'Signing in...',
+      creatingAccount: 'Creating account...',
+      createAccount: 'Create account',
+      exclusiveAccess: 'Exclusive access to the AstraFuture Model Creator',
+      creatorAccess: 'Exclusive access to the Model Creator',
+      realTimePreview: 'Real-time AI preview',
+      emailPlaceholder: 'you@email.com',
+      namePlaceholder: 'Your name',
+    },
+    waitlist: {
+      title: 'Early Access VIP List',
+      subtitle: 'Leave your email and be the first to know when new seats and premium features open.',
+      nameOptional: 'Name (optional)',
+      join: 'Join the VIP Waitlist',
+      errorGeneric: 'Could not join the waitlist',
+    },
+    dashboard: {
+      vipPanel: 'VIP Panel',
+      hello: 'Hello',
+      tagline: 'Generate up to {max} watermarked teaser images on the Free plan.',
+      confirmEmail: 'Confirm your email',
+      verifyToUnlock: 'Verify {email} to unlock free generations.',
+      verifyNow: 'Verify now',
+      currentPlan: 'Current plan',
+      freeTeasers: '{max} teaser generations included',
+      premiumActive: 'Premium benefits active',
+      creditsLeft: 'Credits remaining',
+      ofFreePlan: 'of {max} on Free plan',
+      accountStatus: 'Account status',
+      active: 'Active',
+      pendingVerification: 'Pending verification',
+      readyToCreate: 'Ready to create',
+      awaitingEmail: 'Waiting for email confirmation',
+      generationsCreated: '{count} generation(s) created',
+      generateTeaser: 'Generate watermarked teaser',
+      generateHint: 'Each generation uses 1 credit and produces a placeholder image with an "Astra Free" watermark. Real Flux engine arrives in Phase 2.',
+      generateImage: 'Generate image',
+      generating: 'Generating...',
+      verifyToGenerate: 'Verify your email to generate images.',
+      noCredits: 'You used your {max} Free generations. Join the waitlist for updates.',
+      yourGenerations: 'Your generations',
+      noImagesYet: 'No images yet. Generate your first teaser above.',
+      styleLifestyle: 'Solo lifestyle',
+      styleGolden: 'Golden hour',
+      styleStudio: 'Studio glow',
+      credit: 'credit',
+      credits: 'credits',
+    },
+    floating: {
+      create: 'Create',
+      freeAvailable: '3 free generations available',
+    },
+    recommended: 'RECOMMENDED',
   },
   pt: {
     common: {
@@ -235,7 +351,7 @@ const translations: Record<Language, Translations> = {
       signupHere: 'Cadastre-se aqui',
       minimumChars: 'Mínimo 6 caracteres',
       benefits: 'Benefícios VIP',
-      freeCredits: '1.000 créditos de geração gratuitos',
+      freeCredits: '1.000 créditos de geração na primeira recarga',
       highResExport: 'Exportação em alta resolução',
       exclusiveStyles: 'Biblioteca exclusiva de estilos',
     },
@@ -280,8 +396,8 @@ const translations: Record<Language, Translations> = {
     cta: {
       readyForDigitalRevolution: 'Pronto para a Revolução Digital?',
       joinThousands: 'Junte-se a milhares de visionários que já estão transformando seus negócios com IA de luxo.',
-      getFreeCredits: 'Obtenha 1.000 créditos de geração e acesso ao Criador VIP através do login',
-      creditsGeneration: '1.000 créditos de geração • Sem compromisso • Suporte 24/7',
+      getFreeCredits: 'Obtenha 1.000 créditos de geração e acesso ao Criador VIP após a primeira recarga',
+      creditsGeneration: '1.000 créditos na primeira recarga • Sem compromisso • Suporte 24/7',
       noCommitment: 'Sem compromisso',
       support: 'Suporte 24/7',
     },
@@ -320,6 +436,64 @@ const translations: Record<Language, Translations> = {
       noHiddenFees: 'Sem taxas ocultas',
       securePayment: 'Pagamento seguro',
     },
+    auth: {
+      loginTitle: 'Acesso VIP',
+      loginSubtitle: 'Entre no seu painel de criação exclusivo',
+      signupTitle: 'Cadastro VIP',
+      signupSubtitle: 'Crie sua conta para acessar o criador exclusivo',
+      loggingIn: 'Entrando...',
+      creatingAccount: 'Criando conta...',
+      createAccount: 'Criar conta',
+      exclusiveAccess: 'Acesso exclusivo ao Criador de Modelos AstraFuture',
+      creatorAccess: 'Acesso exclusivo ao Criador de Modelos',
+      realTimePreview: 'Preview em tempo real com IA',
+      emailPlaceholder: 'seu@email.com',
+      namePlaceholder: 'Seu nome',
+    },
+    waitlist: {
+      title: 'Lista VIP de Acesso Antecipado',
+      subtitle: 'Deixe seu email e seja o primeiro a saber quando novas vagas e recursos premium forem liberados.',
+      nameOptional: 'Nome (opcional)',
+      join: 'Entrar na Waitlist VIP',
+      errorGeneric: 'Erro ao entrar na waitlist',
+    },
+    dashboard: {
+      vipPanel: 'Painel VIP',
+      hello: 'Olá',
+      tagline: 'Gere até {max} imagens teaser watermarked no plano Free.',
+      confirmEmail: 'Confirme seu email',
+      verifyToUnlock: 'Verifique {email} para liberar as gerações gratuitas.',
+      verifyNow: 'Verificar agora',
+      currentPlan: 'Plano atual',
+      freeTeasers: '{max} gerações teaser inclusas',
+      premiumActive: 'Benefícios premium ativos',
+      creditsLeft: 'Créditos restantes',
+      ofFreePlan: 'de {max} no plano Free',
+      accountStatus: 'Status da conta',
+      active: 'Ativa',
+      pendingVerification: 'Pendente verificação',
+      readyToCreate: 'Pronta para criar',
+      awaitingEmail: 'Aguardando confirmação de email',
+      generationsCreated: '{count} geração(ões) criada(s)',
+      generateTeaser: 'Gerar teaser watermarked',
+      generateHint: 'Cada geração consome 1 crédito e produz uma imagem placeholder com marca d\'água "Astra Free". Motor Flux real chega na Fase 2.',
+      generateImage: 'Gerar imagem',
+      generating: 'Gerando...',
+      verifyToGenerate: 'Verifique seu email para gerar imagens.',
+      noCredits: 'Você usou suas {max} gerações Free. Entre na waitlist para novidades.',
+      yourGenerations: 'Suas gerações',
+      noImagesYet: 'Nenhuma imagem ainda. Gere sua primeira teaser acima.',
+      styleLifestyle: 'Lifestyle solo',
+      styleGolden: 'Golden hour',
+      styleStudio: 'Studio glow',
+      credit: 'crédito',
+      credits: 'créditos',
+    },
+    floating: {
+      create: 'Criar',
+      freeAvailable: '3 gerações gratuitas disponíveis',
+    },
+    recommended: 'RECOMENDADO',
   },
   es: {
     common: {
@@ -342,7 +516,7 @@ const translations: Record<Language, Translations> = {
       signupHere: 'Regístrate aquí',
       minimumChars: 'Mínimo 6 caracteres',
       benefits: 'Beneficios VIP',
-      freeCredits: '1,000 créditos de generación gratuitos',
+      freeCredits: '1,000 créditos de generación en la primera recarga',
       highResExport: 'Exportación en alta resolución',
       exclusiveStyles: 'Biblioteca exclusiva de estilos',
     },
@@ -387,8 +561,8 @@ const translations: Record<Language, Translations> = {
     cta: {
       readyForDigitalRevolution: '¿Listo para la Revolución Digital?',
       joinThousands: 'Únete a miles de visionarios que ya están transformando sus negocios con IA de lujo.',
-      getFreeCredits: 'Obtén 1,000 créditos de generación y acceso VIP al Creador mediante inicio de sesión',
-      creditsGeneration: '1,000 créditos de generación • Sin compromiso • Soporte 24/7',
+      getFreeCredits: 'Obtén 1,000 créditos de generación y acceso VIP al Creador tras tu primera recarga',
+      creditsGeneration: '1,000 créditos en la primera recarga • Sin compromiso • Soporte 24/7',
       noCommitment: 'Sin compromiso',
       support: 'Soporte 24/7',
     },
@@ -426,6 +600,64 @@ const translations: Record<Language, Translations> = {
       noHiddenFees: 'Sin tarifas ocultas',
       securePayment: 'Pago seguro',
     },
+    auth: {
+      loginTitle: 'Acceso VIP',
+      loginSubtitle: 'Entra a tu panel de creación exclusivo',
+      signupTitle: 'Registro VIP',
+      signupSubtitle: 'Crea tu cuenta para acceder al creador exclusivo',
+      loggingIn: 'Iniciando sesión...',
+      creatingAccount: 'Creando cuenta...',
+      createAccount: 'Crear cuenta',
+      exclusiveAccess: 'Acceso exclusivo al Creador de Modelos AstraFuture',
+      creatorAccess: 'Acceso exclusivo al Creador de Modelos',
+      realTimePreview: 'Vista previa en tiempo real con IA',
+      emailPlaceholder: 'tu@email.com',
+      namePlaceholder: 'Tu nombre',
+    },
+    waitlist: {
+      title: 'Lista VIP de Acceso Anticipado',
+      subtitle: 'Deja tu email y sé el primero en saber cuando se liberen nuevas plazas y funciones premium.',
+      nameOptional: 'Nombre (opcional)',
+      join: 'Unirse a la Waitlist VIP',
+      errorGeneric: 'Error al unirse a la waitlist',
+    },
+    dashboard: {
+      vipPanel: 'Panel VIP',
+      hello: 'Hola',
+      tagline: 'Genera hasta {max} imágenes teaser con marca de agua en el plan Free.',
+      confirmEmail: 'Confirma tu email',
+      verifyToUnlock: 'Verifica {email} para liberar las generaciones gratuitas.',
+      verifyNow: 'Verificar ahora',
+      currentPlan: 'Plan actual',
+      freeTeasers: '{max} generaciones teaser incluidas',
+      premiumActive: 'Beneficios premium activos',
+      creditsLeft: 'Créditos restantes',
+      ofFreePlan: 'de {max} en el plan Free',
+      accountStatus: 'Estado de la cuenta',
+      active: 'Activa',
+      pendingVerification: 'Verificación pendiente',
+      readyToCreate: 'Lista para crear',
+      awaitingEmail: 'Esperando confirmación de email',
+      generationsCreated: '{count} generación(es) creada(s)',
+      generateTeaser: 'Generar teaser con marca de agua',
+      generateHint: 'Cada generación consume 1 crédito y produce una imagen placeholder con marca de agua "Astra Free". El motor Flux real llega en la Fase 2.',
+      generateImage: 'Generar imagen',
+      generating: 'Generando...',
+      verifyToGenerate: 'Verifica tu email para generar imágenes.',
+      noCredits: 'Usaste tus {max} generaciones Free. Únete a la waitlist para novedades.',
+      yourGenerations: 'Tus generaciones',
+      noImagesYet: 'Ninguna imagen aún. Genera tu primer teaser arriba.',
+      styleLifestyle: 'Lifestyle solo',
+      styleGolden: 'Golden hour',
+      styleStudio: 'Studio glow',
+      credit: 'crédito',
+      credits: 'créditos',
+    },
+    floating: {
+      create: 'Crear',
+      freeAvailable: '3 generaciones gratuitas disponibles',
+    },
+    recommended: 'RECOMENDADO',
   },
 };
 

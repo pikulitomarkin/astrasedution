@@ -34,11 +34,31 @@ export type CreditsInfo = {
   credits: number;
   max_free_credits: number;
   email_verified: boolean;
+  first_recharge_available?: boolean;
+  recharge_bonus_credits?: number;
 };
 
 export type DebitCreditsResponse = {
   credits: number;
   debited: number;
+  message: string;
+};
+
+export type RechargePack = {
+  id: string;
+  name: string;
+  credits: number;
+  price_brl_cents: number;
+  description: string;
+  first_recharge_only: boolean;
+};
+
+export type RechargeResponse = {
+  recharge_id: string;
+  credits: number;
+  credits_granted: number;
+  is_first_bonus: boolean;
+  status: string;
   message: string;
 };
 
@@ -148,6 +168,18 @@ export function debitCredits(accessToken: string, amount = 1) {
   return apiRequest<DebitCreditsResponse>(
     "/credits/debit",
     { method: "POST", body: JSON.stringify({ amount }) },
+    accessToken
+  );
+}
+
+export function fetchRechargePacks(accessToken: string) {
+  return apiRequest<RechargePack[]>("/credits/packs", { method: "GET" }, accessToken);
+}
+
+export function rechargeCredits(accessToken: string, packId = "welcome") {
+  return apiRequest<RechargeResponse>(
+    "/credits/recharge",
+    { method: "POST", body: JSON.stringify({ pack_id: packId }) },
     accessToken
   );
 }

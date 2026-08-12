@@ -20,9 +20,12 @@ import {
   fetchCredits,
   fetchGenerations,
   fetchGenerationImageBlob,
+  fetchRechargePacks,
   generateTeaser,
+  rechargeCredits,
   type CreditsInfo,
   type GenerationItem,
+  type RechargePack,
 } from '@/lib/api';
 
 const TEASER_STYLES = [
@@ -97,9 +100,12 @@ export default function DashboardPage() {
   const router = useRouter();
   const [creditsInfo, setCreditsInfo] = useState<CreditsInfo | null>(null);
   const [generations, setGenerations] = useState<GenerationItem[]>([]);
+  const [packs, setPacks] = useState<RechargePack[]>([]);
   const [selectedStyle, setSelectedStyle] = useState<string>('solo_lifestyle');
   const [generating, setGenerating] = useState(false);
+  const [recharging, setRecharging] = useState(false);
   const [genError, setGenError] = useState<string | null>(null);
+  const [rechargeMsg, setRechargeMsg] = useState<string | null>(null);
   const [loadingGallery, setLoadingGallery] = useState(true);
 
   const loadCredits = useCallback(async () => {
@@ -111,6 +117,16 @@ export default function DashboardPage() {
       await refreshProfile();
     }
   }, [accessToken, refreshProfile]);
+
+  const loadPacks = useCallback(async () => {
+    if (!accessToken) return;
+    try {
+      const items = await fetchRechargePacks(accessToken);
+      setPacks(items);
+    } catch {
+      setPacks([]);
+    }
+  }, [accessToken]);
 
   const loadGenerations = useCallback(async () => {
     if (!accessToken) return;
@@ -134,7 +150,36 @@ export default function DashboardPage() {
   useEffect(() => {
     loadCredits();
     loadGenerations();
-  }, [loadCredits, loadGenerations]);
+    loadPacks();
+  }, [loadCredits, loadGenerations, loadPacks]);
+
+  const handleRecharge = async (packId: string) => {
+    if (!accessToken || recharging) return;
+    setRecharging(true);
+    setRechargeMsg(null);
+    try {
+      const result = await rechargeCredits(accessToken, packId);
+      setRechargeMsg(result.message);
+      setCreditsInfo((prev) =>
+        prev
+          ? {
+              ...prev,
+              credits: result.credits,
+              first_recharge_available: result.is_first_bonus
+                ? false
+                : prev.first_recharge_available,
+            }
+          : prev
+      );
+      await refreshProfile();
+      await loadCredits();
+      await loadPacks();
+    } catch (err) {
+      setRechargeMsg(err instanceof Error ? err.message : 'Erro na recarga');
+    } finally {
+      setRecharging(false);
+    }
+  };
 
   const handleGenerate = async () => {
     if (!accessToken || generating) return;
@@ -168,7 +213,12 @@ export default function DashboardPage() {
   const credits = creditsInfo?.credits ?? user.credits;
   const planLabel = (creditsInfo?.plan ?? user.plan).toUpperCase();
   const maxFree = creditsInfo?.max_free_credits ?? 3;
+  const bonusCredits = creditsInfo?.recharge_bonus_credits ?? 1000;
   const canGenerate = user.email_verified && credits > 0;
+  const welcomePack = packs.find((p) => p.id === 'welcome');
+  const showWelcome =
+    user.email_verified &&
+    (creditsInfo?.first_recharge_available === true || Boolean(welcomePack));
 
   return (
     <div className="min-h-screen bg-black">
@@ -282,6 +332,41 @@ export default function DashboardPage() {
             </motion.div>
           </div>
 
+          {showWelcome && (
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.18 }}
+              className="glass-panel border border-brand-glow/30 rounded-3xl p-8 md:p-10 mb-10"
+            >
+              <h2 className="text-2xl font-bold text-white font-playfair mb-2">
+                Recarga de boas-vindas
+              </h2>
+              <p className="text-zinc-400 mb-6 max-w-xl">
+                Após o cadastro, sua primeira recarga libera{' '}
+                <span className="text-brand-glow font-semibold">
+                  {bonusCredits.toLocaleString('pt-BR')} créditos
+                </span>{' '}
+                para geração no Criador VIP.
+              </p>
+              {rechargeMsg && (
+                <p className="text-sm mb-4 text-brand-glow" role="status">
+                  {rechargeMsg}
+                </p>
+              )}
+              <button
+                type="button"
+                disabled={recharging || !user.email_verified}
+                onClick={() => handleRecharge(welcomePack?.id || 'welcome')}
+                className="btn-gold font-semibold px-8 py-3 rounded-full hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {recharging
+                  ? 'Processando recarga...'
+                  : `Recarregar agora — R$ ${((welcomePack?.price_brl_cents ?? 4900) / 100).toFixed(0)} (+${bonusCredits} créditos)`}
+              </button>
+            </motion.div>
+          )}
+
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
@@ -351,7 +436,10 @@ export default function DashboardPage() {
                 )}
                 {user.email_verified && credits === 0 && (
                   <p className="text-zinc-500 text-sm mt-4">
-                    Você usou suas {maxFree} gerações Free. Entre na waitlist para novidades.
+                    Você usou suas gerações Free.{' '}
+                    {showWelcome
+                      ? 'Faça a primeira recarga e ganhe 1.000 créditos.'
+                      : 'Faça uma nova recarga para continuar gerando.'}
                   </p>
                 )}
               </div>

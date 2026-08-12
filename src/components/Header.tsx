@@ -1,6 +1,6 @@
 'use client';
 
-import { Menu, X, User, LogOut, Zap, LogIn } from 'lucide-react';
+import { Menu, X, User, LogOut, Zap } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
@@ -199,9 +199,8 @@ export default function Header() {
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => router.push('/login')}
-                  className="inline-flex items-center gap-2 rounded-full border border-gold-primary/40 px-5 py-2 text-sm font-semibold text-white transition-all hover:bg-gold-primary/10"
+                  className="rounded-full border border-gold-primary/40 px-5 py-2 text-sm font-semibold text-white transition-all hover:bg-gold-primary/10"
                 >
-                  <LogIn className="h-4 w-4 text-gold-primary" />
                   {t.common.login}
                 </button>
                 <button
@@ -343,9 +342,8 @@ export default function Header() {
                       router.push('/login');
                       setIsMenuOpen(false);
                     }}
-                    className="w-full inline-flex items-center justify-center gap-2 rounded-full border border-gold-primary/40 px-6 py-3 text-base font-semibold text-white transition-all hover:bg-gold-primary/10"
+                    className="w-full rounded-full border border-gold-primary/40 px-6 py-3 text-base font-semibold text-white transition-all hover:bg-gold-primary/10"
                   >
-                    <LogIn className="h-5 w-5 text-gold-primary" />
                     {t.common.login}
                   </button>
                   <button
