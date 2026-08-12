@@ -72,6 +72,8 @@ class CreditsPublic(BaseModel):
     credits: int
     max_free_credits: int
     email_verified: bool
+    first_recharge_available: bool = False
+    recharge_bonus_credits: int = 1000
 
 
 class DebitCreditsRequest(BaseModel):
@@ -81,6 +83,28 @@ class DebitCreditsRequest(BaseModel):
 class DebitCreditsResponse(BaseModel):
     credits: int
     debited: int
+    message: str
+
+
+class RechargePackPublic(BaseModel):
+    id: str
+    name: str
+    credits: int
+    price_brl_cents: int
+    description: str
+    first_recharge_only: bool = False
+
+
+class RechargeRequest(BaseModel):
+    pack_id: str = Field(default="welcome", max_length=64)
+
+
+class RechargeResponse(BaseModel):
+    recharge_id: str
+    credits: int
+    credits_granted: int
+    is_first_bonus: bool
+    status: str
     message: str
 
 
