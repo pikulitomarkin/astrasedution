@@ -1,11 +1,16 @@
 'use client';
 
 import { useCurrency } from '@/contexts/CurrencyContext';
-import { DollarSign, Euro, Currency } from 'lucide-react';
+import { DollarSign, Euro } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const currencies = [
-  { code: 'BRL' as const, label: 'BRL', name: 'Real', icon: <Currency className="w-4 h-4" /> },
+  {
+    code: 'BRL' as const,
+    label: 'BRL',
+    name: 'Real',
+    icon: <span className="text-[10px] font-bold leading-none tracking-tight">R$</span>,
+  },
   { code: 'USD' as const, label: 'USD', name: 'Dólar', icon: <DollarSign className="w-4 h-4" /> },
   { code: 'EUR' as const, label: 'EUR', name: 'Euro', icon: <Euro className="w-4 h-4" /> },
 ] as const;
