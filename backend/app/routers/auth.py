@@ -16,16 +16,25 @@ from app.config import get_settings
 from app.database import get_db
 from app.models import User
 from app.rate_limit import rate_limit
+from app.email import send_password_changed_email
 from app.schemas import (
     AuthResponse,
+    ChangePasswordRequest,
+    ForgotPasswordRequest,
     LoginRequest,
     MessageResponse,
     RefreshRequest,
     RegisterRequest,
+    ResetPasswordRequest,
     TokenResponse,
     UserPublic,
 )
-from app.verification import issue_verification, verify_email_token
+from app.verification import (
+    consume_password_reset_token,
+    issue_password_reset,
+    issue_verification,
+    verify_email_token,
+)
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 settings = get_settings()
@@ -148,3 +157,61 @@ def refresh(payload: RefreshRequest, db: Session = Depends(get_db)) -> TokenResp
 def logout(current_user: User = Depends(get_current_user)) -> MessageResponse:
     _ = current_user
     return MessageResponse(message="Logout efetuado")
+
+
+@router.post("/change-password", response_model=MessageResponse)
+def change_password(
+    payload: ChangePasswordRequest,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> MessageResponse:
+    if not verify_password(payload.current_password, current_user.password_hash):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Senha atual incorreta",
+        )
+    if payload.current_password == payload.new_password:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="A nova senha deve ser diferente da atual",
+        )
+
+    current_user.password_hash = hash_password(payload.new_password)
+    db.commit()
+    send_password_changed_email(current_user.email, current_user.name)
+    return MessageResponse(message="Senha alterada com sucesso")
+
+
+@router.post("/forgot-password", response_model=MessageResponse)
+def forgot_password(
+    payload: ForgotPasswordRequest,
+    db: Session = Depends(get_db),
+    _: None = rate_limit("forgot-password", settings.rate_limit_login, settings.rate_limit_window_seconds),
+) -> MessageResponse:
+    email = payload.email.lower().strip()
+    user = db.scalar(select(User).where(User.email == email))
+    # Resposta genérica para não enumerar emails
+    if user is not None and user.is_active:
+        issue_password_reset(db, user)
+    return MessageResponse(
+        message="Se o email existir, enviaremos instruções para redefinir a senha."
+    )
+
+
+@router.post("/reset-password", response_model=MessageResponse)
+def reset_password(
+    payload: ResetPasswordRequest,
+    db: Session = Depends(get_db),
+) -> MessageResponse:
+    try:
+        user = consume_password_reset_token(db, payload.token)
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(exc),
+        ) from exc
+
+    user.password_hash = hash_password(payload.new_password)
+    db.commit()
+    send_password_changed_email(user.email, user.name)
+    return MessageResponse(message="Senha redefinida com sucesso")

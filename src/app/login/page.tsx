@@ -157,6 +157,15 @@ function LoginForm() {
               )}
             </button>
 
+            <div className="text-center">
+              <Link
+                href="/esqueci-senha"
+                className="text-sm text-gold-primary hover:text-gold-light transition-colors"
+              >
+                Esqueci minha senha
+              </Link>
+            </div>
+
             {/* Divider */}
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
