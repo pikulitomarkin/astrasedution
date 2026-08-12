@@ -45,12 +45,17 @@ class Settings(BaseSettings):
         default=False,
         validation_alias="EMAIL_DEV_EXPOSE_LINK",
     )
+    resend_api_key: str = Field(default="", validation_alias="RESEND_API_KEY")
+    email_from: str = Field(
+        default="Astra Seduction <noreply@astrasedution.com>",
+        validation_alias="EMAIL_FROM",
+    )
     smtp_host: str = Field(default="", validation_alias="SMTP_HOST")
     smtp_port: int = Field(default=587, validation_alias="SMTP_PORT")
     smtp_user: str = Field(default="", validation_alias="SMTP_USER")
     smtp_password: str = Field(default="", validation_alias="SMTP_PASSWORD")
     smtp_from: str = Field(
-        default="noreply@astraseduction.com",
+        default="noreply@astrasedution.com",
         validation_alias="SMTP_FROM",
     )
     smtp_tls: bool = Field(default=True, validation_alias="SMTP_TLS")
