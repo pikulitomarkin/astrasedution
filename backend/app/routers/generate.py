@@ -10,6 +10,7 @@ from app.auth import get_current_user
 from app.config import get_settings
 from app.database import get_db
 from app.models import Generation, User
+from app.rate_limit import rate_limit
 from app.schemas import GenerationPublic, TeaserGenerateRequest, TeaserGenerateResponse
 from app.teaser_image import create_teaser_image
 
@@ -44,6 +45,7 @@ def generate_teaser(
     payload: TeaserGenerateRequest,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
+    _: None = rate_limit("generate", settings.rate_limit_generate, settings.rate_limit_window_seconds),
 ) -> TeaserGenerateResponse:
     _require_verified(current_user)
 

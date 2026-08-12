@@ -43,6 +43,10 @@ services:
       SMTP_FROM: ${SMTP_FROM:-noreply@astraseduction.com}
       SMTP_TLS: ${SMTP_TLS:-true}
       GENERATIONS_DIR: /app/data/generations
+      RATE_LIMIT_REGISTER_PER_MINUTE: ${RATE_LIMIT_REGISTER_PER_MINUTE:-5}
+      RATE_LIMIT_LOGIN_PER_MINUTE: ${RATE_LIMIT_LOGIN_PER_MINUTE:-10}
+      RATE_LIMIT_GENERATE_PER_MINUTE: ${RATE_LIMIT_GENERATE_PER_MINUTE:-10}
+      RATE_LIMIT_WINDOW_SECONDS: ${RATE_LIMIT_WINDOW_SECONDS:-60}
     volumes:
       - generation_data:/app/data/generations
     networks:

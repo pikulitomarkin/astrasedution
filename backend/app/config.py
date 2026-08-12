@@ -58,6 +58,10 @@ class Settings(BaseSettings):
         default="/app/data/generations",
         validation_alias="GENERATIONS_DIR",
     )
+    rate_limit_register: int = Field(default=5, validation_alias="RATE_LIMIT_REGISTER_PER_MINUTE")
+    rate_limit_login: int = Field(default=10, validation_alias="RATE_LIMIT_LOGIN_PER_MINUTE")
+    rate_limit_generate: int = Field(default=10, validation_alias="RATE_LIMIT_GENERATE_PER_MINUTE")
+    rate_limit_window_seconds: int = Field(default=60, validation_alias="RATE_LIMIT_WINDOW_SECONDS")
 
 
 @lru_cache

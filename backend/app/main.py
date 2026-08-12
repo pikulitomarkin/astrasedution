@@ -1,10 +1,12 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+import logging
 
 from app.config import get_settings
 from app.database import Base, engine
 from app.routers import admin, auth, credits, generate, health, waitlist
 
+logger = logging.getLogger("uvicorn.error")
 settings = get_settings()
 
 app = FastAPI(title=settings.app_name, version="0.1.0")
@@ -29,3 +31,7 @@ app.include_router(admin.router, prefix="/api/v1")
 @app.on_event("startup")
 def on_startup() -> None:
     Base.metadata.create_all(bind=engine)
+    if settings.jwt_secret in ("change-me-in-production", "change-me"):
+        logger.warning(
+            "JWT_SECRET está com valor padrão — defina um segredo forte em produção."
+        )

@@ -15,6 +15,7 @@ from app.auth import (
 from app.config import get_settings
 from app.database import get_db
 from app.models import User
+from app.rate_limit import rate_limit
 from app.schemas import (
     AuthResponse,
     LoginRequest,
@@ -38,7 +39,11 @@ def _tokens_for(user: User) -> TokenResponse:
 
 
 @router.post("/register", response_model=AuthResponse, status_code=status.HTTP_201_CREATED)
-def register(payload: RegisterRequest, db: Session = Depends(get_db)) -> AuthResponse:
+def register(
+    payload: RegisterRequest,
+    db: Session = Depends(get_db),
+    _: None = rate_limit("register", settings.rate_limit_register, settings.rate_limit_window_seconds),
+) -> AuthResponse:
     email = payload.email.lower().strip()
     existing = db.scalar(select(User).where(User.email == email))
     if existing:
@@ -72,7 +77,11 @@ def register(payload: RegisterRequest, db: Session = Depends(get_db)) -> AuthRes
 
 
 @router.post("/login", response_model=AuthResponse)
-def login(payload: LoginRequest, db: Session = Depends(get_db)) -> AuthResponse:
+def login(
+    payload: LoginRequest,
+    db: Session = Depends(get_db),
+    _: None = rate_limit("login", settings.rate_limit_login, settings.rate_limit_window_seconds),
+) -> AuthResponse:
     email = payload.email.lower().strip()
     user = db.scalar(select(User).where(User.email == email))
     if user is None or not verify_password(payload.password, user.password_hash):
