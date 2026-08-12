@@ -102,14 +102,19 @@ def verify_email_token(db: Session, token: str) -> User:
     )
     if record is None:
         raise ValueError("Token inválido")
-    if record.used_at is not None:
-        raise ValueError("Token já utilizado")
-    if record.expires_at < _utcnow():
-        raise ValueError("Token expirado")
 
     user = db.get(User, record.user_id)
     if user is None:
         raise ValueError("Usuário não encontrado")
+
+    # Idempotente: link clicado duas vezes / React Strict Mode
+    if record.used_at is not None:
+        if user.email_verified:
+            return user
+        raise ValueError("Token já utilizado")
+
+    if record.expires_at < _utcnow():
+        raise ValueError("Token expirado")
 
     record.used_at = _utcnow()
     user.email_verified = True

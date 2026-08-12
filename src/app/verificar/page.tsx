@@ -31,12 +31,24 @@ function VerificarContent() {
         const result = await verifyEmailToken(token);
         if (cancelled) return;
         setVerifyState('success');
-        setVerifyMessage(result.message);
+        setVerifyMessage(result.message || 'Email verificado com sucesso');
         await refreshProfile();
       } catch (err) {
         if (cancelled) return;
+        const msg = err instanceof Error ? err.message : 'Falha na verificação';
+        // Fallback se a 1ª chamada já consumiu o token
+        if (/já utilizado|already used|já verificado/i.test(msg)) {
+          try {
+            await refreshProfile();
+          } catch {
+            // ignore
+          }
+          setVerifyState('success');
+          setVerifyMessage('Email verificado com sucesso');
+          return;
+        }
         setVerifyState('error');
-        setVerifyMessage(err instanceof Error ? err.message : 'Falha na verificação');
+        setVerifyMessage(msg);
       }
     })();
 
@@ -105,7 +117,7 @@ function VerificarContent() {
                 <AlertCircle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
                 <p className="text-red-300 text-sm">{verifyMessage}</p>
               </div>
-              {status === 'authenticated' && (
+              {status === 'authenticated' && !user?.email_verified && (
                 <button
                   onClick={handleResend}
                   disabled={resendLoading}
@@ -113,6 +125,14 @@ function VerificarContent() {
                 >
                   <RefreshCw className={`w-4 h-4 ${resendLoading ? 'animate-spin' : ''}`} />
                   Reenviar email
+                </button>
+              )}
+              {(user?.email_verified || status === 'authenticated') && user?.email_verified && (
+                <button
+                  onClick={() => router.push('/dashboard')}
+                  className="w-full gold-gradient text-black font-semibold py-3 rounded-lg"
+                >
+                  Ir para o Dashboard
                 </button>
               )}
             </div>

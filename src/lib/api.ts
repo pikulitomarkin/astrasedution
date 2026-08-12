@@ -204,6 +204,18 @@ export function debitCredits(accessToken: string, amount = 1) {
   );
 }
 
+export function fetchRechargePacks(accessToken: string) {
+  return apiRequest<RechargePack[]>("/credits/packs", { method: "GET" }, accessToken);
+}
+
+export function rechargeCredits(accessToken: string, packId = "welcome") {
+  return apiRequest<RechargeResponse>(
+    "/credits/recharge",
+    { method: "POST", body: JSON.stringify({ pack_id: packId }) },
+    accessToken
+  );
+}
+
 export type GenerationItem = {
   id: string;
   style: string;
