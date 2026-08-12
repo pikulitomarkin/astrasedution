@@ -1,6 +1,6 @@
 "use client";
 
-import { Sparkles, ArrowRight, Clapperboard } from 'lucide-react';
+import { Sparkles, Clapperboard } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { useRouter } from 'next/navigation';
@@ -228,7 +228,6 @@ export default function HeroSection() {
               />
               
               <span className="relative z-10">{t.common.startNow}</span>
-              <ArrowRight className="relative z-10 h-5 w-5 transition-transform group-hover:translate-x-1" />
             </motion.button>
           </motion.div>
 

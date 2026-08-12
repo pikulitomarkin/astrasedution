@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { Header } from '@/components';
 import { useAuth } from '@/contexts/AuthContext';
+import { useTranslation } from '@/hooks/useTranslation';
 import {
   fetchCredits,
   fetchGenerations,
@@ -24,12 +25,6 @@ import {
   type CreditsInfo,
   type GenerationItem,
 } from '@/lib/api';
-
-const TEASER_STYLES = [
-  { id: 'solo_lifestyle', label: 'Lifestyle solo' },
-  { id: 'golden_hour', label: 'Golden hour' },
-  { id: 'studio_glow', label: 'Studio glow' },
-] as const;
 
 function GenerationCard({
   item,
@@ -93,6 +88,7 @@ function GenerationCard({
 }
 
 export default function DashboardPage() {
+  const t = useTranslation();
   const { user, status, accessToken, refreshProfile } = useAuth();
   const router = useRouter();
   const [creditsInfo, setCreditsInfo] = useState<CreditsInfo | null>(null);
@@ -101,6 +97,12 @@ export default function DashboardPage() {
   const [generating, setGenerating] = useState(false);
   const [genError, setGenError] = useState<string | null>(null);
   const [loadingGallery, setLoadingGallery] = useState(true);
+
+  const TEASER_STYLES = [
+    { id: 'solo_lifestyle', label: t.dashboard.styleLifestyle },
+    { id: 'golden_hour', label: t.dashboard.styleGolden },
+    { id: 'studio_glow', label: t.dashboard.styleStudio },
+  ] as const;
 
   const loadCredits = useCallback(async () => {
     if (!accessToken) return;
@@ -184,14 +186,14 @@ export default function DashboardPage() {
             <div className="flex items-center gap-3 text-brand-glow mb-2">
               <LayoutDashboard className="w-5 h-5" />
               <span className="text-sm font-semibold tracking-widest uppercase">
-                Painel VIP
+                {t.dashboard.vipPanel}
               </span>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold text-white font-playfair">
-              Olá, {user.name || user.email.split('@')[0]}
+              {t.dashboard.hello}, {user.name || user.email.split('@')[0]}
             </h1>
             <p className="text-zinc-400 mt-2">
-              Gere até {maxFree} imagens teaser watermarked no plano Free.
+              {t.dashboard.tagline.replace('{max}', String(maxFree))}
             </p>
           </motion.div>
 
@@ -204,9 +206,9 @@ export default function DashboardPage() {
               <div className="flex items-start gap-3 flex-1">
                 <Mail className="w-6 h-6 text-amber-400 shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-white font-medium">Confirme seu email</p>
+                  <p className="text-white font-medium">{t.dashboard.confirmEmail}</p>
                   <p className="text-sm text-zinc-400 mt-1">
-                    Verifique {user.email} para liberar as gerações gratuitas.
+                    {t.dashboard.verifyToUnlock.replace('{email}', user.email)}
                   </p>
                 </div>
               </div>
@@ -214,7 +216,7 @@ export default function DashboardPage() {
                 href="/verificar?pending=1"
                 className="shrink-0 gold-gradient text-black font-semibold px-6 py-2.5 rounded-lg text-center"
               >
-                Verificar agora
+                {t.dashboard.verifyNow}
               </Link>
             </motion.div>
           )}
@@ -228,13 +230,13 @@ export default function DashboardPage() {
             >
               <div className="flex items-center gap-2 text-gold-primary mb-4">
                 <Crown className="w-5 h-5" />
-                <span className="text-sm font-semibold">Plano atual</span>
+                <span className="text-sm font-semibold">{t.dashboard.currentPlan}</span>
               </div>
               <p className="text-2xl font-bold text-white">{planLabel}</p>
               <p className="text-sm text-zinc-400 mt-2">
                 {planLabel === 'FREE'
-                  ? `${maxFree} gerações teaser inclusas`
-                  : 'Benefícios premium ativos'}
+                  ? t.dashboard.freeTeasers.replace('{max}', String(maxFree))
+                  : t.dashboard.premiumActive}
               </p>
             </motion.div>
 
@@ -254,10 +256,12 @@ export default function DashboardPage() {
               <div className="relative">
                 <div className="flex items-center gap-2 text-brand-glow mb-4">
                   <Zap className="w-5 h-5" fill="currentColor" />
-                  <span className="text-sm font-semibold">Créditos restantes</span>
+                  <span className="text-sm font-semibold">{t.dashboard.creditsLeft}</span>
                 </div>
                 <p className="text-4xl font-bold text-white">{credits}</p>
-                <p className="text-sm text-zinc-400 mt-2">de {maxFree} no plano Free</p>
+                <p className="text-sm text-zinc-400 mt-2">
+                  {t.dashboard.ofFreePlan.replace('{max}', String(maxFree))}
+                </p>
               </div>
             </motion.div>
 
@@ -269,15 +273,15 @@ export default function DashboardPage() {
             >
               <div className="flex items-center gap-2 text-emerald-400 mb-4">
                 <Sparkles className="w-5 h-5" />
-                <span className="text-sm font-semibold">Status da conta</span>
+                <span className="text-sm font-semibold">{t.dashboard.accountStatus}</span>
               </div>
               <p className="text-lg font-semibold text-white">
-                {user.email_verified ? 'Ativa' : 'Pendente verificação'}
+                {user.email_verified ? t.dashboard.active : t.dashboard.pendingVerification}
               </p>
               <p className="text-sm text-zinc-400 mt-2">
                 {user.email_verified
-                  ? `${generations.length} geração(ões) criada(s)`
-                  : 'Aguardando confirmação de email'}
+                  ? t.dashboard.generationsCreated.replace('{count}', String(generations.length))
+                  : t.dashboard.awaitingEmail}
               </p>
             </motion.div>
           </div>
@@ -294,11 +298,10 @@ export default function DashboardPage() {
               </div>
               <div className="flex-1">
                 <h2 className="text-2xl font-bold text-white font-playfair mb-2">
-                  Gerar teaser watermarked
+                  {t.dashboard.generateTeaser}
                 </h2>
                 <p className="text-zinc-400 mb-6 max-w-xl">
-                  Cada geração consome 1 crédito e produz uma imagem placeholder com marca
-                  d&apos;água &quot;Astra Free&quot;. Motor Flux real chega na Fase 2.
+                  {t.dashboard.generateHint}
                 </p>
 
                 <div className="flex flex-wrap gap-2 mb-6">
@@ -334,24 +337,23 @@ export default function DashboardPage() {
                   {generating ? (
                     <>
                       <Loader2 className="w-5 h-5 animate-spin" />
-                      Gerando...
+                      {t.dashboard.generating}
                     </>
                   ) : (
-                    <>
-                      <Sparkles className="w-5 h-5" />
-                      Gerar imagem ({credits} crédito{credits !== 1 ? 's' : ''})
-                    </>
+                    `${t.dashboard.generateImage} (${credits} ${
+                      credits !== 1 ? t.dashboard.credits : t.dashboard.credit
+                    })`
                   )}
                 </button>
 
                 {!user.email_verified && (
                   <p className="text-amber-400 text-sm mt-4">
-                    Verifique seu email para gerar imagens.
+                    {t.dashboard.verifyToGenerate}
                   </p>
                 )}
                 {user.email_verified && credits === 0 && (
                   <p className="text-zinc-500 text-sm mt-4">
-                    Você usou suas {maxFree} gerações Free. Entre na waitlist para novidades.
+                    {t.dashboard.noCredits.replace('{max}', String(maxFree))}
                   </p>
                 )}
               </div>
@@ -365,7 +367,7 @@ export default function DashboardPage() {
           >
             <div className="flex items-center gap-2 mb-6">
               <ImageIcon className="w-5 h-5 text-brand-glow" />
-              <h2 className="text-xl font-bold text-white font-playfair">Suas gerações</h2>
+              <h2 className="text-xl font-bold text-white font-playfair">{t.dashboard.yourGenerations}</h2>
             </div>
 
             {loadingGallery ? (
@@ -375,7 +377,7 @@ export default function DashboardPage() {
             ) : generations.length === 0 ? (
               <div className="glass-panel border border-dashed border-zinc-700 rounded-2xl p-12 text-center">
                 <p className="text-zinc-500">
-                  Nenhuma imagem ainda. Gere sua primeira teaser acima.
+                  {t.dashboard.noImagesYet}
                 </p>
               </div>
             ) : (

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from 'framer-motion';
-import { Check, Sparkles, Crown, Zap, Star } from 'lucide-react';
+import { Check, Sparkles, Crown, Zap } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from '@/hooks/useTranslation';
 import { useCurrency } from '@/contexts/CurrencyContext';
@@ -145,9 +145,8 @@ export default function PricingSection() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: 0.3 }}
                 >
-                  <div className="px-4 py-1 rounded-full text-xs font-bold text-white bg-gradient-to-r from-brand-glow to-brand-glow-light shadow-lg inline-flex items-center gap-1.5">
-                    <Star className="w-3.5 h-3.5 fill-current" aria-hidden />
-                    RECOMENDADO
+                  <div className="px-4 py-1 rounded-full text-xs font-bold text-white bg-gradient-to-r from-brand-glow to-brand-glow-light shadow-lg">
+                    {t.recommended}
                   </div>
                 </motion.div>
               )}

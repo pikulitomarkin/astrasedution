@@ -8,8 +8,11 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { LogIn, Mail, Lock, AlertCircle } from 'lucide-react';
 import { AstraMarkIcon } from '@/components/icons';
+import LanguageSelector from '@/components/LanguageSelector';
+import { useTranslation } from '@/hooks/useTranslation';
 
 function LoginForm() {
+  const t = useTranslation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -30,16 +33,19 @@ function LoginForm() {
       router.push(next.startsWith('/') ? next : '/dashboard');
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erro ao fazer login');
+      setError(err instanceof Error ? err.message : t.common.invalidCredentials);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black p-4">
+    <div className="min-h-screen flex items-center justify-center bg-black p-4 relative">
+      <div className="absolute top-4 right-4 z-20">
+        <LanguageSelector />
+      </div>
+
       <div className="w-full max-w-md">
-        {/* Logo */}
         <motion.div
           className="flex justify-center mb-8"
           initial={{ opacity: 0, y: -20 }}
@@ -61,38 +67,25 @@ function LoginForm() {
                 priority={false}
               />
             </motion.div>
-            {/* Glow effect pulsante */}
             <motion.div
               className="absolute -inset-3 bg-gradient-to-r from-brand-glow/20 via-gold-primary/20 to-brand-glow/20 rounded-full blur-2xl -z-10"
-              animate={{
-                opacity: [0.3, 0.6, 0.3],
-                scale: [1, 1.1, 1],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
+              animate={{ opacity: [0.3, 0.6, 0.3], scale: [1, 1.1, 1] }}
+              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
             />
           </div>
         </motion.div>
 
-        {/* Glassmorphism card */}
         <div className="glass-panel border border-gold-light/20 rounded-2xl p-8 backdrop-blur-xl">
-          {/* Header */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gold-gradient mb-4">
               <LogIn className="w-8 h-8 text-black" />
             </div>
             <h1 className="text-3xl font-bold text-white mb-2 font-playfair">
-              Acesso VIP
+              {t.auth.loginTitle}
             </h1>
-            <p className="text-gray-400">
-              Entre no seu painel de criação exclusivo
-            </p>
+            <p className="text-gray-400">{t.auth.loginSubtitle}</p>
           </div>
 
-          {/* Error message */}
           {error && (
             <div className="mb-6 p-4 rounded-lg bg-red-500/10 border border-red-500/30 flex items-center gap-3">
               <AlertCircle className="w-5 h-5 text-red-400" />
@@ -100,12 +93,10 @@ function LoginForm() {
             </div>
           )}
 
-          {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Email field */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                Email
+                {t.common.email}
               </label>
               <div className="relative">
                 <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gold-light" />
@@ -114,16 +105,15 @@ function LoginForm() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full pl-12 pr-4 py-3 bg-black/50 border border-gold-light/30 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-gold-primary focus:ring-1 focus:ring-gold-primary transition-all"
-                  placeholder="seu@email.com"
+                  placeholder={t.auth.emailPlaceholder}
                   required
                 />
               </div>
             </div>
 
-            {/* Password field */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                Senha
+                {t.common.password}
               </label>
               <div className="relative">
                 <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gold-light" />
@@ -138,26 +128,14 @@ function LoginForm() {
               </div>
             </div>
 
-            {/* Submit button */}
             <button
               type="submit"
               disabled={loading}
-              className="w-full btn-gold font-semibold py-3 px-4 rounded-lg hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full btn-gold font-semibold py-3 px-4 rounded-lg hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? (
-                <>
-                  <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
-                  Entrando...
-                </>
-              ) : (
-                <>
-                  <LogIn className="w-5 h-5" />
-                  Entrar
-                </>
-              )}
+              {loading ? t.auth.loggingIn : t.common.login}
             </button>
 
-            {/* Divider */}
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-gold-light/20"></div>
@@ -167,36 +145,30 @@ function LoginForm() {
               </div>
             </div>
 
-            {/* Signup link */}
             <div className="text-center">
               <p className="text-gray-400">
-                Não tem uma conta?{' '}
+                {t.common.dontHaveAccount}{' '}
                 <Link
                   href="/cadastro"
                   className="text-gold-primary hover:text-gold-light font-semibold transition-colors"
                 >
-                  Cadastre-se agora
+                  {t.common.signupHere}
                 </Link>
               </p>
             </div>
 
-            {/* VIP note */}
             <div className="mt-8 p-4 bg-gold-primary/5 border border-gold-primary/20 rounded-lg">
               <p className="text-sm text-gold-light text-center flex items-center justify-center gap-2">
                 <AstraMarkIcon className="w-4 h-4 shrink-0 text-gold-primary" size={16} />
-                Acesso exclusivo ao Criador de Modelos AstraFuture
+                {t.auth.exclusiveAccess}
               </p>
             </div>
           </form>
         </div>
 
-        {/* Back to home */}
         <div className="text-center mt-6">
-          <Link
-            href="/"
-            className="text-gray-500 hover:text-white text-sm transition-colors"
-          >
-            ← Voltar para a página inicial
+          <Link href="/" className="text-gray-500 hover:text-white text-sm transition-colors">
+            {t.common.backToHome}
           </Link>
         </div>
       </div>

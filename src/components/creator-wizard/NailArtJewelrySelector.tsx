@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sliders, Upload, Palette, Sparkles, X } from 'lucide-react';
+import { Sliders, Upload, Palette, X } from 'lucide-react';
 import SliderComponent from './SliderComponent';
 import {
   JewelryCategoryIcon,
@@ -360,8 +360,7 @@ export default function NailArtJewelrySelector() {
                   )}
 
                   <div className="mt-6">
-                    <button className="w-full gold-gradient text-black font-semibold py-3 px-4 rounded-lg hover:opacity-90 transition-all flex items-center justify-center gap-2">
-                      <Sparkles className="h-5 w-5" />
+                    <button className="w-full gold-gradient text-black font-semibold py-3 px-4 rounded-lg hover:opacity-90 transition-all">
                       Aplicar Textura ao Modelo
                     </button>
                   </div>

@@ -1,7 +1,7 @@
 'use client';
 
 import { Header, HeroSection } from '@/components';
-import { Cpu, Lock, Sparkles, Globe, Zap, Shield } from 'lucide-react';
+import { Cpu, Lock, Globe, Zap, Shield } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { useTranslation } from '@/hooks/useTranslation';
@@ -110,9 +110,8 @@ export default function Home() {
             <div className="mt-10 flex justify-center">
               <button
                 onClick={() => router.push('/login')}
-                className="group gold-border rounded-full px-8 py-3 text-lg font-semibold text-white transition-all hover:bg-gold-primary/10 hover:gold-shadow flex items-center gap-2"
+                className="group gold-border rounded-full px-8 py-3 text-lg font-semibold text-white transition-all hover:bg-gold-primary/10 hover:gold-shadow"
               >
-                <Sparkles className="h-5 w-5 text-gold-primary group-hover:scale-110 transition-transform" />
                 {t.common.startNow}
               </button>
             </div>
