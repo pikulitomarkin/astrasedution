@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { signIn } from 'next-auth/react';
+import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -15,6 +15,7 @@ export default function CadastroPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
+  const { register } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,32 +23,11 @@ export default function CadastroPage() {
     setError('');
 
     try {
-      const registerResponse = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password }),
-      });
-
-      const registerData = await registerResponse.json().catch(() => ({}));
-      if (!registerResponse.ok) {
-        setError(registerData.error || 'Erro ao criar conta');
-        return;
-      }
-
-      const result = await signIn('credentials', {
-        email,
-        password,
-        redirect: false,
-      });
-
-      if (result?.error) {
-        setError('Conta criada, mas falhou o login automático. Faça login manualmente.');
-      } else {
-        router.push('/create');
-        router.refresh();
-      }
-    } catch {
-      setError('Erro ao criar conta');
+      await register(name, email, password);
+      router.push('/create');
+      router.refresh();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Erro ao criar conta');
     } finally {
       setLoading(false);
     }

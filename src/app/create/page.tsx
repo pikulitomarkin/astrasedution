@@ -1,23 +1,21 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
+import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { Header } from '@/components';
 import { GenerationWizard } from '@/components/creator-wizard';
 
 export default function CreatePage() {
-  const { data: session, status } = useSession();
+  const { user, status } = useAuth();
   const router = useRouter();
 
-  // Proteger rota - requer autenticação
   useEffect(() => {
     if (status === 'unauthenticated') {
       router.push('/login');
     }
   }, [status, router]);
 
-  // Loading state
   if (status === 'loading') {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -29,20 +27,15 @@ export default function CreatePage() {
     );
   }
 
-  // Não autenticado
-  if (!session) {
+  if (!user) {
     return null;
   }
 
-  // Handler para quando o wizard for completado
   const handleWizardComplete = (values: Record<string, number>) => {
     console.log('Wizard completado com valores:', values);
-    // Aqui você pode:
-    // 1. Enviar para API de geração de IA
-    // 2. Salvar no banco de dados
-    // 3. Navegar para preview/resultado
-    // 4. Mostrar toast de sucesso
-    alert(`Criação finalizada! ${Object.keys(values).length} parâmetros configurados.`);
+    alert(
+      `Criação finalizada! ${Object.keys(values).length} parâmetros configurados. Créditos restantes: ${user.credits}`
+    );
   };
 
   return (

@@ -2,7 +2,7 @@
 
 import { Menu, X, Sparkles, User, LogOut, Zap } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { useSession, signOut } from 'next-auth/react';
+import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import LanguageSelector from './LanguageSelector';
@@ -13,10 +13,11 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [freeGenerations] = useState(3); // Hook: Gerações gratuitas
-  const { data: session } = useSession();
+  const { user, logout, status } = useAuth();
+  const freeGenerations = user?.credits ?? 3;
   const router = useRouter();
   const t = useTranslation();
+  const isAuthenticated = status === 'authenticated' && !!user;
 
   const menuItems = [
     { label: t.navigation.home, href: '/' },
@@ -151,21 +152,22 @@ export default function Header() {
               <CurrencySelector />
             </div>
             
-            {session ? (
+            {isAuthenticated ? (
               <div className="relative">
                 <button
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                   className="flex items-center gap-2 rounded-full border border-gold-primary/30 bg-black/50 px-4 py-2 text-sm font-semibold text-white transition-all hover:bg-gold-primary/10"
                 >
                   <User className="h-4 w-4" />
-                  <span className="max-w-[120px] truncate">{session.user?.email}</span>
+                  <span className="max-w-[120px] truncate">{user.email}</span>
                 </button>
                 
                 {isUserMenuOpen && (
                   <div className="absolute right-0 top-full mt-2 w-48 rounded-xl glass-effect border border-gold-light/20 p-2 shadow-xl backdrop-blur-xl">
                     <div className="p-3 border-b border-white/10">
-                      <p className="text-sm font-medium text-white truncate">{session.user?.name || session.user?.email}</p>
-                      <p className="text-xs text-gray-400 truncate">{session.user?.email}</p>
+                      <p className="text-sm font-medium text-white truncate">{user.name || user.email}</p>
+                      <p className="text-xs text-gray-400 truncate">{user.email}</p>
+                      <p className="text-xs text-brand-glow mt-1">Créditos: {user.credits}</p>
                     </div>
                     <button
                       onClick={() => router.push('/create')}
@@ -174,7 +176,10 @@ export default function Header() {
                       {t.common.myCreator}
                     </button>
                     <button
-                      onClick={() => signOut({ callbackUrl: '/' })}
+                      onClick={() => {
+                        logout();
+                        router.push('/');
+                      }}
                       className="w-full text-left px-3 py-2 text-sm text-red-400 hover:bg-red-500/10 rounded-lg transition-colors flex items-center gap-2"
                     >
                       <LogOut className="h-4 w-4" />
@@ -285,11 +290,12 @@ export default function Header() {
                 <CurrencySelector />
               </div>
               
-              {session ? (
+              {isAuthenticated ? (
                 <div className="mt-4 space-y-2">
                   <div className="p-3 rounded-lg bg-white/5 border border-gold-light/20">
-                    <p className="text-sm font-medium text-white truncate">{session.user?.name || session.user?.email}</p>
-                    <p className="text-xs text-gray-400 truncate">{session.user?.email}</p>
+                    <p className="text-sm font-medium text-white truncate">{user.name || user.email}</p>
+                    <p className="text-xs text-gray-400 truncate">{user.email}</p>
+                    <p className="text-xs text-brand-glow mt-1">Créditos: {user.credits}</p>
                   </div>
                   <button
                     onClick={() => router.push('/create')}
@@ -298,7 +304,10 @@ export default function Header() {
                     {t.common.myCreator}
                   </button>
                   <button
-                    onClick={() => signOut({ callbackUrl: '/' })}
+                    onClick={() => {
+                      logout();
+                      router.push('/');
+                    }}
                     className="w-full text-left px-4 py-3 text-base font-medium text-red-400 hover:bg-red-500/10 rounded-lg transition-colors border border-red-500/20 flex items-center gap-2"
                   >
                     <LogOut className="h-5 w-5" />
