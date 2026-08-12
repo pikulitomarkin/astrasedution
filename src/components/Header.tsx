@@ -1,6 +1,6 @@
 'use client';
 
-import { Menu, X, Sparkles, User, LogOut, Zap } from 'lucide-react';
+import { Menu, X, User, LogOut, Zap, LogIn } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
@@ -8,6 +8,7 @@ import { motion } from 'framer-motion';
 import LanguageSelector from './LanguageSelector';
 import CurrencySelector from './CurrencySelector';
 import { useTranslation } from '@/hooks/useTranslation';
+import { AstraMarkIcon } from '@/components/icons';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -52,13 +53,13 @@ export default function Header() {
           {/* Logo */}
           <div className="flex items-center space-x-2">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-gold-primary to-gold-secondary p-2">
-              <Sparkles className="h-6 w-6 text-black" />
+              <AstraMarkIcon className="h-6 w-6 text-black" size={24} />
             </div>
             <div className="flex flex-col">
               <span className="text-xl font-bold tracking-tight text-white">
                 AstraFuture
               </span>
-              <span className="text-xs font-medium gold-gradient tracking-widest">
+              <span className="text-xs font-medium text-gold-gradient tracking-widest">
                 SEDUCTION
               </span>
             </div>
@@ -195,12 +196,21 @@ export default function Header() {
                 )}
               </div>
             ) : (
-              <button
-                onClick={() => router.push('/login')}
-                className="gold-border rounded-full px-6 py-2 text-sm font-semibold text-white transition-all hover:bg-gold-primary/10 hover:gold-shadow"
-              >
-                {t.common.vipAccess}
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => router.push('/login')}
+                  className="inline-flex items-center gap-2 rounded-full border border-gold-primary/40 px-5 py-2 text-sm font-semibold text-white transition-all hover:bg-gold-primary/10"
+                >
+                  <LogIn className="h-4 w-4 text-gold-primary" />
+                  {t.common.login}
+                </button>
+                <button
+                  onClick={() => router.push('/cadastro')}
+                  className="btn-gold rounded-full px-6 py-2 text-sm font-semibold transition-all hover:opacity-90 hover:gold-shadow"
+                >
+                  {t.common.vipAccess}
+                </button>
+              </div>
             )}
           </div>
 
@@ -327,12 +337,27 @@ export default function Header() {
                   </button>
                 </div>
               ) : (
-                <button
-                  onClick={() => router.push('/login')}
-                  className="gold-border mt-4 rounded-full px-6 py-3 text-base font-semibold text-white transition-all hover:bg-gold-primary/10"
-                >
-                  {t.common.vipAccess}
-                </button>
+                <div className="mt-4 space-y-2">
+                  <button
+                    onClick={() => {
+                      router.push('/login');
+                      setIsMenuOpen(false);
+                    }}
+                    className="w-full inline-flex items-center justify-center gap-2 rounded-full border border-gold-primary/40 px-6 py-3 text-base font-semibold text-white transition-all hover:bg-gold-primary/10"
+                  >
+                    <LogIn className="h-5 w-5 text-gold-primary" />
+                    {t.common.login}
+                  </button>
+                  <button
+                    onClick={() => {
+                      router.push('/cadastro');
+                      setIsMenuOpen(false);
+                    }}
+                    className="btn-gold w-full rounded-full px-6 py-3 text-base font-semibold transition-all hover:opacity-90"
+                  >
+                    {t.common.vipAccess}
+                  </button>
+                </div>
               )}
             </div>
           </div>
