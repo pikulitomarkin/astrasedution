@@ -4,17 +4,7 @@ import bcrypt from "bcryptjs";
 import type { JWT } from "next-auth/jwt";
 import type { Session } from "next-auth";
 import type { AuthOptions } from "next-auth";
-
-// Armazenamento em memória (apenas para demonstração)
-// Em produção, substitua por um banco de dados real
-interface LocalUser {
-  id: string;
-  email: string;
-  name: string;
-  password: string;
-}
-
-const users: LocalUser[] = [];
+import { prisma } from "@/lib/prisma";
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -23,37 +13,30 @@ export const authOptions: AuthOptions = {
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Senha", type: "password" },
-        name: { label: "Nome", type: "text", required: false }
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
           return null;
         }
 
-        const existingUser = users.find(user => user.email === credentials.email);
-        
-        if (!existingUser) {
-          // Criar novo usuário
-          const hashedPassword = await bcrypt.hash(credentials.password, 10);
-          const newUser: LocalUser = {
-            id: Date.now().toString(),
-            email: credentials.email,
-            name: credentials.name || "",
-            password: hashedPassword,
-          };
-          users.push(newUser);
-          return newUser;
+        const email = credentials.email.trim().toLowerCase();
+        const user = await prisma.user.findUnique({ where: { email } });
+        if (!user) {
+          return null;
         }
 
-        // Verificar senha
-        const isValid = await bcrypt.compare(credentials.password, existingUser.password);
+        const isValid = await bcrypt.compare(credentials.password, user.password);
         if (!isValid) {
           return null;
         }
 
-        return existingUser;
-      }
-    })
+        return {
+          id: user.id,
+          email: user.email,
+          name: user.name ?? undefined,
+        };
+      },
+    }),
   ],
   session: {
     strategy: "jwt" as const,
@@ -63,11 +46,11 @@ export const authOptions: AuthOptions = {
     error: "/login",
   },
   callbacks: {
-    async jwt({ token, user }: { token: JWT; user?: any }) { // eslint-disable-line @typescript-eslint/no-explicit-any
+    async jwt({ token, user }: { token: JWT; user?: { id: string; email?: string | null; name?: string | null } }) {
       if (user) {
         token.id = user.id;
-        token.email = user.email;
-        token.name = user.name;
+        token.email = user.email ?? "";
+        token.name = user.name ?? undefined;
       }
       return token;
     },
@@ -78,7 +61,7 @@ export const authOptions: AuthOptions = {
         session.user.name = token.name as string;
       }
       return session;
-    }
+    },
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
