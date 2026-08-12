@@ -65,11 +65,39 @@
     border: 1px solid rgba(255, 255, 255, 0.15);
   }
 
-  .gold-gradient {
-    background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-secondary) 50%, var(--gold-accent) 100%);
+  /* Alias usado nas páginas de auth/dashboard */
+  .glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+  }
+
+  /* Gradiente sólido — botões, badges, avatares */
+  .gold-gradient,
+  .bg-gold-gradient,
+  .btn-gold {
+    background: linear-gradient(
+      135deg,
+      var(--gold-primary) 0%,
+      var(--gold-secondary) 50%,
+      var(--gold-accent) 100%
+    );
+    color: #000;
+    -webkit-text-fill-color: #000;
+  }
+
+  /* Gradiente só no texto (ex.: SEDUCTION no logo) */
+  .text-gold-gradient {
+    background: linear-gradient(
+      135deg,
+      var(--gold-primary) 0%,
+      var(--gold-secondary) 50%,
+      var(--gold-accent) 100%
+    );
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    color: transparent;
   }
 
   .gold-border {
@@ -99,6 +127,10 @@
 
   .text-brand-glow {
     text-shadow: 0 0 15px rgba(6, 182, 212, 0.6), 0 0 30px rgba(34, 211, 238, 0.3);
+  }
+
+  .icon-gold {
+    color: var(--gold-primary);
   }
 }
 

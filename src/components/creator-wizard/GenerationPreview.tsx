@@ -98,7 +98,7 @@ export default function GenerationPreview({
           <div className="mb-10">
             <div className="flex items-center justify-between mb-3">
               <span className="text-sm font-medium text-gray-300">Progresso</span>
-              <span className="text-sm font-bold gold-gradient">
+              <span className="text-sm font-bold text-gold-gradient">
                 {Math.round(calculatedProgress)}%
               </span>
             </div>

@@ -161,7 +161,7 @@ export default function CadastroPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full gold-gradient text-black font-semibold py-3 px-4 rounded-lg hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full btn-gold font-semibold py-3 px-4 rounded-lg hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>

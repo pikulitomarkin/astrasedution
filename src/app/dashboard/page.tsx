@@ -289,7 +289,7 @@ export default function DashboardPage() {
             className="glass-panel border border-gold-light/20 rounded-3xl p-8 md:p-10 mb-10"
           >
             <div className="flex flex-col md:flex-row md:items-start gap-6">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gold-gradient/20 border border-gold-light/30 shrink-0">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gold-primary/20 border border-gold-light/30 shrink-0">
                 <Wand2 className="w-8 h-8 text-gold-primary" />
               </div>
               <div className="flex-1">

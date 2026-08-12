@@ -6,7 +6,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { LogIn, Mail, Lock, AlertCircle, Gem } from 'lucide-react';
+import { LogIn, Mail, Lock, AlertCircle } from 'lucide-react';
+import { AstraMarkIcon } from '@/components/icons';
 
 function LoginForm() {
   const [email, setEmail] = useState('');
@@ -141,7 +142,7 @@ function LoginForm() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full gold-gradient text-black font-semibold py-3 px-4 rounded-lg hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full btn-gold font-semibold py-3 px-4 rounded-lg hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
@@ -182,7 +183,7 @@ function LoginForm() {
             {/* VIP note */}
             <div className="mt-8 p-4 bg-gold-primary/5 border border-gold-primary/20 rounded-lg">
               <p className="text-sm text-gold-light text-center flex items-center justify-center gap-2">
-                <Gem className="w-4 h-4 shrink-0" aria-hidden />
+                <AstraMarkIcon className="w-4 h-4 shrink-0 text-gold-primary" size={16} />
                 Acesso exclusivo ao Criador de Modelos AstraFuture
               </p>
             </div>

@@ -5,6 +5,7 @@ import { Cpu, Lock, Sparkles, Globe, Zap, Shield } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { useTranslation } from '@/hooks/useTranslation';
+import { AstraMarkIcon } from '@/components/icons';
 
 const PricingSection = dynamic(() => import('@/components').then(mod => mod.PricingSection), { ssr: false });
 const Footer = dynamic(() => import('@/components').then(mod => mod.Footer), { ssr: false });
@@ -16,37 +17,37 @@ export default function Home() {
   const t = useTranslation();
   const features = [
     {
-      icon: <Cpu className="h-8 w-8" />,
+      icon: <Cpu className="h-8 w-8" strokeWidth={1.75} />,
       title: t.features.advancedAI,
       description: t.features.advancedAIDesc,
       color: 'from-blue-500/20 to-cyan-500/20',
     },
     {
-      icon: <Lock className="h-8 w-8" />,
+      icon: <Lock className="h-8 w-8" strokeWidth={1.75} />,
       title: t.features.maximumSecurity,
       description: t.features.maximumSecurityDesc,
       color: 'from-emerald-500/20 to-green-500/20',
     },
     {
-      icon: <Sparkles className="h-8 w-8" />,
+      icon: <AstraMarkIcon className="h-8 w-8" size={32} />,
       title: t.features.premiumDesign,
       description: t.features.premiumDesignDesc,
-      color: 'from-purple-500/20 to-pink-500/20',
+      color: 'from-amber-500/20 to-yellow-500/20',
     },
     {
-      icon: <Globe className="h-8 w-8" />,
+      icon: <Globe className="h-8 w-8" strokeWidth={1.75} />,
       title: t.features.globalScale,
       description: t.features.globalScaleDesc,
-      color: 'from-amber-500/20 to-orange-500/20',
+      color: 'from-cyan-500/20 to-brand-glow/20',
     },
     {
-      icon: <Zap className="h-8 w-8" />,
+      icon: <Zap className="h-8 w-8" strokeWidth={1.75} />,
       title: t.features.performance,
       description: t.features.performanceDesc,
       color: 'from-red-500/20 to-rose-500/20',
     },
     {
-      icon: <Shield className="h-8 w-8" />,
+      icon: <Shield className="h-8 w-8" strokeWidth={1.75} />,
       title: t.features.compliance,
       description: t.features.complianceDesc,
       color: 'from-indigo-500/20 to-violet-500/20',
@@ -77,8 +78,8 @@ export default function Home() {
               >
                 <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
                 <div className="relative z-10">
-                  <div className="mb-6 inline-flex rounded-2xl bg-white/5 p-3">
-                    <div className="gold-gradient">{feature.icon}</div>
+                  <div className="mb-6 inline-flex rounded-2xl border border-gold-primary/20 bg-gold-primary/10 p-3 text-gold-primary">
+                    {feature.icon}
                   </div>
                   <h3 className="text-xl font-semibold text-white">{feature.title}</h3>
                   <p className="mt-4 text-zinc-400">{feature.description}</p>

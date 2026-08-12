@@ -1,4 +1,5 @@
-import { Heart, Copyright } from 'lucide-react';
+import { Copyright } from 'lucide-react';
+import { AstraMarkIcon } from '@/components/icons';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -11,11 +12,11 @@ export default function Footer() {
           <div className="flex flex-col items-center md:items-start">
             <div className="mb-4 flex items-center space-x-2">
               <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-gold-primary to-gold-secondary p-1">
-                <Heart className="h-5 w-5 text-black" />
+                <AstraMarkIcon className="h-5 w-5 text-black" size={20} />
               </div>
               <div className="flex flex-col">
                 <span className="text-lg font-bold text-white">AstraFuture</span>
-                <span className="text-xs font-medium gold-gradient tracking-widest">
+                <span className="text-xs font-medium text-gold-gradient tracking-widest">
                   SEDUCTION
                 </span>
               </div>
