@@ -51,3 +51,16 @@ class WaitlistEntry(Base):
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), nullable=False
     )
+
+
+class Generation(Base):
+    __tablename__ = "generations"
+
+    id: Mapped[str] = mapped_column(String(64), primary_key=True)
+    user_id: Mapped[str] = mapped_column(String(64), index=True, nullable=False)
+    style: Mapped[str] = mapped_column(String(64), default="solo_lifestyle", nullable=False)
+    image_path: Mapped[str] = mapped_column(Text, nullable=False)
+    watermarked: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )

@@ -42,6 +42,9 @@ services:
       SMTP_PASSWORD: ${SMTP_PASSWORD:-}
       SMTP_FROM: ${SMTP_FROM:-noreply@astraseduction.com}
       SMTP_TLS: ${SMTP_TLS:-true}
+      GENERATIONS_DIR: /app/data/generations
+    volumes:
+      - generation_data:/app/data/generations
     networks:
       - astra-net
     expose:
@@ -94,6 +97,7 @@ services:
 
 volumes:
   postgres_data:
+  generation_data:
 
 networks:
   astra-net:

@@ -82,3 +82,22 @@ class DebitCreditsResponse(BaseModel):
     credits: int
     debited: int
     message: str
+
+
+class TeaserGenerateRequest(BaseModel):
+    style: str = Field(default="solo_lifestyle", max_length=64)
+
+
+class GenerationPublic(BaseModel):
+    id: str
+    style: str
+    image_url: str
+    watermarked: bool
+    created_at: datetime
+
+    model_config = {"from_attributes": True}
+
+
+class TeaserGenerateResponse(BaseModel):
+    generation: GenerationPublic
+    credits_remaining: int

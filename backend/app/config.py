@@ -54,6 +54,10 @@ class Settings(BaseSettings):
         validation_alias="SMTP_FROM",
     )
     smtp_tls: bool = Field(default=True, validation_alias="SMTP_TLS")
+    generations_dir: str = Field(
+        default="/app/data/generations",
+        validation_alias="GENERATIONS_DIR",
+    )
 
 
 @lru_cache

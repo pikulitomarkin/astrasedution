@@ -151,3 +151,41 @@ export function debitCredits(accessToken: string, amount = 1) {
     accessToken
   );
 }
+
+export type GenerationItem = {
+  id: string;
+  style: string;
+  image_url: string;
+  watermarked: boolean;
+  created_at: string;
+};
+
+export type TeaserGenerateResponse = {
+  generation: GenerationItem;
+  credits_remaining: number;
+};
+
+export function generateTeaser(accessToken: string, style = "solo_lifestyle") {
+  return apiRequest<TeaserGenerateResponse>(
+    "/generate/teaser",
+    { method: "POST", body: JSON.stringify({ style }) },
+    accessToken
+  );
+}
+
+export function fetchGenerations(accessToken: string) {
+  return apiRequest<GenerationItem[]>("/generations", { method: "GET" }, accessToken);
+}
+
+export async function fetchGenerationImageBlob(
+  accessToken: string,
+  generationId: string
+): Promise<Blob> {
+  const response = await fetch(`${API_BASE}/generations/${generationId}/image`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+  if (!response.ok) {
+    throw new Error(await parseError(response));
+  }
+  return response.blob();
+}
