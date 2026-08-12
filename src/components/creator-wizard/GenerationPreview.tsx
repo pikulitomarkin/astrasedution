@@ -225,8 +225,9 @@ export default function GenerationPreview({
 
           {/* Nota de créditos */}
           <div className="mt-8 p-4 bg-gold-primary/5 border border-gold-primary/20 rounded-xl">
-            <p className="text-sm text-gold-light text-center">
-              ⚡ Esta geração consumiu {Math.round(calculatedProgress * 2)} créditos do seu plano VIP
+            <p className="text-sm text-gold-light text-center flex items-center justify-center gap-2">
+              <Zap className="w-4 h-4 shrink-0 fill-current" aria-hidden />
+              Esta geração consumiu {Math.round(calculatedProgress * 2)} créditos do seu plano VIP
             </p>
           </div>
         </div>

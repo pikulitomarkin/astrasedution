@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { LogIn, Mail, Lock, AlertCircle } from 'lucide-react';
+import { LogIn, Mail, Lock, AlertCircle, Gem } from 'lucide-react';
 
 function LoginForm() {
   const [email, setEmail] = useState('');
@@ -181,8 +181,9 @@ function LoginForm() {
 
             {/* VIP note */}
             <div className="mt-8 p-4 bg-gold-primary/5 border border-gold-primary/20 rounded-lg">
-              <p className="text-sm text-gold-light text-center">
-                💎 Acesso exclusivo ao Criador de Modelos AstraFuture
+              <p className="text-sm text-gold-light text-center flex items-center justify-center gap-2">
+                <Gem className="w-4 h-4 shrink-0" aria-hidden />
+                Acesso exclusivo ao Criador de Modelos AstraFuture
               </p>
             </div>
           </form>

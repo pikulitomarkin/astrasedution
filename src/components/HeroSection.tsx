@@ -1,6 +1,6 @@
 "use client";
 
-import { Sparkles, ArrowRight } from 'lucide-react';
+import { Sparkles, ArrowRight, Clapperboard } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { useRouter } from 'next/navigation';
@@ -261,7 +261,8 @@ export default function HeroSection() {
                 
                 {/* Badge "Em Demonstração" */}
                 <div className="absolute top-4 right-4 z-10">
-                  <div className="glass-effect-light px-4 py-2 rounded-full border border-brand-glow/30">
+                  <div className="glass-effect-light px-4 py-2 rounded-full border border-brand-glow/30 inline-flex items-center gap-1.5">
+                    <Clapperboard className="w-3.5 h-3.5 text-brand-glow" aria-hidden />
                     <span className="text-xs font-semibold text-brand-glow">
                       {t.hero.demo}
                     </span>

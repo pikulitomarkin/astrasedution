@@ -130,8 +130,9 @@ export default function FloatingCTA() {
             whileHover={{ opacity: 1, y: 0 }}
           >
             <div className="glass-effect px-3 py-2 rounded-lg border border-brand-glow/30 whitespace-nowrap">
-              <p className="text-xs text-white font-medium">
-                ✨ 3 gerações gratuitas disponíveis
+              <p className="text-xs text-white font-medium flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-brand-glow shrink-0" aria-hidden />
+                3 gerações gratuitas disponíveis
               </p>
             </div>
           </motion.div>
