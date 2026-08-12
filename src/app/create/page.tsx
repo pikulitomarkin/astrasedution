@@ -56,8 +56,14 @@ export default function CreatePage() {
               </p>
             </div>
             <Link
+              href="/dashboard"
+              className="block w-full border border-gold-light/30 text-white font-semibold py-3 rounded-lg mb-3 text-center"
+            >
+              Voltar ao Dashboard
+            </Link>
+            <Link
               href="/verificar?pending=1"
-              className="block w-full gold-gradient text-black font-semibold py-3 rounded-lg"
+              className="block w-full gold-gradient text-black font-semibold py-3 rounded-lg text-center"
             >
               Ir para verificação
             </Link>

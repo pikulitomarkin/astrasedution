@@ -29,6 +29,19 @@ export type WaitlistResponse = {
   already_registered: boolean;
 };
 
+export type CreditsInfo = {
+  plan: string;
+  credits: number;
+  max_free_credits: number;
+  email_verified: boolean;
+};
+
+export type DebitCreditsResponse = {
+  credits: number;
+  debited: number;
+  message: string;
+};
+
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "/api/v1";
 
 async function parseError(response: Response): Promise<string> {
@@ -125,4 +138,16 @@ export function joinWaitlist(input: {
     method: "POST",
     body: JSON.stringify(input),
   });
+}
+
+export function fetchCredits(accessToken: string) {
+  return apiRequest<CreditsInfo>("/credits", { method: "GET" }, accessToken);
+}
+
+export function debitCredits(accessToken: string, amount = 1) {
+  return apiRequest<DebitCreditsResponse>(
+    "/credits/debit",
+    { method: "POST", body: JSON.stringify({ amount }) },
+    accessToken
+  );
 }

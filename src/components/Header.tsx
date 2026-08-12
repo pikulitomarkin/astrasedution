@@ -170,6 +170,12 @@ export default function Header() {
                       <p className="text-xs text-brand-glow mt-1">Créditos: {user.credits}</p>
                     </div>
                     <button
+                      onClick={() => router.push('/dashboard')}
+                      className="w-full text-left px-3 py-2 text-sm text-white hover:bg-white/5 rounded-lg transition-colors"
+                    >
+                      Dashboard
+                    </button>
+                    <button
                       onClick={() => router.push('/create')}
                       className="w-full text-left px-3 py-2 text-sm text-white hover:bg-white/5 rounded-lg transition-colors"
                     >
@@ -297,6 +303,12 @@ export default function Header() {
                     <p className="text-xs text-gray-400 truncate">{user.email}</p>
                     <p className="text-xs text-brand-glow mt-1">Créditos: {user.credits}</p>
                   </div>
+                  <button
+                    onClick={() => router.push('/dashboard')}
+                    className="w-full text-left px-4 py-3 text-base font-medium text-white hover:bg-white/5 rounded-lg transition-colors border border-white/20"
+                  >
+                    Dashboard
+                  </button>
                   <button
                     onClick={() => router.push('/create')}
                     className="w-full text-left px-4 py-3 text-base font-medium text-white hover:bg-white/5 rounded-lg transition-colors border border-white/20"

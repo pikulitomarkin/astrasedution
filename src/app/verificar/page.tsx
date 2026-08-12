@@ -91,10 +91,10 @@ function VerificarContent() {
                 <p className="text-emerald-300 text-sm">{verifyMessage}</p>
               </div>
               <button
-                onClick={() => router.push('/create')}
+                onClick={() => router.push('/dashboard')}
                 className="w-full gold-gradient text-black font-semibold py-3 rounded-lg"
               >
-                Ir para o Criador
+                Ir para o Dashboard
               </button>
             </div>
           )}

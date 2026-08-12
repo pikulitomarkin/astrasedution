@@ -65,3 +65,20 @@ class WaitlistEntryPublic(BaseModel):
     created_at: datetime
 
     model_config = {"from_attributes": True}
+
+
+class CreditsPublic(BaseModel):
+    plan: str
+    credits: int
+    max_free_credits: int
+    email_verified: bool
+
+
+class DebitCreditsRequest(BaseModel):
+    amount: int = Field(default=1, ge=1, le=10)
+
+
+class DebitCreditsResponse(BaseModel):
+    credits: int
+    debited: int
+    message: str
