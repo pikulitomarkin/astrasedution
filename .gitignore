@@ -51,4 +51,6 @@ dev.db-journal
 *.tsbuildinfo
 next-env.d.ts
 
+/deploy/smoke-results.txt
+
 /src/generated/prisma
