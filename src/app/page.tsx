@@ -9,6 +9,7 @@ import { useTranslation } from '@/hooks/useTranslation';
 const PricingSection = dynamic(() => import('@/components').then(mod => mod.PricingSection), { ssr: false });
 const Footer = dynamic(() => import('@/components').then(mod => mod.Footer), { ssr: false });
 const FloatingCTA = dynamic(() => import('@/components').then(mod => mod.FloatingCTA), { ssr: false });
+const WaitlistSection = dynamic(() => import('@/components').then(mod => mod.WaitlistSection), { ssr: false });
 
 export default function Home() {
   const router = useRouter();
@@ -90,6 +91,9 @@ export default function Home() {
 
       {/* Pricing Section */}
       <PricingSection />
+
+      {/* Waitlist / Contact */}
+      <WaitlistSection />
 
       {/* CTA Section */}
       <section className="py-24">

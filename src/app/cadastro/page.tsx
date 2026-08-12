@@ -24,7 +24,7 @@ export default function CadastroPage() {
 
     try {
       await register(name, email, password);
-      router.push('/create');
+      router.push('/verificar?pending=1');
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Erro ao criar conta');

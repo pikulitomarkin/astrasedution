@@ -35,6 +35,7 @@ class UserPublic(BaseModel):
 class AuthResponse(BaseModel):
     user: UserPublic
     tokens: TokenResponse
+    verification_url: str | None = None
 
 
 class RefreshRequest(BaseModel):
@@ -43,3 +44,24 @@ class RefreshRequest(BaseModel):
 
 class MessageResponse(BaseModel):
     message: str
+
+
+class WaitlistJoinRequest(BaseModel):
+    email: EmailStr
+    name: str | None = Field(default=None, max_length=200)
+    source: str | None = Field(default="landing", max_length=64)
+
+
+class WaitlistJoinResponse(BaseModel):
+    message: str
+    already_registered: bool = False
+
+
+class WaitlistEntryPublic(BaseModel):
+    id: str
+    email: EmailStr
+    name: str | None = None
+    source: str
+    created_at: datetime
+
+    model_config = {"from_attributes": True}

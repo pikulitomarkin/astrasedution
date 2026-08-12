@@ -5,3 +5,4 @@ export { default as BackgroundWrapper } from './BackgroundWrapper';
 export { default as PricingSection } from './PricingSection';
 export { default as FloatingCTA } from './FloatingCTA';
 export { default as StructuredData } from './StructuredData';
+export { default as WaitlistSection } from './WaitlistSection';

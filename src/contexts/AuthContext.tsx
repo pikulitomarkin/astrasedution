@@ -16,6 +16,7 @@ import {
   loginUser,
   refreshTokens,
   registerUser,
+  resendVerificationEmail,
 } from '@/lib/api';
 
 const ACCESS_COOKIE = 'astra_access_token';
@@ -30,6 +31,7 @@ type AuthContextValue = {
   register: (name: string, email: string, password: string) => Promise<void>;
   logout: () => void;
   refreshProfile: () => Promise<void>;
+  resendVerification: () => Promise<string>;
 };
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -147,6 +149,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(USER_KEY, JSON.stringify(me));
   }, [accessToken]);
 
+  const resendVerification = useCallback(async () => {
+    if (!accessToken) {
+      throw new Error('Faça login para reenviar a verificação');
+    }
+    const result = await resendVerificationEmail(accessToken);
+    return result.message;
+  }, [accessToken]);
+
   const value = useMemo(
     () => ({
       user,
@@ -156,8 +166,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       register,
       logout,
       refreshProfile,
+      resendVerification,
     }),
-    [user, accessToken, status, login, register, logout, refreshProfile]
+    [user, accessToken, status, login, register, logout, refreshProfile, resendVerification]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

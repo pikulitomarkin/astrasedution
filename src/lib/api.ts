@@ -17,6 +17,16 @@ export type AuthTokens = {
 export type AuthPayload = {
   user: ApiUser;
   tokens: AuthTokens;
+  verification_url?: string | null;
+};
+
+export type MessageResponse = {
+  message: string;
+};
+
+export type WaitlistResponse = {
+  message: string;
+  already_registered: boolean;
 };
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "/api/v1";
@@ -88,5 +98,31 @@ export function refreshTokens(refreshToken: string) {
   return apiRequest<AuthTokens>("/auth/refresh", {
     method: "POST",
     body: JSON.stringify({ refresh_token: refreshToken }),
+  });
+}
+
+export function verifyEmailToken(token: string) {
+  return apiRequest<MessageResponse>(
+    `/auth/verify-email?token=${encodeURIComponent(token)}`,
+    { method: "GET" }
+  );
+}
+
+export function resendVerificationEmail(accessToken: string) {
+  return apiRequest<MessageResponse>(
+    "/auth/resend-verification",
+    { method: "POST" },
+    accessToken
+  );
+}
+
+export function joinWaitlist(input: {
+  email: string;
+  name?: string;
+  source?: string;
+}) {
+  return apiRequest<WaitlistResponse>("/waitlist", {
+    method: "POST",
+    body: JSON.stringify(input),
   });
 }
