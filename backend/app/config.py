@@ -41,22 +41,43 @@ class Settings(BaseSettings):
         default=24,
         validation_alias="EMAIL_VERIFICATION_EXPIRE_HOURS",
     )
+    password_reset_expire_hours: int = Field(
+        default=2,
+        validation_alias="PASSWORD_RESET_EXPIRE_HOURS",
+    )
     email_dev_expose_link: bool = Field(
         default=False,
         validation_alias="EMAIL_DEV_EXPOSE_LINK",
+    )
+    resend_api_key: str = Field(default="", validation_alias="RESEND_API_KEY")
+    email_from: str = Field(
+        default="Astra Seduction <noreply@astrasedution.com>",
+        validation_alias="EMAIL_FROM",
     )
     smtp_host: str = Field(default="", validation_alias="SMTP_HOST")
     smtp_port: int = Field(default=587, validation_alias="SMTP_PORT")
     smtp_user: str = Field(default="", validation_alias="SMTP_USER")
     smtp_password: str = Field(default="", validation_alias="SMTP_PASSWORD")
     smtp_from: str = Field(
-        default="noreply@astraseduction.com",
+        default="noreply@astrasedution.com",
         validation_alias="SMTP_FROM",
     )
     smtp_tls: bool = Field(default=True, validation_alias="SMTP_TLS")
     generations_dir: str = Field(
         default="/app/data/generations",
         validation_alias="GENERATIONS_DIR",
+    )
+    recharge_bonus_credits: int = Field(
+        default=1000,
+        validation_alias="RECHARGE_BONUS_CREDITS",
+    )
+    recharge_bonus_price_brl: int = Field(
+        default=4900,
+        validation_alias="RECHARGE_BONUS_PRICE_BRL_CENTS",
+    )
+    payment_mode: str = Field(
+        default="instant",
+        validation_alias="PAYMENT_MODE",
     )
     rate_limit_register: int = Field(default=5, validation_alias="RATE_LIMIT_REGISTER_PER_MINUTE")
     rate_limit_login: int = Field(default=10, validation_alias="RATE_LIMIT_LOGIN_PER_MINUTE")

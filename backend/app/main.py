@@ -3,8 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 import logging
 
 from app.config import get_settings
-from app.database import Base, engine
+from app.database import engine
 from app.routers import admin, auth, credits, generate, health, waitlist
+from app.schema_patches import ensure_schema
 
 logger = logging.getLogger("uvicorn.error")
 settings = get_settings()
@@ -30,8 +31,10 @@ app.include_router(admin.router, prefix="/api/v1")
 
 @app.on_event("startup")
 def on_startup() -> None:
-    Base.metadata.create_all(bind=engine)
+    ensure_schema(engine)
     if settings.jwt_secret in ("change-me-in-production", "change-me"):
         logger.warning(
             "JWT_SECRET está com valor padrão — defina um segredo forte em produção."
         )
+    if not settings.resend_api_key:
+        logger.warning("RESEND_API_KEY não configurada — emails transacionais ficarão só em log.")
