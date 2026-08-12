@@ -107,6 +107,13 @@ def recharge_credits(
     PAYMENT_MODE=instant credita imediatamente (gateway real entra depois).
     """
     _require_verified(current_user)
+
+    if payload.pack_id == "welcome" and current_user.first_recharge_claimed:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Bônus de primeira recarga já foi utilizado",
+        )
+
     pack = _pack_by_id(current_user, payload.pack_id)
 
     if pack.first_recharge_only and current_user.first_recharge_claimed:
