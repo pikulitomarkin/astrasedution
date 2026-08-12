@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { UserPlus, User, Mail, Lock, AlertCircle } from 'lucide-react';
+import { UserPlus, User, Mail, Lock, AlertCircle, Gift } from 'lucide-react';
 
 export default function CadastroPage() {
   const [name, setName] = useState('');
@@ -201,8 +201,9 @@ export default function CadastroPage() {
 
             {/* VIP benefits */}
             <div className="mt-8 space-y-3">
-              <h3 className="text-lg font-semibold text-gold-light text-center">
-                🎁 Benefícios VIP
+              <h3 className="text-lg font-semibold text-gold-light text-center flex items-center justify-center gap-2">
+                <Gift className="w-5 h-5 shrink-0" aria-hidden />
+                Benefícios VIP
               </h3>
               <ul className="space-y-2 text-sm text-gray-300">
                 <li className="flex items-center gap-2">

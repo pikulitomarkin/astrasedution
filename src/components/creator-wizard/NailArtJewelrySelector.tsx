@@ -4,29 +4,34 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sliders, Upload, Palette, Sparkles, X } from 'lucide-react';
 import SliderComponent from './SliderComponent';
+import {
+  JewelryCategoryIcon,
+  NailShapeIcon,
+  type JewelryCategory,
+  type NailShapeId,
+} from '@/components/icons';
 
 interface NailType {
-  id: string;
+  id: NailShapeId;
   name: string;
   description: string;
   color: string;
-  icon: string;
 }
 
 interface JewelryType {
   id: string;
   name: string;
   description: string;
-  category: 'ring' | 'necklace' | 'bracelet' | 'watch';
+  category: JewelryCategory;
 }
 
 const nailTypes: NailType[] = [
-  { id: 'stiletto', name: 'Stiletto', description: 'Unhas longas e pontiagudas', color: '#FF6B8B', icon: '💅' },
-  { id: 'almond', name: 'Amêndoa', description: 'Forma arredondada e elegante', color: '#A78BFA', icon: '👌' },
-  { id: 'square', name: 'Quadrado', description: 'Bordas retas e modernas', color: '#38BDF8', icon: '⬜' },
-  { id: 'coffin', name: 'Caixão', description: 'Longas com ponta achatada', color: '#34D399', icon: '⚰️' },
-  { id: 'oval', name: 'Oval', description: 'Forma suave e natural', color: '#FBBF24', icon: '🥚' },
-  { id: 'ballerina', name: 'Bailarina', description: 'Comprimento médio e ponta reta', color: '#F87171', icon: '🩰' },
+  { id: 'stiletto', name: 'Stiletto', description: 'Unhas longas e pontiagudas', color: '#FF6B8B' },
+  { id: 'almond', name: 'Amêndoa', description: 'Forma arredondada e elegante', color: '#A78BFA' },
+  { id: 'square', name: 'Quadrado', description: 'Bordas retas e modernas', color: '#38BDF8' },
+  { id: 'coffin', name: 'Caixão', description: 'Longas com ponta achatada', color: '#34D399' },
+  { id: 'oval', name: 'Oval', description: 'Forma suave e natural', color: '#FBBF24' },
+  { id: 'ballerina', name: 'Bailarina', description: 'Comprimento médio e ponta reta', color: '#F87171' },
 ];
 
 const jewelryTypes: JewelryType[] = [
@@ -100,7 +105,12 @@ export default function NailArtJewelrySelector() {
                   : 'border-gold-light/30 bg-black/50 hover:border-gold-light/60'
               }`}
             >
-              <span className="text-2xl mb-1">{nail.icon}</span>
+              <NailShapeIcon
+                shape={nail.id}
+                size={28}
+                className="mb-1 text-gold-primary"
+                style={{ color: nail.color }}
+              />
               <span className="text-xs font-medium text-white truncate w-full text-center">
                 {nail.name}
               </span>
@@ -139,12 +149,11 @@ export default function NailArtJewelrySelector() {
                   <h4 className="font-semibold text-white">{jewelry.name}</h4>
                   <p className="text-xs text-gray-400 mt-1">{jewelry.description}</p>
                 </div>
-                <span className="text-2xl">
-                  {jewelry.category === 'ring' && '💍'}
-                  {jewelry.category === 'necklace' && '📿'}
-                  {jewelry.category === 'bracelet' && '🔗'}
-                  {jewelry.category === 'watch' && '⌚'}
-                </span>
+                <JewelryCategoryIcon
+                  category={jewelry.category}
+                  size={22}
+                  className="shrink-0 text-gold-primary"
+                />
               </div>
             </motion.button>
           ))}
@@ -363,19 +372,23 @@ export default function NailArtJewelrySelector() {
                   <h4 className="text-lg font-semibold text-white mb-4">Preview</h4>
                   <div className="aspect-square rounded-lg bg-gradient-to-br from-black to-gray-900 border border-gold-light/20 flex items-center justify-center">
                     {selectedNail ? (
-                      <div className="text-center">
-                        <span className="text-6xl">{selectedNail.icon}</span>
+                      <div className="text-center flex flex-col items-center">
+                        <NailShapeIcon
+                          shape={selectedNail.id}
+                          size={72}
+                          className="text-gold-primary"
+                          style={{ color: sliderValues.colorHex }}
+                        />
                         <p className="text-white mt-2">{selectedNail.name}</p>
                         <p className="text-xs text-gray-400">Cor: <span style={{ color: sliderValues.colorHex }}>{sliderValues.colorHex}</span></p>
                       </div>
                     ) : selectedJewelry ? (
-                      <div className="text-center">
-                        <span className="text-6xl">
-                          {selectedJewelry.category === 'ring' && '💍'}
-                          {selectedJewelry.category === 'necklace' && '📿'}
-                          {selectedJewelry.category === 'bracelet' && '🔗'}
-                          {selectedJewelry.category === 'watch' && '⌚'}
-                        </span>
+                      <div className="text-center flex flex-col items-center">
+                        <JewelryCategoryIcon
+                          category={selectedJewelry.category}
+                          size={64}
+                          className="text-gold-primary"
+                        />
                         <p className="text-white mt-2">{selectedJewelry.name}</p>
                       </div>
                     ) : null}
