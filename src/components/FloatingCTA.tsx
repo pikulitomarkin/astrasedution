@@ -4,12 +4,20 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function FloatingCTA() {
   const [isVisible, setIsVisible] = useState(false);
   const router = useRouter();
+  const { status, user } = useAuth();
+  const isAuthenticated = status === 'authenticated' && !!user;
 
   useEffect(() => {
+    if (isAuthenticated) {
+      setIsVisible(false);
+      return;
+    }
+
     const handleScroll = () => {
       // Mostrar quando passar da primeira dobra (hero section)
       // Assumindo que hero tem ~100vh, mostramos após 80vh
@@ -28,7 +36,9 @@ export default function FloatingCTA() {
 
     // Cleanup
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isAuthenticated]);
+
+  if (isAuthenticated) return null;
 
   return (
     <AnimatePresence>
