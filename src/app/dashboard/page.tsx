@@ -174,7 +174,7 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-black">
       <Header />
 
-      <main className="pt-28 pb-16 px-4">
+      <main className="pt-6 pb-16 px-4 sm:pt-8">
         <div className="mx-auto max-w-5xl">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
