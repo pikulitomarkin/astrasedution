@@ -124,6 +124,11 @@ class RechargeResponse(BaseModel):
 
 class TeaserGenerateRequest(BaseModel):
     style: str = Field(default="solo_lifestyle", max_length=64)
+    identity_id: str | None = Field(default=None, max_length=64)
+    variant: str = Field(default="front_neutral", max_length=64)
+    product_line: str | None = Field(default=None, max_length=32)
+    reference_is_real_photo: bool = False
+    has_real_person_consent: bool = False
 
 
 class GenerationPublic(BaseModel):
@@ -132,6 +137,15 @@ class GenerationPublic(BaseModel):
     image_url: str
     watermarked: bool
     created_at: datetime
+    identity_id: str | None = None
+    batch_id: str | None = None
+    variant: str | None = None
+    product_line: str | None = None
+    provider: str | None = None
+    model_id: str | None = None
+    status: str | None = None
+    cost_usd_cents: int | None = None
+    latency_ms: int | None = None
 
     model_config = {"from_attributes": True}
 
@@ -139,3 +153,55 @@ class GenerationPublic(BaseModel):
 class TeaserGenerateResponse(BaseModel):
     generation: GenerationPublic
     credits_remaining: int
+
+
+class IdentityCreateRequest(BaseModel):
+    name: str = Field(min_length=2, max_length=120)
+    product_line: str = Field(default="future", max_length=32)
+    tier: str = Field(default="preferencial", max_length=32)
+    attributes: dict = Field(default_factory=dict)
+    apparent_age: int = Field(default=25, ge=18, le=90)
+    consent_synthetic_only: bool = True
+    consent_no_real_person: bool = True
+
+
+class IdentityUpdateRequest(BaseModel):
+    name: str | None = Field(default=None, min_length=2, max_length=120)
+    tier: str | None = Field(default=None, max_length=32)
+    attributes: dict | None = None
+    apparent_age: int | None = Field(default=None, ge=18, le=90)
+
+
+class IdentityPublic(BaseModel):
+    id: str
+    name: str
+    product_line: str
+    tier: str
+    seed: str
+    attributes: dict
+    consent_synthetic_only: bool
+    consent_no_real_person: bool
+    apparent_age: int
+    is_active: bool
+    created_at: datetime
+    updated_at: datetime
+
+    model_config = {"from_attributes": True}
+
+
+class ConsistencyBatteryRequest(BaseModel):
+    max_variants: int | None = Field(default=None, ge=1, le=12)
+
+
+class ConsistencyBatteryResponse(BaseModel):
+    batch_id: str
+    identity_id: str
+    product_line: str
+    variant_count: int
+    success_count: int
+    fail_count: int
+    failure_rate: float
+    total_cost_usd_cents: int
+    total_latency_ms: int
+    credits_remaining: int
+    generations: list[GenerationPublic]

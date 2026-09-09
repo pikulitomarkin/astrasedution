@@ -21,8 +21,10 @@ import {
   fetchGenerations,
   fetchGenerationImageBlob,
   generateTeaser,
+  listIdentities,
   type CreditsInfo,
   type GenerationItem,
+  type IdentityPassport,
 } from '@/lib/api';
 
 const TEASER_STYLES = [
@@ -97,6 +99,8 @@ export default function DashboardPage() {
   const router = useRouter();
   const [creditsInfo, setCreditsInfo] = useState<CreditsInfo | null>(null);
   const [generations, setGenerations] = useState<GenerationItem[]>([]);
+  const [identities, setIdentities] = useState<IdentityPassport[]>([]);
+  const [selectedIdentityId, setSelectedIdentityId] = useState<string>('');
   const [selectedStyle, setSelectedStyle] = useState<string>('solo_lifestyle');
   const [generating, setGenerating] = useState(false);
   const [genError, setGenError] = useState<string | null>(null);
@@ -125,6 +129,19 @@ export default function DashboardPage() {
     }
   }, [accessToken]);
 
+  const loadIdentities = useCallback(async () => {
+    if (!accessToken) return;
+    try {
+      const items = await listIdentities(accessToken);
+      setIdentities(items);
+      if (items.length && !selectedIdentityId) {
+        setSelectedIdentityId(items[0].id);
+      }
+    } catch {
+      setIdentities([]);
+    }
+  }, [accessToken, selectedIdentityId]);
+
   useEffect(() => {
     if (status === 'unauthenticated') {
       router.push('/login?next=/dashboard');
@@ -134,14 +151,19 @@ export default function DashboardPage() {
   useEffect(() => {
     loadCredits();
     loadGenerations();
-  }, [loadCredits, loadGenerations]);
+    loadIdentities();
+  }, [loadCredits, loadGenerations, loadIdentities]);
 
   const handleGenerate = async () => {
     if (!accessToken || generating) return;
     setGenerating(true);
     setGenError(null);
     try {
-      const result = await generateTeaser(accessToken, selectedStyle);
+      const result = await generateTeaser(accessToken, {
+        style: selectedStyle,
+        product_line: 'future',
+        identity_id: selectedIdentityId || undefined,
+      });
       setGenerations((prev) => [result.generation, ...prev]);
       setCreditsInfo((prev) =>
         prev
@@ -191,9 +213,30 @@ export default function DashboardPage() {
               Olá, {user.name || user.email.split('@')[0]}
             </h1>
             <p className="text-zinc-400 mt-2">
-              Gere até {maxFree} imagens teaser watermarked no plano Free.
+              Fase 2 · Future-first: gere com Identity Passport (consistência) ou teaser livre.
             </p>
           </motion.div>
+
+          {identities.length > 0 && (
+            <div className="mb-6 glass-panel border border-white/10 rounded-xl p-4">
+              <label className="block text-sm text-zinc-400 mb-2">Identity Passport (Future)</label>
+              <select
+                value={selectedIdentityId}
+                onChange={(e) => setSelectedIdentityId(e.target.value)}
+                className="w-full bg-black/50 border border-white/15 rounded-lg px-3 py-2 text-white"
+              >
+                <option value="">Teaser sem passport</option>
+                {identities.map((identity) => (
+                  <option key={identity.id} value={identity.id}>
+                    {identity.name} · {identity.product_line} · {identity.tier}
+                  </option>
+                ))}
+              </select>
+              <p className="text-xs text-zinc-500 mt-2">
+                Crie passports em <Link href="/create" className="text-brand-glow underline">/create</Link>.
+              </p>
+            </div>
+          )}
 
           {!user.email_verified && (
             <motion.div

@@ -2,10 +2,12 @@
 
 **Documento de trabalho interno**  
 **Fonte:** [SSOT_RETOMADA_ASTRA_V1_06.09.2026.pdf](./SSOT_RETOMADA_ASTRA_V1_06.09.2026.pdf)  
-**Status:** Fase 1 aprovada/paga. **Não iniciar Fase 2 até este plano ser aceito.**  
+**Status:** Fase 1 aprovada/paga. **Fase 2 em andamento** (aceite explícito 09/09/2026).  
 **Metas:** 13 fases · Fase 2 em **20/09/2027** · meta interna **15/01/2028** · lançamento **31/01/2028**
 
 > O plano SSOT 17/08/2026 (12 fases / Fase 2 em 29/08/2026) está **SUPERSEDIDO**. Ver [`SSOT-LEGACY-2026-08-17-SUPERSEDIDO.md`](./SSOT-LEGACY-2026-08-17-SUPERSEDIDO.md).
+>
+> Dossiê técnico Gate 1: [`FASE2-GATE1-DOSSIE.md`](./FASE2-GATE1-DOSSIE.md).
 
 ---
 
@@ -90,7 +92,7 @@ Regra: preço de venda **nunca** abaixo do custo variável.
 | Fase | Entrega | Data | Bolsa | Status |
 |------|---------|------|-------|--------|
 | **1** | Base do sistema | — | R$ 500 (pago) | ✅ |
-| **2** | Prova de viabilidade técnica (**DECISIVA**) | **20/09/2027** | R$ 500 | 🔲 Próxima |
+| **2** | Prova de viabilidade técnica (**DECISIVA**) | **20/09/2027** | R$ 500 | 🟡 Em andamento |
 | **3** | Wizard e customização inicial | 04/10/2027 | R$ 500 | 🔲 |
 | **4** | Qualidade diferencial (unhas, pés, pele) | 18/10/2027 | R$ 500 | 🔲 |
 | **5** | Astra Future inicial (MVP B2B) | 01/11/2027 | R$ 500 | 🔲 |
@@ -142,8 +144,8 @@ Uma imagem isolada **não** aprova a Fase 2.
 2. **Bloco §4:** só expandir; nunca remover/diluir.
 3. **Orquestração > treino:** preferir provedores/APIs roteados pelo Cérebro Astra.
 4. **Dois produtos:** não misturar branding/pagamento/ToS públicos; motor pode ser compartilhado.
-5. **Não iniciar Fase 2** sem aceite explícito deste plano e liberação da bolsa.
-6. Landing/marketing até Gate 2: pricing e copy alinhados ao SSOT; sem prometer motor real já pronto.
+5. **Fase 2 liberada** com aceite explícito — ver dossiê Gate 1.
+6. Landing/marketing até Gate 2: pricing e copy alinhados ao SSOT; motor real depende de `ASTRA_IMAGE_PROVIDER` + chaves.
 
 ---
 

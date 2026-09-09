@@ -8,7 +8,7 @@
 - [x] Fase 1 aprovada / paga (base do sistema)
 - [x] SSOT Retomada V1 anexado e plano escrito
 - [ ] Plano de Retomada **aceito** (Geison + Jonny + Marcos)
-- [ ] Fase 2 iniciada (somente após aceite; entrega **20/09/2027**)
+- [x] Fase 2 iniciada (aceite 09/09/2026) (somente após aceite; entrega **20/09/2027**)
 - [ ] Gate 1 aprovado
 - [ ] CNPJ(s) abertos pós–Gate 1
 - [ ] Gate 2 (Future vendável)
@@ -37,3 +37,11 @@ Prova de viabilidade técnica: identidade persistente, bateria de testes, custo/
 - [x] Legado ago/2026 marcado como supersedido
 - [x] Pricing landing Future / Seduction (tabelas USD/BRL)
 - [x] README e SEO estruturado alinhados às novas tabelas
+
+
+## Fase 2
+- [x] Identity Passport API
+- [x] Cérebro Astra + identity_canvas
+- [x] Anti-deepfake gates
+- [x] Bateria de consistência
+- [ ] Benchmark HeyGen + avaliação §11 humana

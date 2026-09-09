@@ -84,6 +84,36 @@ class Settings(BaseSettings):
     rate_limit_generate: int = Field(default=10, validation_alias="RATE_LIMIT_GENERATE_PER_MINUTE")
     rate_limit_window_seconds: int = Field(default=60, validation_alias="RATE_LIMIT_WINDOW_SECONDS")
 
+    # Fase 2 — Cérebro Astra / provedores
+    # identity_canvas = renderer determinístico (prova de consistência sem GPU)
+    # fal | replicate = provedores externos (quando a chave existir)
+    astra_image_provider: str = Field(
+        default="identity_canvas",
+        validation_alias="ASTRA_IMAGE_PROVIDER",
+    )
+    fal_api_key: str = Field(default="", validation_alias="FAL_KEY")
+    fal_model_id: str = Field(
+        default="fal-ai/flux/dev",
+        validation_alias="FAL_MODEL_ID",
+    )
+    replicate_api_token: str = Field(default="", validation_alias="REPLICATE_API_TOKEN")
+    replicate_model_id: str = Field(
+        default="black-forest-labs/flux-dev",
+        validation_alias="REPLICATE_MODEL_ID",
+    )
+    astra_image_timeout_seconds: int = Field(
+        default=120,
+        validation_alias="ASTRA_IMAGE_TIMEOUT_SECONDS",
+    )
+    astra_default_cost_usd_cents: int = Field(
+        default=2,
+        validation_alias="ASTRA_DEFAULT_COST_USD_CENTS",
+    )
+    consistency_battery_max_variants: int = Field(
+        default=12,
+        validation_alias="CONSISTENCY_BATTERY_MAX_VARIANTS",
+    )
+
 
 @lru_cache
 def get_settings() -> Settings:

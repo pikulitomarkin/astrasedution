@@ -210,6 +210,15 @@ export type GenerationItem = {
   image_url: string;
   watermarked: boolean;
   created_at: string;
+  identity_id?: string | null;
+  batch_id?: string | null;
+  variant?: string | null;
+  product_line?: string | null;
+  provider?: string | null;
+  model_id?: string | null;
+  status?: string | null;
+  cost_usd_cents?: number | null;
+  latency_ms?: number | null;
 };
 
 export type TeaserGenerateResponse = {
@@ -217,16 +226,112 @@ export type TeaserGenerateResponse = {
   credits_remaining: number;
 };
 
-export function generateTeaser(accessToken: string, style = "solo_lifestyle") {
+export type IdentityPassport = {
+  id: string;
+  name: string;
+  product_line: string;
+  tier: string;
+  seed: string;
+  attributes: Record<string, unknown>;
+  consent_synthetic_only: boolean;
+  consent_no_real_person: boolean;
+  apparent_age: number;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
+export type ConsistencyBatteryResponse = {
+  batch_id: string;
+  identity_id: string;
+  product_line: string;
+  variant_count: number;
+  success_count: number;
+  fail_count: number;
+  failure_rate: number;
+  total_cost_usd_cents: number;
+  total_latency_ms: number;
+  credits_remaining: number;
+  generations: GenerationItem[];
+};
+
+export function generateTeaser(
+  accessToken: string,
+  options: {
+    style?: string;
+    identity_id?: string;
+    variant?: string;
+    product_line?: string;
+  } = {}
+) {
   return apiRequest<TeaserGenerateResponse>(
     "/generate/teaser",
-    { method: "POST", body: JSON.stringify({ style }) },
+    {
+      method: "POST",
+      body: JSON.stringify({
+        style: options.style ?? "solo_lifestyle",
+        identity_id: options.identity_id,
+        variant: options.variant ?? "front_neutral",
+        product_line: options.product_line ?? "future",
+        reference_is_real_photo: false,
+        has_real_person_consent: false,
+      }),
+    },
     accessToken
   );
 }
 
 export function fetchGenerations(accessToken: string) {
   return apiRequest<GenerationItem[]>("/generations", { method: "GET" }, accessToken);
+}
+
+export function listIdentities(accessToken: string) {
+  return apiRequest<IdentityPassport[]>("/identities", { method: "GET" }, accessToken);
+}
+
+export function createIdentity(
+  accessToken: string,
+  payload: {
+    name: string;
+    product_line?: string;
+    tier?: string;
+    attributes?: Record<string, unknown>;
+    apparent_age?: number;
+    consent_synthetic_only?: boolean;
+    consent_no_real_person?: boolean;
+  }
+) {
+  return apiRequest<IdentityPassport>(
+    "/identities",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        name: payload.name,
+        product_line: payload.product_line ?? "future",
+        tier: payload.tier ?? "preferencial",
+        attributes: payload.attributes ?? {},
+        apparent_age: payload.apparent_age ?? 25,
+        consent_synthetic_only: payload.consent_synthetic_only ?? true,
+        consent_no_real_person: payload.consent_no_real_person ?? true,
+      }),
+    },
+    accessToken
+  );
+}
+
+export function runConsistencyBattery(
+  accessToken: string,
+  identityId: string,
+  maxVariants = 12
+) {
+  return apiRequest<ConsistencyBatteryResponse>(
+    `/identities/${identityId}/consistency-battery`,
+    {
+      method: "POST",
+      body: JSON.stringify({ max_variants: maxVariants }),
+    },
+    accessToken
+  );
 }
 
 export async function fetchGenerationImageBlob(
