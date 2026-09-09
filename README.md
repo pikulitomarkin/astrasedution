@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Astra — Future + Seduction
 
-## Getting Started
+Plataforma de **identidades digitais persistentes** (Identity Passport) com orquestração de modelos (**Cérebro Astra**).
 
-First, run the development server:
+| Produto | Foco |
+|---------|------|
+| **Astra Future** | Digital twins / avatares B2B — prioridade, benchmark HeyGen |
+| **Astra Seduction** | Realismo adulto sintético profissional |
+
+**SSOT oficial:** [`docs/SSOT_RETOMADA_ASTRA_V1_06.09.2026.pdf`](./docs/SSOT_RETOMADA_ASTRA_V1_06.09.2026.pdf)  
+**Plano de fases:** [`docs/SSOT-RETOMADA-PLANO.md`](./docs/SSOT-RETOMADA-PLANO.md)  
+**Checklist:** [`docs/SSOT-RETOMADA-CHECKLIST.md`](./docs/SSOT-RETOMADA-CHECKLIST.md)
+
+> Plano SSOT 17/08/2026 (Fase 2 em 29/08/2026) está **supersedido**. Ver [`docs/SSOT-LEGACY-2026-08-17-SUPERSEDIDO.md`](./docs/SSOT-LEGACY-2026-08-17-SUPERSEDIDO.md).
+
+### Datas-chave (Retomada V1)
+
+- Fase 1: base do sistema — **concluída / paga**
+- Fase 2: prova de viabilidade — **20/09/2027**
+- Meta interna: **15/01/2028**
+- Lançamento: **31/01/2028**
+
+### Stack atual
+
+- **Frontend:** Next.js (App Router) + i18n pt/en/es
+- **API:** FastAPI (JWT, créditos, teaser Pillow, waitlist, email Resend)
+- **DB:** PostgreSQL 16
+- **Deploy:** Docker Compose + Nginx (HTTPS) na VPS
+
+### Preços (SSOT §13)
+
+**Future:** Trial · Individual US$10 / R$49 · Profissional US$19 / R$89 · Agência US$39 / R$199  
+**Seduction:** Trial · Básico US$12 / R$59 · Premium US$24 / R$119 · Creator Studio US$39 / R$199
+
+### Getting Started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Stack completa:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+docker compose up --build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Abra [http://localhost:3000](http://localhost:3000).
 
-## Learn More
+### Documentação de aceite Fase 1
 
-To learn more about Next.js, take a look at the following resources:
+Ver [`deploy/FASE1-ACEITE.md`](./deploy/FASE1-ACEITE.md).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Não iniciar Fase 2** até o plano de Retomada ser aceito.

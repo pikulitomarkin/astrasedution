@@ -4,10 +4,19 @@ import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 export type Currency = 'BRL' | 'USD' | 'EUR';
 
+/** Preços oficiais do SSOT Retomada (tabelas USD + BRL fixas). */
+export interface SsotPrice {
+  usd: number;
+  brl: number;
+}
+
 interface CurrencyContextType {
   currency: Currency;
   setCurrency: (currency: Currency) => void;
+  /** @deprecated Prefer formatSsotPrice — conversão aproximada a partir de BRL. */
   formatPrice: (amount: number) => string;
+  /** Formata preço com par oficial USD/BRL do SSOT; EUR ≈ USD × 0.92. */
+  formatSsotPrice: (price: SsotPrice) => string;
 }
 
 const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined);
@@ -17,49 +26,56 @@ interface CurrencyProviderProps {
   defaultCurrency?: Currency;
 }
 
-// Taxas de conversão (exemplo - em produção viria de uma API)
+// Fallback legado (não usar para planos SSOT)
 const CONVERSION_RATES: Record<Currency, number> = {
   BRL: 1,
-  USD: 0.2, // 1 BRL = 0.2 USD (aproximadamente)
-  EUR: 0.18, // 1 BRL = 0.18 EUR (aproximadamente)
+  USD: 0.2,
+  EUR: 0.18,
 };
 
-// Símbolos das moedas
 const CURRENCY_SYMBOLS: Record<Currency, string> = {
   BRL: 'R$',
   USD: '$',
   EUR: '€',
 };
 
-// Formatação localizada
 const LOCALE_FORMATS: Record<Currency, string> = {
   BRL: 'pt-BR',
   USD: 'en-US',
-  EUR: 'de-DE', // Alemão para formato europeu
+  EUR: 'de-DE',
 };
 
-export function CurrencyProvider({ 
-  children, 
-  defaultCurrency = 'BRL' 
+function formatAmount(amount: number, currency: Currency): string {
+  const symbol = CURRENCY_SYMBOLS[currency];
+  const locale = LOCALE_FORMATS[currency];
+  const formattedNumber = new Intl.NumberFormat(locale, {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(amount);
+  return `${symbol} ${formattedNumber}`;
+}
+
+export function CurrencyProvider({
+  children,
+  defaultCurrency = 'BRL',
 }: CurrencyProviderProps) {
   const [currency, setCurrency] = useState<Currency>(defaultCurrency);
 
   const formatPrice = (amountInBRL: number): string => {
-    const convertedAmount = amountInBRL * CONVERSION_RATES[currency];
-    const symbol = CURRENCY_SYMBOLS[currency];
-    const locale = LOCALE_FORMATS[currency];
-    
-    // Formata o número de acordo com a localidade
-    const formattedNumber = new Intl.NumberFormat(locale, {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(convertedAmount);
+    return formatAmount(amountInBRL * CONVERSION_RATES[currency], currency);
+  };
 
-    return `${symbol} ${formattedNumber}`;
+  const formatSsotPrice = (price: SsotPrice): string => {
+    if (currency === 'BRL') return formatAmount(price.brl, 'BRL');
+    if (currency === 'USD') return formatAmount(price.usd, 'USD');
+    // EUR não está na tabela SSOT — aproximação a partir do USD oficial
+    return formatAmount(Math.round(price.usd * 0.92), 'EUR');
   };
 
   return (
-    <CurrencyContext.Provider value={{ currency, setCurrency, formatPrice }}>
+    <CurrencyContext.Provider
+      value={{ currency, setCurrency, formatPrice, formatSsotPrice }}
+    >
       {children}
     </CurrencyContext.Provider>
   );

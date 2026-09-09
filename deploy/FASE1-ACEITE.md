@@ -5,6 +5,9 @@
 **Branch:** `cursor/fase1-dia1-fastapi-auth-205f`  
 **PR:** https://github.com/pikulitomarkin/astrasedution/pull/2
 
+> **SSOT vigente:** Retomada V1 (06/09/2026). Fase 1 permanece aprovada/paga.  
+> Fase 2 remarcada para **20/09/2027**. Ver `docs/SSOT-RETOMADA-PLANO.md`.
+
 ---
 
 ## Critério SSOT

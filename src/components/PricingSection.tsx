@@ -1,10 +1,13 @@
 "use client";
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Check, Sparkles, Crown, Zap, Star } from 'lucide-react';
+import { Check, Sparkles, Crown, Zap, Star, Building2, Heart } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from '@/hooks/useTranslation';
-import { useCurrency } from '@/contexts/CurrencyContext';
+import { useCurrency, type SsotPrice } from '@/contexts/CurrencyContext';
+
+type ProductLine = 'future' | 'seduction';
 
 interface PlanFeature {
   text: string;
@@ -14,91 +17,134 @@ interface PlanFeature {
 interface Plan {
   name: string;
   tagline: string;
-  price: string;
+  price: SsotPrice;
   period: string;
-  credits: string;
+  highlightLine: string;
   features: PlanFeature[];
   recommended?: boolean;
   icon: React.ReactNode;
   gradient: string;
 }
 
-
-
 export default function PricingSection() {
   const router = useRouter();
   const t = useTranslation();
-  const { formatPrice } = useCurrency();
+  const { formatSsotPrice } = useCurrency();
+  const [product, setProduct] = useState<ProductLine>('future');
 
-  const plans: Plan[] = [
+  const futurePlans: Plan[] = [
     {
-      name: 'Standard',
-      tagline: t.pricing.forBeginners,
-      price: formatPrice(49),
+      name: t.pricing.future.individual,
+      tagline: t.pricing.future.individualTagline,
+      price: { usd: 10, brl: 49 },
       period: t.pricing.monthly,
-      credits: `500 ${t.pricing.creditsMonth}`,
+      highlightLine: t.pricing.future.individualHighlight,
       icon: <Zap className="h-6 w-6" />,
       gradient: 'from-zinc-700 to-zinc-800',
       features: [
-        { text: `500 ${t.pricing.features.generationsMonthly}` },
-        { text: t.pricing.features.hdResolution },
+        { text: t.pricing.future.features.oneTwin },
+        { text: t.pricing.future.features.hdNoWatermark, highlight: true },
+        { text: t.pricing.future.features.identityPassport },
         { text: t.pricing.features.emailSupport },
-        { text: t.pricing.features.basicStyleLibrary },
-        { text: t.pricing.features.pngExport },
       ],
     },
     {
-      name: 'Premium',
-      tagline: t.pricing.mostPopular,
-      price: formatPrice(149),
+      name: t.pricing.future.professional,
+      tagline: t.pricing.future.professionalTagline,
+      price: { usd: 19, brl: 89 },
       period: t.pricing.monthly,
-      credits: `2.000 ${t.pricing.creditsMonth}`,
+      highlightLine: t.pricing.future.professionalHighlight,
       recommended: true,
       icon: <Sparkles className="h-6 w-6" />,
       gradient: 'from-brand-glow to-brand-glow-light',
       features: [
-        { text: `2.000 ${t.pricing.features.generationsMonthly}`, highlight: true },
-        { text: t.pricing.features.ultraHdResolution, highlight: true },
+        { text: t.pricing.future.features.fiveTwins, highlight: true },
+        { text: t.pricing.future.features.batchVideo, highlight: true },
+        { text: t.pricing.future.features.voice },
         { text: t.pricing.features.prioritySupport },
-        { text: t.pricing.features.completeStyleLibrary },
-        { text: t.pricing.features.multipleExportFormats },
-        { text: t.pricing.features.apiAccess, highlight: true },
-        { text: t.pricing.features.watermarkRemover },
+        { text: t.pricing.future.features.identityPassport },
       ],
     },
     {
-      name: 'Deluxe',
-      tagline: t.pricing.vipExperience,
-      price: formatPrice(399),
+      name: t.pricing.future.agency,
+      tagline: t.pricing.future.agencyTagline,
+      price: { usd: 39, brl: 199 },
       period: t.pricing.monthly,
-      credits: `10.000 ${t.pricing.creditsMonth}`,
-      icon: <Crown className="h-6 w-6" />,
+      highlightLine: t.pricing.future.agencyHighlight,
+      icon: <Building2 className="h-6 w-6" />,
       gradient: 'from-gold-primary to-gold-secondary',
       features: [
-        { text: `10.000 ${t.pricing.features.generationsMonthly}`, highlight: true },
-        { text: t.pricing.features.resolution8k, highlight: true },
+        { text: t.pricing.future.features.unlimitedTwins, highlight: true },
+        { text: t.pricing.features.apiAccess, highlight: true },
+        { text: t.pricing.future.features.multiUser, highlight: true },
         { text: t.pricing.features.vipSupport },
-        { text: t.pricing.features.earlyAccess, highlight: true },
-        { text: t.pricing.features.premiumLibrary },
-        { text: t.pricing.features.unlimitedApi, highlight: true },
-        { text: t.pricing.features.personalizedTraining },
-        { text: t.pricing.features.oneOnOneConsulting },
+        { text: t.pricing.future.features.identityPassport },
       ],
     },
   ];
 
+  const seductionPlans: Plan[] = [
+    {
+      name: t.pricing.seduction.basic,
+      tagline: t.pricing.seduction.basicTagline,
+      price: { usd: 12, brl: 59 },
+      period: t.pricing.monthly,
+      highlightLine: t.pricing.seduction.basicHighlight,
+      icon: <Zap className="h-6 w-6" />,
+      gradient: 'from-zinc-700 to-zinc-800',
+      features: [
+        { text: t.pricing.seduction.features.oneCharacter },
+        { text: t.pricing.seduction.features.highRes, highlight: true },
+        { text: t.pricing.seduction.features.ageVerified },
+        { text: t.pricing.features.emailSupport },
+      ],
+    },
+    {
+      name: t.pricing.seduction.premium,
+      tagline: t.pricing.seduction.premiumTagline,
+      price: { usd: 24, brl: 119 },
+      period: t.pricing.monthly,
+      highlightLine: t.pricing.seduction.premiumHighlight,
+      recommended: true,
+      icon: <Heart className="h-6 w-6" />,
+      gradient: 'from-brand-glow to-brand-glow-light',
+      features: [
+        { text: t.pricing.seduction.features.threeCharacters, highlight: true },
+        { text: t.pricing.seduction.features.nailsFeet, highlight: true },
+        { text: t.pricing.seduction.features.identityPassport },
+        { text: t.pricing.features.prioritySupport },
+      ],
+    },
+    {
+      name: t.pricing.seduction.creatorStudio,
+      tagline: t.pricing.seduction.creatorStudioTagline,
+      price: { usd: 39, brl: 199 },
+      period: t.pricing.monthly,
+      highlightLine: t.pricing.seduction.creatorStudioHighlight,
+      icon: <Crown className="h-6 w-6" />,
+      gradient: 'from-gold-primary to-gold-secondary',
+      features: [
+        { text: t.pricing.seduction.features.videos, highlight: true },
+        { text: t.pricing.seduction.features.commercialUse, highlight: true },
+        { text: t.pricing.seduction.features.nailsFeet },
+        { text: t.pricing.features.vipSupport },
+        { text: t.pricing.seduction.features.identityPassport },
+      ],
+    },
+  ];
+
+  const plans = product === 'future' ? futurePlans : seductionPlans;
+
   return (
     <section className="py-24 relative overflow-hidden" id="pricing">
-      {/* Background decorativo */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-glow/10 rounded-full blur-3xl" />
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gold-primary/10 rounded-full blur-3xl" />
       </div>
 
       <div className="mx-auto max-w-7xl px-6 lg:px-8 relative z-10">
-        {/* Header */}
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
@@ -120,23 +166,52 @@ export default function PricingSection() {
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
             {t.pricing.chooseYourCreativePower}
           </h2>
-          <p className="text-xl text-zinc-400 max-w-3xl mx-auto">
+          <p className="text-xl text-zinc-400 max-w-3xl mx-auto mb-4">
             {t.pricing.flexiblePlans}
+          </p>
+          <p className="text-sm text-brand-glow/90 max-w-2xl mx-auto">
+            {t.pricing.trialNote}
           </p>
         </motion.div>
 
-        {/* Cards de Planos */}
+        {/* Product switcher — Future first */}
+        <div className="flex justify-center mb-12">
+          <div className="inline-flex p-1 rounded-full glass-effect border border-white/10 gap-1">
+            <button
+              type="button"
+              onClick={() => setProduct('future')}
+              className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all ${
+                product === 'future'
+                  ? 'bg-gradient-to-r from-brand-glow to-brand-glow-light text-white shadow-lg'
+                  : 'text-zinc-400 hover:text-white'
+              }`}
+            >
+              {t.pricing.productFuture}
+            </button>
+            <button
+              type="button"
+              onClick={() => setProduct('seduction')}
+              className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all ${
+                product === 'seduction'
+                  ? 'bg-gradient-to-r from-brand-glow to-brand-glow-light text-white shadow-lg'
+                  : 'text-zinc-400 hover:text-white'
+              }`}
+            >
+              {t.pricing.productSeduction}
+            </button>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {plans.map((plan, index) => (
             <motion.div
-              key={plan.name}
+              key={`${product}-${plan.name}`}
               className="relative"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              {/* Badge Recomendado */}
               {plan.recommended && (
                 <motion.div
                   className="absolute -top-4 left-1/2 -translate-x-1/2 z-20"
@@ -147,21 +222,20 @@ export default function PricingSection() {
                 >
                   <div className="px-4 py-1 rounded-full text-xs font-bold text-white bg-gradient-to-r from-brand-glow to-brand-glow-light shadow-lg inline-flex items-center gap-1.5">
                     <Star className="w-3.5 h-3.5 fill-current" aria-hidden />
-                    RECOMENDADO
+                    {t.pricing.recommended}
                   </div>
                 </motion.div>
               )}
 
-              {/* Card */}
               <motion.div
                 className={`
                   relative h-full glass-effect rounded-3xl p-8 border transition-all duration-300
-                  ${plan.recommended 
-                    ? 'border-brand-glow/50 md:scale-105' 
+                  ${plan.recommended
+                    ? 'border-brand-glow/50 md:scale-105'
                     : 'border-white/10 hover:border-brand-glow/30'
                   }
                 `}
-                whileHover={{ 
+                whileHover={{
                   scale: 1.02,
                   rotateY: 2,
                   rotateX: -2,
@@ -172,7 +246,6 @@ export default function PricingSection() {
                 }}
                 transition={{ duration: 0.3 }}
               >
-                {/* Luz interna para plano recomendado */}
                 {plan.recommended && (
                   <div className="absolute inset-0 rounded-3xl overflow-hidden pointer-events-none">
                     <motion.div
@@ -193,20 +266,9 @@ export default function PricingSection() {
                   </div>
                 )}
 
-                {/* Glow border effect on hover */}
-                <motion.div
-                  className="absolute -inset-0.5 rounded-3xl opacity-0 blur-xl transition-opacity duration-300"
-                  style={{
-                    background: `linear-gradient(135deg, var(--color-${plan.recommended ? 'brand-glow' : 'gold-primary'}), transparent)`,
-                  }}
-                  whileHover={{ opacity: 0.4 }}
-                />
-
-                {/* Conteúdo do Card */}
                 <div className="relative z-10">
-                  {/* Header do Plano */}
                   <div className="mb-6">
-                    <div 
+                    <div
                       className={`inline-flex p-3 rounded-2xl bg-gradient-to-br ${plan.gradient} mb-4`}
                     >
                       <div className="text-white">
@@ -221,22 +283,20 @@ export default function PricingSection() {
                     </p>
                   </div>
 
-                  {/* Preço */}
                   <div className="mb-6">
                     <div className="flex items-baseline gap-2">
                       <span className="text-5xl font-bold text-white">
-                        {plan.price}
+                        {formatSsotPrice(plan.price)}
                       </span>
                       <span className="text-zinc-400">
                         {plan.period}
                       </span>
                     </div>
                     <p className="text-sm text-brand-glow mt-2 font-medium">
-                      {plan.credits}
+                      {plan.highlightLine}
                     </p>
                   </div>
 
-                  {/* Features */}
                   <ul className="space-y-4 mb-8">
                     {plan.features.map((feature, idx) => (
                       <motion.li
@@ -247,17 +307,17 @@ export default function PricingSection() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.3, delay: idx * 0.05 }}
                       >
-                        <Check 
+                        <Check
                           className={`h-5 w-5 flex-shrink-0 mt-0.5 ${
-                            feature.highlight 
-                              ? 'text-brand-glow' 
+                            feature.highlight
+                              ? 'text-brand-glow'
                               : 'text-zinc-500'
                           }`}
                         />
-                        <span 
+                        <span
                           className={`text-sm ${
-                            feature.highlight 
-                              ? 'text-white font-medium' 
+                            feature.highlight
+                              ? 'text-white font-medium'
                               : 'text-zinc-400'
                           }`}
                         >
@@ -267,7 +327,6 @@ export default function PricingSection() {
                     ))}
                   </ul>
 
-                  {/* CTA Button */}
                   <motion.button
                     onClick={() => router.push('/cadastro')}
                     className={`
@@ -280,7 +339,7 @@ export default function PricingSection() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    Começar Agora
+                    {t.common.startNow}
                   </motion.button>
                 </div>
               </motion.div>
@@ -288,7 +347,6 @@ export default function PricingSection() {
           ))}
         </div>
 
-        {/* Footer da seção */}
         <motion.div
           className="text-center mt-16"
           initial={{ opacity: 0 }}

@@ -157,9 +157,12 @@ Implementado em `components/StructuredData.tsx`:
   "@type": "SoftwareApplication",
   "applicationCategory": "DesignApplication",
   "offers": [
-    { "price": "49.00", "name": "Plano Standard" },
-    { "price": "149.00", "name": "Plano Premium" },
-    { "price": "399.00", "name": "Plano Deluxe" }
+    { "price": "49.00", "name": "Future Individual (US$10)" },
+    { "price": "89.00", "name": "Future Profissional (US$19)" },
+    { "price": "199.00", "name": "Future Agência (US$39)" },
+    { "price": "59.00", "name": "Seduction Básico (US$12)" },
+    { "price": "119.00", "name": "Seduction Premium (US$24)" },
+    { "price": "199.00", "name": "Seduction Creator Studio (US$39)" }
   ],
   "aggregateRating": {
     "ratingValue": "4.8",
