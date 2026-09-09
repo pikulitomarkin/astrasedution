@@ -25,7 +25,7 @@ Plataforma de **identidades digitais persistentes** (Identity Passport) com orqu
 - **Frontend:** Next.js (App Router) + i18n pt/en/es
 - **API:** FastAPI (JWT, créditos, teaser Pillow, waitlist, email Resend)
 - **DB:** PostgreSQL 16
-- **Deploy:** Docker Compose + Nginx (HTTPS) na VPS
+- **Deploy canônico:** **VPS** Docker Compose + Nginx (HTTPS) — ver [`docs/DEPLOY-VPS.md`](./docs/DEPLOY-VPS.md). Vercel não é alvo de produção.
 
 ### Preços (SSOT §13)
 
