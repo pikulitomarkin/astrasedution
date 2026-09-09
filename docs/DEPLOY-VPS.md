@@ -35,3 +35,7 @@ BASE_URL=https://astrasedution.com ./deploy/smoke-fase1.sh
 - O arquivo `.env` da VPS **não** é versionado; nunca sobrescrever no pull.
 - HTTPS / www já configurados no Nginx + Let's Encrypt.
 - Após merge em `main`, preferir deploy a partir de `main`.
+
+## HTTPS
+
+Nginx usa certificados em `/etc/letsencrypt` montados no container. O `default.conf` do repo já redireciona HTTP→HTTPS e www→apex.
