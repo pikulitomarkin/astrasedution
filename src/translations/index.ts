@@ -75,30 +75,58 @@ export interface Translations {
     plansAndPrices: string;
     chooseYourCreativePower: string;
     flexiblePlans: string;
-    forBeginners: string;
-    mostPopular: string;
-    vipExperience: string;
+    trialNote: string;
+    productFuture: string;
+    productSeduction: string;
+    recommended: string;
     monthly: string;
-    creditsMonth: string;
     features: {
-      generationsMonthly: string;
-      hdResolution: string;
       emailSupport: string;
-      basicStyleLibrary: string;
-      pngExport: string;
-      ultraHdResolution: string;
       prioritySupport: string;
-      completeStyleLibrary: string;
-      multipleExportFormats: string;
       apiAccess: string;
-      watermarkRemover: string;
       vipSupport: string;
-      earlyAccess: string;
-      premiumLibrary: string;
-      unlimitedApi: string;
-      resolution8k: string;
-      personalizedTraining: string;
-      oneOnOneConsulting: string;
+    };
+    future: {
+      individual: string;
+      individualTagline: string;
+      individualHighlight: string;
+      professional: string;
+      professionalTagline: string;
+      professionalHighlight: string;
+      agency: string;
+      agencyTagline: string;
+      agencyHighlight: string;
+      features: {
+        oneTwin: string;
+        fiveTwins: string;
+        unlimitedTwins: string;
+        hdNoWatermark: string;
+        batchVideo: string;
+        voice: string;
+        multiUser: string;
+        identityPassport: string;
+      };
+    };
+    seduction: {
+      basic: string;
+      basicTagline: string;
+      basicHighlight: string;
+      premium: string;
+      premiumTagline: string;
+      premiumHighlight: string;
+      creatorStudio: string;
+      creatorStudioTagline: string;
+      creatorStudioHighlight: string;
+      features: {
+        oneCharacter: string;
+        threeCharacters: string;
+        highRes: string;
+        nailsFeet: string;
+        ageVerified: string;
+        videos: string;
+        commercialUse: string;
+        identityPassport: string;
+      };
     };
     includes: string;
     cancelAnytime: string;
@@ -124,12 +152,12 @@ const translations: Record<Language, Translations> = {
       name: 'Name',
       invalidCredentials: 'Invalid email or password',
       alreadyHaveAccount: 'Already have an account?',
-      dontHaveAccount: 'Don\'t have an account?',
+      dontHaveAccount: "Don't have an account?",
       loginHere: 'Log in here',
       signupHere: 'Sign up here',
       minimumChars: 'Minimum 6 characters',
       benefits: 'VIP Benefits',
-      freeCredits: '1,000 free generation credits',
+      freeCredits: 'Free trial with watermark (no card required)',
       highResExport: 'High resolution export',
       exclusiveStyles: 'Exclusive style library',
     },
@@ -157,7 +185,8 @@ const translations: Record<Language, Translations> = {
     },
     features: {
       exclusiveTechnology: 'Exclusive Technology',
-      discoverFeatures: 'Discover the features that make AstraFutureSeduction the most advanced AI platform on the market.',
+      discoverFeatures:
+        'Discover the features that make Astra Future and Astra Seduction the most advanced identity AI platforms on the market.',
       advancedAI: 'Advanced AI',
       advancedAIDesc: 'State-of-the-art machine learning algorithms for precise and instant results.',
       maximumSecurity: 'Maximum Security',
@@ -174,41 +203,72 @@ const translations: Record<Language, Translations> = {
     cta: {
       readyForDigitalRevolution: 'Ready for the Digital Revolution?',
       joinThousands: 'Join thousands of visionaries who are already transforming their businesses with luxury AI.',
-      getFreeCredits: 'Get 1,000 generation credits and VIP Creator access through login',
-      creditsGeneration: '1,000 generation credits • No commitment • 24/7 Support',
+      getFreeCredits:
+        'Start with a free trial — create an identity and generate tests with watermark, no credit card',
+      creditsGeneration: 'Free trial • No commitment • 24/7 Support',
       noCommitment: 'No commitment',
       support: '24/7 Support',
     },
     pricing: {
       plansAndPrices: 'PLANS AND PRICES',
       chooseYourCreativePower: 'Choose Your Creative Power',
-      flexiblePlans: 'Flexible plans for all levels. Start with Standard and scale as your creativity grows.',
-      forBeginners: 'For Beginners',
-      mostPopular: 'Most Popular',
-      vipExperience: 'VIP Experience',
+      flexiblePlans:
+        'Two products, one engine. Astra Future first (digital twins vs HeyGen); Astra Seduction for adult synthetic realism.',
+      trialNote:
+        'Free trial on both lines: no card — watermarked tests before you pay. Seduction requires 18+ verification.',
+      productFuture: 'Astra Future',
+      productSeduction: 'Astra Seduction',
+      recommended: 'RECOMMENDED',
       monthly: '/month',
-      creditsMonth: 'credits/month',
       features: {
-        generationsMonthly: 'generations monthly',
-        hdResolution: 'HD Resolution (1080p)',
         emailSupport: 'Email support',
-        basicStyleLibrary: 'Basic style library',
-        pngExport: 'PNG export',
-        ultraHdResolution: 'Ultra HD Resolution (4K)',
         prioritySupport: 'Priority support 24/7',
-        completeStyleLibrary: 'Complete style library',
-        multipleExportFormats: 'Export in PNG, JPEG, WebP',
         apiAccess: 'API access',
-        watermarkRemover: 'Watermark remover',
         vipSupport: 'VIP dedicated support',
-        earlyAccess: 'Early access to new features',
-        premiumLibrary: 'Premium exclusive library',
-        unlimitedApi: 'Unlimited API',
-        resolution8k: 'Resolução 8K',
-        personalizedTraining: 'Personalized AI training',
-        oneOnOneConsulting: '1-on-1 consulting',
       },
-      includes: 'All plans include end-to-end encryption and specialized technical support',
+      future: {
+        individual: 'Individual',
+        individualTagline: 'Entry twin for creators',
+        individualHighlight: '1 Twin · HD · no watermark',
+        professional: 'Professional',
+        professionalTagline: 'Most popular for teams',
+        professionalHighlight: '5 Twins · batch video · voice',
+        agency: 'Agency / Corp',
+        agencyTagline: 'Scale without limits',
+        agencyHighlight: 'Unlimited twins · API · multi-user',
+        features: {
+          oneTwin: '1 digital twin',
+          fiveTwins: '5 digital twins',
+          unlimitedTwins: 'Unlimited twins',
+          hdNoWatermark: 'HD without watermark',
+          batchVideo: 'Batch video generation',
+          voice: 'Voice / lip-sync ready',
+          multiUser: 'Multi-user seats',
+          identityPassport: 'Identity Passport',
+        },
+      },
+      seduction: {
+        basic: 'Basic',
+        basicTagline: 'Start with one character',
+        basicHighlight: '1 character · high resolution',
+        premium: 'Premium',
+        premiumTagline: 'Nails & feet advanced',
+        premiumHighlight: '3 characters · detail control',
+        creatorStudio: 'Creator Studio',
+        creatorStudioTagline: 'Commercial video output',
+        creatorStudioHighlight: 'Videos · commercial use',
+        features: {
+          oneCharacter: '1 persistent character',
+          threeCharacters: '3 persistent characters',
+          highRes: 'High resolution output',
+          nailsFeet: 'Advanced nails & feet control',
+          ageVerified: '18+ verified access',
+          videos: 'Video generation',
+          commercialUse: 'Commercial use license',
+          identityPassport: 'Identity Passport',
+        },
+      },
+      includes: 'All plans include encryption, audit logs roadmap and specialized technical support',
       cancelAnytime: 'Cancel anytime • No hidden fees • Secure payment',
       noHiddenFees: 'No hidden fees',
       securePayment: 'Secure payment',
@@ -235,7 +295,7 @@ const translations: Record<Language, Translations> = {
       signupHere: 'Cadastre-se aqui',
       minimumChars: 'Mínimo 6 caracteres',
       benefits: 'Benefícios VIP',
-      freeCredits: '1.000 créditos de geração gratuitos',
+      freeCredits: 'Free trial com marca d\'água (sem cartão)',
       highResExport: 'Exportação em alta resolução',
       exclusiveStyles: 'Biblioteca exclusiva de estilos',
     },
@@ -263,14 +323,15 @@ const translations: Record<Language, Translations> = {
     },
     features: {
       exclusiveTechnology: 'Tecnologia Exclusiva',
-      discoverFeatures: 'Descubra os recursos que fazem da AstraFutureSeduction a plataforma de IA mais avançada do mercado.',
+      discoverFeatures:
+        'Descubra os recursos que fazem da Astra Future e da Astra Seduction as plataformas de identidade com IA mais avançadas do mercado.',
       advancedAI: 'IA Avançada',
       advancedAIDesc: 'Algoritmos de machine learning de última geração para resultados precisos e instantâneos.',
       maximumSecurity: 'Segurança Máxima',
       maximumSecurityDesc: 'Criptografia de ponta a ponta e protocolos de segurança empresariais.',
       premiumDesign: 'Design Premium',
       premiumDesignDesc: 'Interface ciber-luxo com elementos de glassmorphism e animações fluidas.',
-      globalScale: 'Global Scale',
+      globalScale: 'Escala Global',
       globalScaleDesc: 'Infraestrutura distribuída globalmente para latência mínima e alta disponibilidade.',
       performance: 'Performance',
       performanceDesc: 'Processamento em tempo real com otimização para dispositivos de alta performance.',
@@ -280,42 +341,72 @@ const translations: Record<Language, Translations> = {
     cta: {
       readyForDigitalRevolution: 'Pronto para a Revolução Digital?',
       joinThousands: 'Junte-se a milhares de visionários que já estão transformando seus negócios com IA de luxo.',
-      getFreeCredits: 'Obtenha 1.000 créditos de geração e acesso ao Criador VIP através do login',
-      creditsGeneration: '1.000 créditos de geração • Sem compromisso • Suporte 24/7',
+      getFreeCredits:
+        'Comece com free trial — crie uma identidade e gere testes com marca d\'água, sem cartão',
+      creditsGeneration: 'Free trial • Sem compromisso • Suporte 24/7',
       noCommitment: 'Sem compromisso',
       support: 'Suporte 24/7',
     },
     pricing: {
       plansAndPrices: 'PLANOS E PREÇOS',
       chooseYourCreativePower: 'Escolha Seu Poder Criativo',
-      flexiblePlans: 'Planos flexíveis para todos os níveis. Comece com o Standard e escale conforme sua criatividade cresce.',
-      forBeginners: 'Para Iniciantes',
-      mostPopular: 'Mais Popular',
-      vipExperience: 'Experiência VIP',
+      flexiblePlans:
+        'Dois produtos, um motor. Astra Future em prioridade (digital twins vs HeyGen); Astra Seduction para realismo adulto sintético.',
+      trialNote:
+        'Free trial nas duas linhas: sem cartão — testes com marca d\'água antes de pagar. Seduction exige verificação +18.',
+      productFuture: 'Astra Future',
+      productSeduction: 'Astra Seduction',
+      recommended: 'RECOMENDADO',
       monthly: '/mês',
-      creditsMonth: 'créditos/mês',
       features: {
-        generationsMonthly: 'gerações mensais',
-        hdResolution: 'Resolução HD (1080p)',
         emailSupport: 'Suporte por email',
-        basicStyleLibrary: 'Biblioteca básica de estilos',
-        pngExport: 'Exportação em PNG',
-        ultraHdResolution: 'Resolução Ultra HD (4K)',
         prioritySupport: 'Suporte prioritário 24/7',
-        completeStyleLibrary: 'Biblioteca completa de estilos',
-        multipleExportFormats: 'Exportação em PNG, JPEG, WebP',
-        apiAccess: 'API access',
-        watermarkRemover: 'Removedor de marca d\'água',
+        apiAccess: 'Acesso à API',
         vipSupport: 'Suporte VIP dedicado',
-        earlyAccess: 'Acesso antecipado a novos recursos',
-        premiumLibrary: 'Biblioteca premium exclusiva',
-        unlimitedApi: 'API ilimitada',
-
-        resolution8k: '8K Resolution',
-        personalizedTraining: 'Treinamento personalizado de IA',
-        oneOnOneConsulting: 'Consultoria 1-on-1',
       },
-      includes: 'Todos os planos incluem criptografia de ponta a ponta e suporte técnico especializado',
+      future: {
+        individual: 'Individual',
+        individualTagline: 'Twin de entrada para criadores',
+        individualHighlight: '1 Twin · HD · sem marca d\'água',
+        professional: 'Profissional',
+        professionalTagline: 'Mais popular para times',
+        professionalHighlight: '5 Twins · vídeo em lote · voz',
+        agency: 'Agência / Corp',
+        agencyTagline: 'Escala sem limites',
+        agencyHighlight: 'Twins ilimitados · API · multi-usuário',
+        features: {
+          oneTwin: '1 digital twin',
+          fiveTwins: '5 digital twins',
+          unlimitedTwins: 'Twins ilimitados',
+          hdNoWatermark: 'HD sem marca d\'água',
+          batchVideo: 'Geração de vídeo em lote',
+          voice: 'Voz / lip-sync',
+          multiUser: 'Assentos multi-usuário',
+          identityPassport: 'Identity Passport',
+        },
+      },
+      seduction: {
+        basic: 'Básico',
+        basicTagline: 'Comece com uma personagem',
+        basicHighlight: '1 personagem · alta resolução',
+        premium: 'Premium',
+        premiumTagline: 'Unhas e pés avançados',
+        premiumHighlight: '3 personagens · controle de detalhes',
+        creatorStudio: 'Creator Studio',
+        creatorStudioTagline: 'Vídeo com uso comercial',
+        creatorStudioHighlight: 'Vídeos · uso comercial',
+        features: {
+          oneCharacter: '1 personagem persistente',
+          threeCharacters: '3 personagens persistentes',
+          highRes: 'Saída em alta resolução',
+          nailsFeet: 'Controle avançado de unhas e pés',
+          ageVerified: 'Acesso verificado +18',
+          videos: 'Geração de vídeo',
+          commercialUse: 'Licença de uso comercial',
+          identityPassport: 'Identity Passport',
+        },
+      },
+      includes: 'Todos os planos incluem criptografia, roadmap de logs de auditoria e suporte técnico especializado',
       cancelAnytime: 'Cancele a qualquer momento • Sem taxas ocultas • Pagamento seguro',
       noHiddenFees: 'Sem taxas ocultas',
       securePayment: 'Pagamento seguro',
@@ -342,7 +433,7 @@ const translations: Record<Language, Translations> = {
       signupHere: 'Regístrate aquí',
       minimumChars: 'Mínimo 6 caracteres',
       benefits: 'Beneficios VIP',
-      freeCredits: '1,000 créditos de generación gratuitos',
+      freeCredits: 'Free trial con marca de agua (sin tarjeta)',
       highResExport: 'Exportación en alta resolución',
       exclusiveStyles: 'Biblioteca exclusiva de estilos',
     },
@@ -370,7 +461,8 @@ const translations: Record<Language, Translations> = {
     },
     features: {
       exclusiveTechnology: 'Tecnología Exclusiva',
-      discoverFeatures: 'Descubre las características que hacen de AstraFutureSeduction la plataforma de IA más avanzada del mercado.',
+      discoverFeatures:
+        'Descubre las características que hacen de Astra Future y Astra Seduction las plataformas de identidad con IA más avanzadas del mercado.',
       advancedAI: 'IA Avanzada',
       advancedAIDesc: 'Algoritmos de aprendizaje automático de última generación para resultados precisos e instantáneos.',
       maximumSecurity: 'Seguridad Máxima',
@@ -387,41 +479,72 @@ const translations: Record<Language, Translations> = {
     cta: {
       readyForDigitalRevolution: '¿Listo para la Revolución Digital?',
       joinThousands: 'Únete a miles de visionarios que ya están transformando sus negocios con IA de lujo.',
-      getFreeCredits: 'Obtén 1,000 créditos de generación y acceso VIP al Creador mediante inicio de sesión',
-      creditsGeneration: '1,000 créditos de generación • Sin compromiso • Soporte 24/7',
+      getFreeCredits:
+        'Empieza con free trial — crea una identidad y genera pruebas con marca de agua, sin tarjeta',
+      creditsGeneration: 'Free trial • Sin compromiso • Soporte 24/7',
       noCommitment: 'Sin compromiso',
       support: 'Soporte 24/7',
     },
     pricing: {
       plansAndPrices: 'PLANES Y PRECIOS',
       chooseYourCreativePower: 'Elige Tu Poder Creativo',
-      flexiblePlans: 'Planes flexibles para todos los niveles. Comienza con Standard y escala a medida que crece tu creatividad.',
-      forBeginners: 'Para Principiantes',
-      mostPopular: 'Más Popular',
-      vipExperience: 'Experiencia VIP',
+      flexiblePlans:
+        'Dos productos, un motor. Astra Future primero (digital twins vs HeyGen); Astra Seduction para realismo adulto sintético.',
+      trialNote:
+        'Free trial en ambas líneas: sin tarjeta — pruebas con marca de agua antes de pagar. Seduction requiere verificación +18.',
+      productFuture: 'Astra Future',
+      productSeduction: 'Astra Seduction',
+      recommended: 'RECOMENDADO',
       monthly: '/mes',
-      creditsMonth: 'créditos/mes',
       features: {
-        generationsMonthly: 'generaciones mensuales',
-        hdResolution: 'Resolución HD (1080p)',
         emailSupport: 'Soporte por correo',
-        basicStyleLibrary: 'Biblioteca básica de estilos',
-        pngExport: 'Exportación en PNG',
-        ultraHdResolution: 'Resolución Ultra HD (4K)',
         prioritySupport: 'Soporte prioritario 24/7',
-        completeStyleLibrary: 'Biblioteca completa de estilos',
-        multipleExportFormats: 'Exportación en PNG, JPEG, WebP',
         apiAccess: 'Acceso API',
-        watermarkRemover: 'Removedor de marca de agua',
         vipSupport: 'Soporte VIP dedicado',
-        earlyAccess: 'Acceso anticipado a nuevas funciones',
-        premiumLibrary: 'Biblioteca premium exclusiva',
-        unlimitedApi: 'API ilimitada',
-        resolution8k: 'Resolução 8K',
-        personalizedTraining: 'Entrenamiento personalizado de IA',
-        oneOnOneConsulting: 'Consultoría 1 a 1',
       },
-      includes: 'Todos los planes incluyen cifrado de extremo a extremo y soporte técnico especializado',
+      future: {
+        individual: 'Individual',
+        individualTagline: 'Twin de entrada para creadores',
+        individualHighlight: '1 Twin · HD · sin marca de agua',
+        professional: 'Profesional',
+        professionalTagline: 'Más popular para equipos',
+        professionalHighlight: '5 Twins · video en lote · voz',
+        agency: 'Agencia / Corp',
+        agencyTagline: 'Escala sin límites',
+        agencyHighlight: 'Twins ilimitados · API · multi-usuario',
+        features: {
+          oneTwin: '1 digital twin',
+          fiveTwins: '5 digital twins',
+          unlimitedTwins: 'Twins ilimitados',
+          hdNoWatermark: 'HD sin marca de agua',
+          batchVideo: 'Generación de video en lote',
+          voice: 'Voz / lip-sync',
+          multiUser: 'Asientos multi-usuario',
+          identityPassport: 'Identity Passport',
+        },
+      },
+      seduction: {
+        basic: 'Básico',
+        basicTagline: 'Empieza con un personaje',
+        basicHighlight: '1 personaje · alta resolución',
+        premium: 'Premium',
+        premiumTagline: 'Uñas y pies avanzados',
+        premiumHighlight: '3 personajes · control de detalle',
+        creatorStudio: 'Creator Studio',
+        creatorStudioTagline: 'Video con uso comercial',
+        creatorStudioHighlight: 'Videos · uso comercial',
+        features: {
+          oneCharacter: '1 personaje persistente',
+          threeCharacters: '3 personajes persistentes',
+          highRes: 'Salida en alta resolución',
+          nailsFeet: 'Control avanzado de uñas y pies',
+          ageVerified: 'Acceso verificado +18',
+          videos: 'Generación de video',
+          commercialUse: 'Licencia de uso comercial',
+          identityPassport: 'Identity Passport',
+        },
+      },
+      includes: 'Todos los planes incluyen cifrado, roadmap de logs de auditoría y soporte técnico especializado',
       cancelAnytime: 'Cancela en cualquier momento • Sin tarifas ocultas • Pago seguro',
       noHiddenFees: 'Sin tarifas ocultas',
       securePayment: 'Pago seguro',

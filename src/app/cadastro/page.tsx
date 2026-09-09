@@ -212,7 +212,7 @@ export default function CadastroPage() {
                 </li>
                 <li className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-gold-primary rounded-full"></div>
-                  1.000 créditos de geração gratuitos
+                  Free trial com marca d&apos;água (sem cartão)
                 </li>
                 <li className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-gold-primary rounded-full"></div>
