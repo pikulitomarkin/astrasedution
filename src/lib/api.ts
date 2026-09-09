@@ -264,18 +264,27 @@ export function generateTeaser(
     product_line?: string;
   } = {}
 ) {
+  const body: Record<string, unknown> = {
+    style: options.style ?? "solo_lifestyle",
+    variant: options.variant ?? "front_neutral",
+    reference_is_real_photo: false,
+    has_real_person_consent: false,
+  };
+  if (options.identity_id) {
+    body.identity_id = options.identity_id;
+  }
+  // Sem passport: Future-first. Com passport: respeitar product_line informado ou omitir
+  // para o backend herdar do Identity Passport.
+  if (options.product_line) {
+    body.product_line = options.product_line;
+  } else if (!options.identity_id) {
+    body.product_line = "future";
+  }
   return apiRequest<TeaserGenerateResponse>(
     "/generate/teaser",
     {
       method: "POST",
-      body: JSON.stringify({
-        style: options.style ?? "solo_lifestyle",
-        identity_id: options.identity_id,
-        variant: options.variant ?? "front_neutral",
-        product_line: options.product_line ?? "future",
-        reference_is_real_photo: false,
-        has_real_person_consent: false,
-      }),
+      body: JSON.stringify(body),
     },
     accessToken
   );
@@ -287,6 +296,14 @@ export function fetchGenerations(accessToken: string) {
 
 export function listIdentities(accessToken: string) {
   return apiRequest<IdentityPassport[]>("/identities", { method: "GET" }, accessToken);
+}
+
+export function getIdentity(accessToken: string, identityId: string) {
+  return apiRequest<IdentityPassport>(
+    `/identities/${identityId}`,
+    { method: "GET" },
+    accessToken
+  );
 }
 
 export function createIdentity(
@@ -317,6 +334,36 @@ export function createIdentity(
     },
     accessToken
   );
+}
+
+export function updateIdentity(
+  accessToken: string,
+  identityId: string,
+  payload: {
+    name?: string;
+    tier?: string;
+    attributes?: Record<string, unknown>;
+    apparent_age?: number;
+  }
+) {
+  return apiRequest<IdentityPassport>(
+    `/identities/${identityId}`,
+    {
+      method: "PATCH",
+      body: JSON.stringify(payload),
+    },
+    accessToken
+  );
+}
+
+export async function deleteIdentity(accessToken: string, identityId: string) {
+  const response = await fetch(`${API_BASE}/identities/${identityId}`, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+  if (!response.ok && response.status !== 204) {
+    throw new Error(await parseError(response));
+  }
 }
 
 export function runConsistencyBattery(

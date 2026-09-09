@@ -55,12 +55,41 @@ def build_prompt(
 ) -> str:
     age = attributes.get("apparent_age") or attributes.get("age") or 25
     ethnicity = attributes.get("ethnicity") or attributes.get("skin_tone") or "mixed"
-    hair = attributes.get("hair") or attributes.get("hair_style") or "natural"
+    if isinstance(ethnicity, (int, float)):
+        # wizard legado enviava 0–100; mapear para rótulo
+        score = float(ethnicity)
+        ethnicity = (
+            "fair" if score < 25 else "light" if score < 50 else "medium" if score < 75 else "deep"
+        )
+    hair = attributes.get("hair") or attributes.get("hair_style")
+    if not hair:
+        length = attributes.get("hair_length") or attributes.get("hair-length")
+        if isinstance(length, (int, float)):
+            hair = (
+                "short"
+                if length < 25
+                else "medium"
+                if length < 50
+                else "long"
+                if length < 75
+                else "very long"
+            )
+        else:
+            hair = "natural"
+    height = attributes.get("height_cm") or attributes.get("height")
+    makeup = attributes.get("makeup_intensity") or attributes.get("makeup-intensity")
+    nails = attributes.get("nail_art") or attributes.get("nail-art")
     extras = attributes.get("notes") or ""
     base = (
         f"photorealistic {product_line} digital twin, consistent identity seed {seed[:12]}, "
         f"apparent age {age}, {ethnicity} skin, {hair} hair, style={style}, variant={variant}"
     )
+    if height:
+        base += f", height {height}cm"
+    if makeup is not None:
+        base += f", makeup intensity {makeup}"
+    if nails is not None:
+        base += f", nail detail {nails}"
     if product_line == "future":
         base += ", professional corporate avatar, HeyGen-quality talking-head ready, clean background"
     else:
@@ -72,6 +101,13 @@ def build_prompt(
 
 def _prompt_hash(prompt: str) -> str:
     return hashlib.sha256(prompt.encode("utf-8")).hexdigest()[:32]
+
+
+def _seed_to_int(seed: str) -> int:
+    try:
+        return int(seed[:8], 16) % (2**31 - 1)
+    except ValueError:
+        return abs(hash(seed)) % (2**31 - 1)
 
 
 def _run_identity_canvas(
@@ -113,6 +149,7 @@ def _run_fal(
     *,
     output_path: Path,
     prompt: str,
+    seed: str,
 ) -> GenerationResult:
     if not settings.fal_api_key.strip():
         raise RuntimeError("FAL_KEY não configurada")
@@ -124,11 +161,18 @@ def _run_fal(
     }
     model = settings.fal_model_id
     url = f"https://fal.run/{model}"
+    seed_int = _seed_to_int(seed)
     with httpx.Client(timeout=settings.astra_image_timeout_seconds) as client:
         response = client.post(
             url,
             headers=headers,
-            json={"prompt": prompt, "image_size": "portrait_4_3"},
+            json={
+                "prompt": prompt,
+                "image_size": "portrait_4_3",
+                "seed": seed_int,
+                "num_inference_steps": 28,
+                "enable_safety_checker": True,
+            },
         )
         response.raise_for_status()
         payload = response.json()
@@ -178,7 +222,7 @@ def generate_image(
 
     try:
         if provider == "fal":
-            return _run_fal(settings, output_path=output_path, prompt=prompt)
+            return _run_fal(settings, output_path=output_path, prompt=prompt, seed=seed)
         if provider == "replicate":
             raise RuntimeError(
                 "Provedor replicate ainda não ativado neste ambiente — use fal ou identity_canvas"

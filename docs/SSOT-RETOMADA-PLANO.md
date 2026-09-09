@@ -72,18 +72,18 @@ Regra: preço de venda **nunca** abaixo do custo variável.
 | Header logado: manequim de perfil | ✅ |
 | Landing pricing alinhada às tabelas Future/Seduction | ✅ (este PR) |
 
-### Lacunas críticas (Fase 2+)
+### Lacunas críticas (pós–código Fase 2)
 
 | Lacuna | Impacto |
 |--------|---------|
-| Geração ainda é **stub Pillow** | Sem prova de viabilidade |
-| Sem **Identity Passport** / seed persistente | Sem consistência |
-| Sem produtos Future e Seduction separados | Arquitetura de produto incompleta |
-| Sem **Cérebro Astra** (roteamento de modelos) | Sem custo/qualidade competitivos |
-| Sem pipeline anti-deepfake completo | Fora do Gate 1 |
-| Wizard não grava Identity no backend | Customização cosmética |
+| Sem `FAL_KEY` em produção | Qualidade fotorealista off — só prova `identity_canvas` |
+| Benchmark HeyGen + avaliação §11 humana | Gate 1 formal ainda aberto |
+| Vídeo nicho ~1:30 com custo/tempo | Critério SSOT humano pendente |
+| Produtos Future e Seduction no mesmo domínio | Isolamento CNPJ/pagamento pós–Gate 1 |
 | Sem gateway real (Stripe Future / adult processors Seduction) | Monetização stub até Fase 12 |
 | Free trial SSOT (15 imgs / 1 vídeo) ≠ créditos atuais | Alinhar na monetização (Fase 12) |
+
+> **Já entregue no código (Fase 2 em andamento):** Identity Passport, Cérebro Astra (`identity_canvas` + `fal` opcional), anti-deepfake/anti-juvenil, bateria de consistência, wizard → passport.
 
 ---
 

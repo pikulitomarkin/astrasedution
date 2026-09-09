@@ -113,6 +113,11 @@ class Settings(BaseSettings):
         default=12,
         validation_alias="CONSISTENCY_BATTERY_MAX_VARIANTS",
     )
+    # Gate 1: 1 crédito cobre a bateria inteira (Free tem 3 — prova sem bloquear o plano).
+    consistency_battery_credit_cost: int = Field(
+        default=1,
+        validation_alias="CONSISTENCY_BATTERY_CREDIT_COST",
+    )
 
 
 @lru_cache

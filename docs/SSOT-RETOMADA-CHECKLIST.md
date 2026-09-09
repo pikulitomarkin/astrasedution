@@ -44,4 +44,8 @@ Prova de viabilidade técnica: identidade persistente, bateria de testes, custo/
 - [x] Cérebro Astra + identity_canvas
 - [x] Anti-deepfake gates
 - [x] Bateria de consistência
+- [x] Wizard → passport + mapeamento de atributos
+- [x] Dashboard: seletor + bateria + flash Gate 1
 - [ ] Benchmark HeyGen + avaliação §11 humana
+- [ ] Vídeo nicho ~1:30 (custo/tempo)
+- [ ] Decisão Gate 1 (assinaturas)

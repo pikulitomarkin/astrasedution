@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
@@ -13,6 +13,7 @@ import {
   Wand2,
   ImageIcon,
   Loader2,
+  FlaskConical,
 } from 'lucide-react';
 import { Header } from '@/components';
 import { useAuth } from '@/contexts/AuthContext';
@@ -22,10 +23,13 @@ import {
   fetchGenerationImageBlob,
   generateTeaser,
   listIdentities,
+  runConsistencyBattery,
   type CreditsInfo,
   type GenerationItem,
   type IdentityPassport,
 } from '@/lib/api';
+
+const PHASE2_FLASH_KEY = 'astra_fase2_flash';
 
 const TEASER_STYLES = [
   { id: 'solo_lifestyle', label: 'Lifestyle solo' },
@@ -84,8 +88,16 @@ function GenerationCard({
           </span>
         )}
       </div>
-      <div className="p-3">
+      <div className="p-3 space-y-1">
         <p className="text-sm text-white capitalize">{item.style.replace(/_/g, ' ')}</p>
+        {item.variant && (
+          <p className="text-xs text-brand-glow/90">{item.variant}</p>
+        )}
+        <p className="text-xs text-zinc-500">
+          {[item.provider, item.model_id].filter(Boolean).join(' · ') || '—'}
+          {typeof item.latency_ms === 'number' ? ` · ${item.latency_ms}ms` : ''}
+          {typeof item.cost_usd_cents === 'number' ? ` · ${item.cost_usd_cents}¢` : ''}
+        </p>
         <p className="text-xs text-zinc-500 mt-0.5">
           {new Date(item.created_at).toLocaleString('pt-BR')}
         </p>
@@ -103,8 +115,15 @@ export default function DashboardPage() {
   const [selectedIdentityId, setSelectedIdentityId] = useState<string>('');
   const [selectedStyle, setSelectedStyle] = useState<string>('solo_lifestyle');
   const [generating, setGenerating] = useState(false);
+  const [batteryRunning, setBatteryRunning] = useState(false);
   const [genError, setGenError] = useState<string | null>(null);
+  const [flash, setFlash] = useState<string | null>(null);
   const [loadingGallery, setLoadingGallery] = useState(true);
+
+  const selectedIdentity = useMemo(
+    () => identities.find((i) => i.id === selectedIdentityId) ?? null,
+    [identities, selectedIdentityId]
+  );
 
   const loadCredits = useCallback(async () => {
     if (!accessToken) return;
@@ -134,13 +153,11 @@ export default function DashboardPage() {
     try {
       const items = await listIdentities(accessToken);
       setIdentities(items);
-      if (items.length && !selectedIdentityId) {
-        setSelectedIdentityId(items[0].id);
-      }
+      setSelectedIdentityId((prev) => prev || (items[0]?.id ?? ''));
     } catch {
       setIdentities([]);
     }
-  }, [accessToken, selectedIdentityId]);
+  }, [accessToken]);
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -154,6 +171,19 @@ export default function DashboardPage() {
     loadIdentities();
   }, [loadCredits, loadGenerations, loadIdentities]);
 
+  useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem(PHASE2_FLASH_KEY);
+      if (!raw) return;
+      sessionStorage.removeItem(PHASE2_FLASH_KEY);
+      const parsed = JSON.parse(raw) as { message?: string; identityId?: string };
+      if (parsed.message) setFlash(parsed.message);
+      if (parsed.identityId) setSelectedIdentityId(parsed.identityId);
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
   const handleGenerate = async () => {
     if (!accessToken || generating) return;
     setGenerating(true);
@@ -161,7 +191,7 @@ export default function DashboardPage() {
     try {
       const result = await generateTeaser(accessToken, {
         style: selectedStyle,
-        product_line: 'future',
+        product_line: selectedIdentity?.product_line,
         identity_id: selectedIdentityId || undefined,
       });
       setGenerations((prev) => [result.generation, ...prev]);
@@ -179,6 +209,28 @@ export default function DashboardPage() {
     }
   };
 
+  const handleBattery = async () => {
+    if (!accessToken || !selectedIdentityId || batteryRunning) return;
+    setBatteryRunning(true);
+    setGenError(null);
+    try {
+      const battery = await runConsistencyBattery(accessToken, selectedIdentityId, 12);
+      setFlash(
+        `Bateria Gate 1: ${battery.success_count}/${battery.variant_count} ok · falha ${(battery.failure_rate * 100).toFixed(0)}% · ${battery.total_latency_ms}ms · ${battery.total_cost_usd_cents}¢`
+      );
+      setCreditsInfo((prev) =>
+        prev ? { ...prev, credits: battery.credits_remaining } : prev
+      );
+      await refreshProfile();
+      await loadCredits();
+      await loadGenerations();
+    } catch (err) {
+      setGenError(err instanceof Error ? err.message : 'Falha na bateria de consistência');
+    } finally {
+      setBatteryRunning(false);
+    }
+  };
+
   if (status === 'loading' || !user) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-black">
@@ -191,6 +243,7 @@ export default function DashboardPage() {
   const planLabel = (creditsInfo?.plan ?? user.plan).toUpperCase();
   const maxFree = creditsInfo?.max_free_credits ?? 3;
   const canGenerate = user.email_verified && credits > 0;
+  const canBattery = user.email_verified && !!selectedIdentityId && credits > 0;
 
   return (
     <div className="min-h-screen bg-black">
@@ -215,28 +268,50 @@ export default function DashboardPage() {
             <p className="text-zinc-400 mt-2">
               Fase 2 · Future-first: gere com Identity Passport (consistência) ou teaser livre.
             </p>
+            {flash && (
+              <p className="mt-3 text-sm text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded-lg px-3 py-2">
+                {flash}
+              </p>
+            )}
           </motion.div>
 
-          {identities.length > 0 && (
-            <div className="mb-6 glass-panel border border-white/10 rounded-xl p-4">
-              <label className="block text-sm text-zinc-400 mb-2">Identity Passport (Future)</label>
-              <select
-                value={selectedIdentityId}
-                onChange={(e) => setSelectedIdentityId(e.target.value)}
-                className="w-full bg-black/50 border border-white/15 rounded-lg px-3 py-2 text-white"
+          <div className="mb-6 glass-panel border border-white/10 rounded-xl p-4">
+            <label className="block text-sm text-zinc-400 mb-2">Identity Passport</label>
+            <select
+              value={selectedIdentityId}
+              onChange={(e) => setSelectedIdentityId(e.target.value)}
+              className="w-full bg-black/50 border border-white/15 rounded-lg px-3 py-2 text-white"
+            >
+              <option value="">Teaser sem passport</option>
+              {identities.map((identity) => (
+                <option key={identity.id} value={identity.id}>
+                  {identity.name} · {identity.product_line} · {identity.tier} · {identity.apparent_age}a
+                </option>
+              ))}
+            </select>
+            <div className="mt-3 flex flex-wrap items-center gap-3">
+              <button
+                type="button"
+                onClick={handleBattery}
+                disabled={!canBattery || batteryRunning}
+                className="inline-flex items-center gap-2 border border-brand-glow/40 text-brand-glow text-sm font-medium px-4 py-2 rounded-lg hover:bg-brand-glow/10 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <option value="">Teaser sem passport</option>
-                {identities.map((identity) => (
-                  <option key={identity.id} value={identity.id}>
-                    {identity.name} · {identity.product_line} · {identity.tier}
-                  </option>
-                ))}
-              </select>
-              <p className="text-xs text-zinc-500 mt-2">
-                Crie passports em <Link href="/create" className="text-brand-glow underline">/create</Link>.
+                {batteryRunning ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <FlaskConical className="w-4 h-4" />
+                )}
+                Rodar bateria Gate 1 (1 crédito)
+              </button>
+              <p className="text-xs text-zinc-500">
+                Crie passports em{' '}
+                <Link href="/create" className="text-brand-glow underline">
+                  /create
+                </Link>
+                .
               </p>
             </div>
-          )}
+          </div>
 
           {!user.email_verified && (
             <motion.div
@@ -319,7 +394,7 @@ export default function DashboardPage() {
               </p>
               <p className="text-sm text-zinc-400 mt-2">
                 {user.email_verified
-                  ? `${generations.length} geração(ões) criada(s)`
+                  ? `${generations.length} geração(ões) · ${identities.length} passport(s)`
                   : 'Aguardando confirmação de email'}
               </p>
             </motion.div>
@@ -337,11 +412,12 @@ export default function DashboardPage() {
               </div>
               <div className="flex-1">
                 <h2 className="text-2xl font-bold text-white font-playfair mb-2">
-                  Gerar teaser watermarked
+                  Gerar com Cérebro Astra
                 </h2>
                 <p className="text-zinc-400 mb-6 max-w-xl">
-                  Cada geração consome 1 crédito e produz uma imagem placeholder com marca
-                  d&apos;água &quot;Astra Free&quot;. Motor Flux real chega na Fase 2.
+                  Cada teaser consome 1 crédito. Com Identity Passport, o Cérebro Astra
+                  mantém seed/atributos consistentes (provider padrão: identity_canvas;
+                  Flux/FAL opcional via FAL_KEY).
                 </p>
 
                 <div className="flex flex-wrap gap-2 mb-6">
@@ -418,7 +494,7 @@ export default function DashboardPage() {
             ) : generations.length === 0 ? (
               <div className="glass-panel border border-dashed border-zinc-700 rounded-2xl p-12 text-center">
                 <p className="text-zinc-500">
-                  Nenhuma imagem ainda. Gere sua primeira teaser acima.
+                  Nenhuma imagem ainda. Gere sua primeira teaser acima ou rode a bateria Gate 1.
                 </p>
               </div>
             ) : (

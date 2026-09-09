@@ -177,19 +177,42 @@ def update_identity(
     if identity is None or identity.user_id != current_user.id or not identity.is_active:
         raise HTTPException(status_code=404, detail="Identity Passport não encontrado")
 
+    next_name = payload.name.strip() if payload.name is not None else identity.name
+    next_attrs = (
+        payload.attributes
+        if payload.attributes is not None
+        else _parse_attrs(identity.attributes_json)
+    )
+    next_age = (
+        payload.apparent_age
+        if payload.apparent_age is not None
+        else identity.apparent_age
+    )
+
+    attrs_text = json.dumps(next_attrs, ensure_ascii=False)
+    verdict = evaluate_identity_create(
+        db,
+        user_id=current_user.id,
+        apparent_age=next_age,
+        consent_synthetic_only=identity.consent_synthetic_only,
+        consent_no_real_person=identity.consent_no_real_person,
+        attributes_text=f"{next_name} {attrs_text}",
+    )
+    if not verdict.allowed:
+        db.commit()
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=verdict.detail)
+
     if payload.name is not None:
-        identity.name = payload.name.strip()
+        identity.name = next_name
     if payload.tier is not None:
         tier = payload.tier.lower().strip()
         if tier not in {"permanente", "preferencial", "variavel", "experimental"}:
             raise HTTPException(status_code=400, detail="tier inválido")
         identity.tier = tier
     if payload.attributes is not None:
-        identity.attributes_json = json.dumps(payload.attributes, ensure_ascii=False)
+        identity.attributes_json = attrs_text
     if payload.apparent_age is not None:
-        if payload.apparent_age < 18:
-            raise HTTPException(status_code=422, detail="Idade aparente mínima: 18")
-        identity.apparent_age = payload.apparent_age
+        identity.apparent_age = next_age
 
     db.commit()
     db.refresh(identity)
@@ -238,7 +261,7 @@ def run_consistency_battery(
         len(CONSISTENCY_VARIANTS),
     )
     variants = CONSISTENCY_VARIANTS[:max_variants]
-    credit_cost = max(1, len(variants) // 2)  # bateria custa metade arredondada (mín. 1)
+    credit_cost = max(1, settings.consistency_battery_credit_cost)
     if current_user.credits < credit_cost:
         raise HTTPException(
             status_code=status.HTTP_402_PAYMENT_REQUIRED,

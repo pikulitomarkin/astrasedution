@@ -61,11 +61,13 @@ Sem chave, o sistema faz fallback automático para `identity_canvas` e registra 
 
 ## 4. Como rodar a bateria (Gate 1)
 
+Custo padrão: **1 crédito** por bateria completa (`CONSISTENCY_BATTERY_CREDIT_COST=1`), para caber no Free (3 créditos).
+
 ```bash
 # 1) criar passport (Future-first)
 curl -X POST "$API/api/v1/identities" -H "Authorization: Bearer $TOKEN" \
   -H 'Content-Type: application/json' \
-  -d '{"name":"Twin A","product_line":"future","tier":"preferencial","apparent_age":28,"consent_synthetic_only":true,"consent_no_real_person":true,"attributes":{"hair":"dark"}}'
+  -d '{"name":"Twin A","product_line":"future","tier":"preferencial","apparent_age":28,"consent_synthetic_only":true,"consent_no_real_person":true,"attributes":{"hair":"dark","ethnicity":"medium"}}'
 
 # 2) bateria (12 variantes: face/luz/mãos/unhas/pés/corpo)
 curl -X POST "$API/api/v1/identities/$ID/consistency-battery" \
