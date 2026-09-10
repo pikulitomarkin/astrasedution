@@ -1,4 +1,5 @@
 'use client';
+import { AstraIcon } from '@/components/icons';
 
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
@@ -6,7 +7,6 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { UserPlus, User, Mail, Lock, AlertCircle, Gift } from 'lucide-react';
 
 export default function CadastroPage() {
   const [name, setName] = useState('');
@@ -79,7 +79,7 @@ export default function CadastroPage() {
           {/* Header */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gold-gradient mb-4">
-              <UserPlus className="w-8 h-8 text-black" />
+              <AstraIcon name="userPlus" size={32} className="text-black" />
             </div>
             <h1 className="text-3xl font-bold text-white mb-2 font-playfair">
               Cadastro VIP
@@ -92,7 +92,7 @@ export default function CadastroPage() {
           {/* Error message */}
           {error && (
             <div className="mb-6 p-4 rounded-lg bg-red-500/10 border border-red-500/30 flex items-center gap-3">
-              <AlertCircle className="w-5 h-5 text-red-400" />
+              <AstraIcon name="alert" size={20} className="text-red-400" />
               <span className="text-red-300 text-sm">{error}</span>
             </div>
           )}
@@ -105,7 +105,7 @@ export default function CadastroPage() {
                 Nome
               </label>
               <div className="relative">
-                <User className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gold-light" />
+                <AstraIcon name="user" size={20} tone="gold" className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gold-light" />
                 <input
                   type="text"
                   value={name}
@@ -123,7 +123,7 @@ export default function CadastroPage() {
                 Email
               </label>
               <div className="relative">
-                <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gold-light" />
+                <AstraIcon name="mail" size={20} tone="gold" className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gold-light" />
                 <input
                   type="email"
                   value={email}
@@ -141,7 +141,7 @@ export default function CadastroPage() {
                 Senha
               </label>
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gold-light" />
+                <AstraIcon name="lock" size={20} tone="gold" className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gold-light" />
                 <input
                   type="password"
                   value={password}
@@ -170,7 +170,7 @@ export default function CadastroPage() {
                 </>
               ) : (
                 <>
-                  <UserPlus className="w-5 h-5" />
+                  <AstraIcon name="userPlus" size={20} />
                   Criar Conta VIP
                 </>
               )}
@@ -202,7 +202,7 @@ export default function CadastroPage() {
             {/* VIP benefits */}
             <div className="mt-8 space-y-3">
               <h3 className="text-lg font-semibold text-gold-light text-center flex items-center justify-center gap-2">
-                <Gift className="w-5 h-5 shrink-0" aria-hidden />
+                <AstraIcon name="gift" size={20} />
                 Benefícios VIP
               </h3>
               <ul className="space-y-2 text-sm text-gray-300">

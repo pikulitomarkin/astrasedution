@@ -1,7 +1,7 @@
 'use client';
+import { AstraIcon } from '@/components/icons';
 
 import { useState } from 'react';
-import { Mail, Sparkles, CheckCircle, AlertCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { joinWaitlist } from '@/lib/api';
 
@@ -41,7 +41,7 @@ export default function WaitlistSection() {
         <div className="glass-effect rounded-3xl border border-gold-light/20 p-10 md:p-12">
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gold-gradient mb-4">
-              <Mail className="w-8 h-8 text-black" />
+              <AstraIcon name="mail" size={32} className="text-black" />
             </div>
             <h2 className="text-3xl font-bold text-white font-playfair mb-3">
               Lista VIP de Acesso Antecipado
@@ -53,14 +53,14 @@ export default function WaitlistSection() {
 
           {error && (
             <div className="mb-6 p-4 rounded-lg bg-red-500/10 border border-red-500/30 flex items-center gap-3">
-              <AlertCircle className="w-5 h-5 text-red-400 shrink-0" />
+              <AstraIcon name="alert" size={20} className="text-red-400" />
               <span className="text-red-300 text-sm">{error}</span>
             </div>
           )}
 
           {success && message && (
             <div className="mb-6 p-4 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center gap-3">
-              <CheckCircle className="w-5 h-5 text-emerald-400 shrink-0" />
+              <AstraIcon name="checkCircle" size={20} className="text-emerald-400" />
               <span className="text-emerald-300 text-sm">{message}</span>
             </div>
           )}
@@ -97,7 +97,7 @@ export default function WaitlistSection() {
                 <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
               ) : (
                 <>
-                  <Sparkles className="w-5 h-5" />
+                  <AstraIcon name="sparkles" size={20} />
                   Entrar na Waitlist VIP
                 </>
               )}

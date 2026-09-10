@@ -1,7 +1,8 @@
 "use client";
+import { AstraIcon } from '@/components/icons';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 import { useWizardState } from '@/hooks/useWizardState';
 import { Stepper, SliderComponent } from '@/components/creator-wizard';
 import type { SliderConfig } from '@/types/creator-wizard';
@@ -207,7 +208,7 @@ export default function GenerationWizard({ onComplete }: GenerationWizardProps) 
           <div className="glass-effect rounded-2xl p-6">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
-                <Sparkles className="h-5 w-5 text-brand-glow" />
+                <AstraIcon name="sparkles" size={20} tone="cyan" className="text-brand-glow" />
                 <h2 className="text-xl font-bold text-white">
                   Criador de Identidade
                 </h2>

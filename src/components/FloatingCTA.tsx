@@ -1,8 +1,8 @@
 "use client";
+import { AstraIcon } from '@/components/icons';
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export default function FloatingCTA() {
@@ -90,10 +90,10 @@ export default function FloatingCTA() {
 
             {/* Conteúdo */}
             <div className="relative z-10 flex items-center gap-2">
-              <Sparkles className="h-5 w-5" />
+              <AstraIcon name="sparkles" size={20} />
               <span className="hidden sm:inline">Começar Agora</span>
               <span className="sm:hidden">Criar</span>
-              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+              <AstraIcon name="arrowRight" size={20} className="transition-transform group-hover:translate-x-1" />
             </div>
 
             {/* Partículas decorativas */}
@@ -131,7 +131,7 @@ export default function FloatingCTA() {
           >
             <div className="glass-effect px-3 py-2 rounded-lg border border-brand-glow/30 whitespace-nowrap">
               <p className="text-xs text-white font-medium flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-brand-glow shrink-0" aria-hidden />
+                <AstraIcon name="sparkles" size={12} tone="cyan" />
                 3 gerações gratuitas disponíveis
               </p>
             </div>

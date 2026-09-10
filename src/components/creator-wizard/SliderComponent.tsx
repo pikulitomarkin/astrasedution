@@ -1,8 +1,8 @@
 'use client';
+import { AstraIcon } from '@/components/icons';
 
 import * as Slider from '@radix-ui/react-slider';
 import { motion } from 'framer-motion';
-import { Info } from 'lucide-react';
 import { useState } from 'react';
 
 interface SliderComponentProps {
@@ -40,7 +40,7 @@ export default function SliderComponent({ config, value, onChange }: SliderCompo
               className="text-zinc-500 hover:text-gold-primary"
               aria-label="Mostrar descrição"
             >
-              <Info className="h-4 w-4" />
+              <AstraIcon name="info" size={16} />
             </button>
           )}
         </div>
