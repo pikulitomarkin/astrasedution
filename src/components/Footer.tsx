@@ -1,5 +1,4 @@
-import { Copyright } from 'lucide-react';
-import { AstraMarkIcon } from '@/components/icons';
+import { AstraIcon, AstraMarkIcon } from '@/components/icons';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -60,7 +59,7 @@ export default function Footer() {
         <div className="mt-12 pt-8 border-t border-white/10">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
             <div className="flex items-center text-sm text-zinc-500">
-              <Copyright className="mr-2 h-4 w-4" />
+              <AstraIcon name="copyright" size={16} className="mr-2" />
               {currentYear} AstraFutureSeduction. Todos os direitos reservados.
             </div>
             <div className="flex items-center space-x-6">

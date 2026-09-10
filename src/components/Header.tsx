@@ -1,6 +1,5 @@
 'use client';
 
-import { Menu, X, User, LogOut, Zap, LogIn } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
@@ -8,7 +7,7 @@ import { motion } from 'framer-motion';
 import LanguageSelector from './LanguageSelector';
 import CurrencySelector from './CurrencySelector';
 import { useTranslation } from '@/hooks/useTranslation';
-import { AstraMarkIcon } from '@/components/icons';
+import { AstraIcon, AstraMarkIcon } from '@/components/icons';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -117,7 +116,7 @@ export default function Header() {
             </motion.div>
 
             {/* Ícone de raio */}
-            <Zap className="w-4 h-4 text-brand-glow" fill="currentColor" />
+            <AstraIcon name="zap" size={16} tone="cyan" className="text-brand-glow" />
 
             {/* Texto do contador */}
             <span className="text-sm font-semibold text-white">
@@ -159,7 +158,7 @@ export default function Header() {
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                   className="flex items-center gap-2 rounded-full border border-gold-primary/30 bg-black/50 px-4 py-2 text-sm font-semibold text-white transition-all hover:bg-gold-primary/10"
                 >
-                  <User className="h-4 w-4" />
+                  <AstraIcon name="user" size={16} />
                   <span className="max-w-[120px] truncate">{user.email}</span>
                 </button>
                 
@@ -189,7 +188,7 @@ export default function Header() {
                       }}
                       className="w-full text-left px-3 py-2 text-sm text-red-400 hover:bg-red-500/10 rounded-lg transition-colors flex items-center gap-2"
                     >
-                      <LogOut className="h-4 w-4" />
+                      <AstraIcon name="logout" size={16} />
                       {t.common.logout}
                     </button>
                   </div>
@@ -201,7 +200,7 @@ export default function Header() {
                   onClick={() => router.push('/login')}
                   className="inline-flex items-center gap-2 rounded-full border border-gold-primary/40 px-5 py-2 text-sm font-semibold text-white transition-all hover:bg-gold-primary/10"
                 >
-                  <LogIn className="h-4 w-4 text-gold-primary" />
+                  <AstraIcon name="login" size={16} tone="gold" className="text-gold-primary" />
                   {t.common.login}
                 </button>
                 <button
@@ -221,9 +220,9 @@ export default function Header() {
             aria-label="Toggle menu"
           >
             {isMenuOpen ? (
-              <X className="h-6 w-6 text-white" />
+              <AstraIcon name="x" size={24} className="text-white" />
             ) : (
-              <Menu className="h-6 w-6 text-white" />
+              <AstraIcon name="menu" size={24} className="text-white" />
             )}
           </button>
         </nav>
@@ -280,7 +279,7 @@ export default function Header() {
                 />
               </motion.div>
 
-              <Zap className="w-4 h-4 text-brand-glow" fill="currentColor" />
+              <AstraIcon name="zap" size={16} tone="cyan" className="text-brand-glow" />
               <span className="text-sm font-semibold text-white flex-1">
                 {t.common.freeGenerations}:
               </span>
@@ -332,7 +331,7 @@ export default function Header() {
                     }}
                     className="w-full text-left px-4 py-3 text-base font-medium text-red-400 hover:bg-red-500/10 rounded-lg transition-colors border border-red-500/20 flex items-center gap-2"
                   >
-                    <LogOut className="h-5 w-5" />
+                    <AstraIcon name="logout" size={20} />
                     {t.common.logout}
                   </button>
                 </div>
@@ -345,7 +344,7 @@ export default function Header() {
                     }}
                     className="w-full inline-flex items-center justify-center gap-2 rounded-full border border-gold-primary/40 px-6 py-3 text-base font-semibold text-white transition-all hover:bg-gold-primary/10"
                   >
-                    <LogIn className="h-5 w-5 text-gold-primary" />
+                    <AstraIcon name="login" size={20} tone="gold" className="text-gold-primary" />
                     {t.common.login}
                   </button>
                   <button

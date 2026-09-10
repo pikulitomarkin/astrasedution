@@ -1,5 +1,5 @@
 import type { SVGProps } from 'react';
-import { Gem, Link2, Watch } from 'lucide-react';
+import { AstraIcon } from './AstraIcon';
 
 type IconProps = SVGProps<SVGSVGElement> & {
   size?: number | string;
@@ -82,16 +82,17 @@ export function JewelryCategoryIcon({
   size?: number;
   className?: string;
 }) {
+  const dim = typeof size === 'number' ? size : 24;
   switch (category) {
     case 'ring':
-      return <Gem size={size} className={className} aria-hidden />;
+      return <AstraIcon name="gem" size={dim} className={className} tone="gold" />;
     case 'necklace':
       return <NecklaceIcon size={size} className={className} />;
     case 'bracelet':
-      return <Link2 size={size} className={className} aria-hidden />;
+      return <AstraIcon name="link2" size={dim} className={className} tone="gold" />;
     case 'watch':
-      return <Watch size={size} className={className} aria-hidden />;
+      return <AstraIcon name="watch" size={dim} className={className} tone="gold" />;
     default:
-      return <Gem size={size} className={className} aria-hidden />;
+      return <AstraIcon name="gem" size={dim} className={className} tone="gold" />;
   }
 }

@@ -1,7 +1,7 @@
 'use client';
+import { AstraIcon } from '@/components/icons';
 
 import { motion } from 'framer-motion';
-import { Image, Sparkles, Zap, Eye } from 'lucide-react';
 
 interface PreviewPanelProps {
   sliderValues: Record<string, number>;
@@ -9,9 +9,9 @@ interface PreviewPanelProps {
 
 export default function PreviewPanel({ sliderValues }: PreviewPanelProps) {
   const stats = [
-    { label: 'Qualidade', value: '8K', icon: Eye, color: 'from-blue-500 to-cyan-500' },
-    { label: 'Detalhes', value: 'Ultra', icon: Sparkles, color: 'from-purple-500 to-pink-500' },
-    { label: 'Render', value: 'Instantâneo', icon: Zap, color: 'from-amber-500 to-orange-500' },
+    { label: 'Qualidade', value: '8K', icon: 'eye', color: 'from-brand-glow to-cyan-400' },
+    { label: 'Detalhes', value: 'Ultra', icon: 'sparkles', color: 'from-gold-primary to-gold-secondary' },
+    { label: 'Render', value: 'Instantâneo', icon: 'zap', color: 'from-gold-secondary to-brand-glow' },
   ];
 
   return (
@@ -35,7 +35,7 @@ export default function PreviewPanel({ sliderValues }: PreviewPanelProps) {
             <div className="text-center">
               <div className="mb-4 inline-flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-gold-primary/20 to-gold-secondary/20">
                 {/* eslint-disable-next-line jsx-a11y/alt-text */}
-                <Image className="h-10 w-10 text-gold-primary" />
+                <AstraIcon name="image" size={40} tone="gold" className="text-gold-primary" />
               </div>
               <h3 className="mb-2 text-xl font-semibold text-white">
                 Imagem Gerada
@@ -62,7 +62,7 @@ export default function PreviewPanel({ sliderValues }: PreviewPanelProps) {
             >
               <div className="mb-2 flex items-center gap-2">
                 <div className={`flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br ${stat.color}`}>
-                  <stat.icon className="h-4 w-4 text-white" />
+                  <AstraIcon name={stat.icon} size={16} className="h-4 w-4 text-white" tone="platinum" />
                 </div>
                 <span className="text-sm text-zinc-400">{stat.label}</span>
               </div>

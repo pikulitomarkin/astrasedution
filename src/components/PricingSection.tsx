@@ -1,8 +1,8 @@
 "use client";
+import { AstraIcon } from '@/components/icons';
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Check, Sparkles, Crown, Zap, Star, Building2, Heart } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from '@/hooks/useTranslation';
 import { useCurrency, type SsotPrice } from '@/contexts/CurrencyContext';
@@ -39,7 +39,7 @@ export default function PricingSection() {
       price: { usd: 10, brl: 49 },
       period: t.pricing.monthly,
       highlightLine: t.pricing.future.individualHighlight,
-      icon: <Zap className="h-6 w-6" />,
+      icon: <AstraIcon name="zap" size={24} />,
       gradient: 'from-zinc-700 to-zinc-800',
       features: [
         { text: t.pricing.future.features.oneTwin },
@@ -55,7 +55,7 @@ export default function PricingSection() {
       period: t.pricing.monthly,
       highlightLine: t.pricing.future.professionalHighlight,
       recommended: true,
-      icon: <Sparkles className="h-6 w-6" />,
+      icon: <AstraIcon name="sparkles" size={24} />,
       gradient: 'from-brand-glow to-brand-glow-light',
       features: [
         { text: t.pricing.future.features.fiveTwins, highlight: true },
@@ -71,7 +71,7 @@ export default function PricingSection() {
       price: { usd: 39, brl: 199 },
       period: t.pricing.monthly,
       highlightLine: t.pricing.future.agencyHighlight,
-      icon: <Building2 className="h-6 w-6" />,
+      icon: <AstraIcon name="building2" size={24} />,
       gradient: 'from-gold-primary to-gold-secondary',
       features: [
         { text: t.pricing.future.features.unlimitedTwins, highlight: true },
@@ -90,7 +90,7 @@ export default function PricingSection() {
       price: { usd: 12, brl: 59 },
       period: t.pricing.monthly,
       highlightLine: t.pricing.seduction.basicHighlight,
-      icon: <Zap className="h-6 w-6" />,
+      icon: <AstraIcon name="zap" size={24} />,
       gradient: 'from-zinc-700 to-zinc-800',
       features: [
         { text: t.pricing.seduction.features.oneCharacter },
@@ -106,7 +106,7 @@ export default function PricingSection() {
       period: t.pricing.monthly,
       highlightLine: t.pricing.seduction.premiumHighlight,
       recommended: true,
-      icon: <Heart className="h-6 w-6" />,
+      icon: <AstraIcon name="heart" size={24} />,
       gradient: 'from-brand-glow to-brand-glow-light',
       features: [
         { text: t.pricing.seduction.features.threeCharacters, highlight: true },
@@ -121,7 +121,7 @@ export default function PricingSection() {
       price: { usd: 39, brl: 199 },
       period: t.pricing.monthly,
       highlightLine: t.pricing.seduction.creatorStudioHighlight,
-      icon: <Crown className="h-6 w-6" />,
+      icon: <AstraIcon name="crown" size={24} />,
       gradient: 'from-gold-primary to-gold-secondary',
       features: [
         { text: t.pricing.seduction.features.videos, highlight: true },
@@ -157,7 +157,7 @@ export default function PricingSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <Sparkles className="h-4 w-4 text-brand-glow" />
+            <AstraIcon name="sparkles" size={16} tone="cyan" className="text-brand-glow" />
             <span className="text-sm font-semibold text-brand-glow">
               {t.pricing.plansAndPrices}
             </span>
@@ -221,7 +221,7 @@ export default function PricingSection() {
                   transition={{ duration: 0.5, delay: 0.3 }}
                 >
                   <div className="px-4 py-1 rounded-full text-xs font-bold text-white bg-gradient-to-r from-brand-glow to-brand-glow-light shadow-lg inline-flex items-center gap-1.5">
-                    <Star className="w-3.5 h-3.5 fill-current" aria-hidden />
+                    <AstraIcon name="star" size={12} />
                     {t.pricing.recommended}
                   </div>
                 </motion.div>
@@ -307,13 +307,7 @@ export default function PricingSection() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.3, delay: idx * 0.05 }}
                       >
-                        <Check
-                          className={`h-5 w-5 flex-shrink-0 mt-0.5 ${
-                            feature.highlight
-                              ? 'text-brand-glow'
-                              : 'text-zinc-500'
-                          }`}
-                        />
+                        <AstraIcon name="check" size={24} />
                         <span
                           className={`text-sm ${
                             feature.highlight

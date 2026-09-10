@@ -1,13 +1,13 @@
 'use client';
+import { AstraIcon } from '@/components/icons';
 
 import { useCurrency } from '@/contexts/CurrencyContext';
-import { DollarSign, Euro, Currency } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const currencies = [
-  { code: 'BRL' as const, label: 'BRL', name: 'Real', icon: <Currency className="w-4 h-4" /> },
-  { code: 'USD' as const, label: 'USD', name: 'Dólar', icon: <DollarSign className="w-4 h-4" /> },
-  { code: 'EUR' as const, label: 'EUR', name: 'Euro', icon: <Euro className="w-4 h-4" /> },
+  { code: 'BRL' as const, label: 'BRL', name: 'Real', icon: <AstraIcon name="currency" size={16} /> },
+  { code: 'USD' as const, label: 'USD', name: 'Dólar', icon: <AstraIcon name="dollarSign" size={16} /> },
+  { code: 'EUR' as const, label: 'EUR', name: 'Euro', icon: <AstraIcon name="euro" size={16} /> },
 ] as const;
 
 export default function CurrencySelector() {

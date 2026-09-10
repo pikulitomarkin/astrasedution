@@ -1,19 +1,11 @@
 'use client';
+import { AstraIcon } from '@/components/icons';
+import { Loader2 } from 'lucide-react';
 
 import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import {
-  Sparkles,
-  Zap,
-  Mail,
-  Crown,
-  LayoutDashboard,
-  Wand2,
-  ImageIcon,
-  Loader2,
-} from 'lucide-react';
 import { Header } from '@/components';
 import { useAuth } from '@/contexts/AuthContext';
 import {
@@ -182,7 +174,7 @@ export default function DashboardPage() {
             className="mb-10"
           >
             <div className="flex items-center gap-3 text-brand-glow mb-2">
-              <LayoutDashboard className="w-5 h-5" />
+              <AstraIcon name="layoutDashboard" size={20} />
               <span className="text-sm font-semibold tracking-widest uppercase">
                 Painel VIP
               </span>
@@ -202,7 +194,7 @@ export default function DashboardPage() {
               className="glass-panel border border-amber-500/30 rounded-2xl p-6 mb-8 flex flex-col sm:flex-row sm:items-center gap-4"
             >
               <div className="flex items-start gap-3 flex-1">
-                <Mail className="w-6 h-6 text-amber-400 shrink-0 mt-0.5" />
+                <AstraIcon name="mail" size={24} tone="gold" className="text-amber-400 mt-0.5" />
                 <div>
                   <p className="text-white font-medium">Confirme seu email</p>
                   <p className="text-sm text-zinc-400 mt-1">
@@ -227,7 +219,7 @@ export default function DashboardPage() {
               className="glass-panel border border-gold-light/20 rounded-2xl p-6"
             >
               <div className="flex items-center gap-2 text-gold-primary mb-4">
-                <Crown className="w-5 h-5" />
+                <AstraIcon name="crown" size={20} />
                 <span className="text-sm font-semibold">Plano atual</span>
               </div>
               <p className="text-2xl font-bold text-white">{planLabel}</p>
@@ -253,7 +245,7 @@ export default function DashboardPage() {
               />
               <div className="relative">
                 <div className="flex items-center gap-2 text-brand-glow mb-4">
-                  <Zap className="w-5 h-5" fill="currentColor" />
+                  <AstraIcon name="zap" size={20} />
                   <span className="text-sm font-semibold">Créditos restantes</span>
                 </div>
                 <p className="text-4xl font-bold text-white">{credits}</p>
@@ -268,7 +260,7 @@ export default function DashboardPage() {
               className="glass-panel border border-gold-light/20 rounded-2xl p-6"
             >
               <div className="flex items-center gap-2 text-emerald-400 mb-4">
-                <Sparkles className="w-5 h-5" />
+                <AstraIcon name="sparkles" size={20} />
                 <span className="text-sm font-semibold">Status da conta</span>
               </div>
               <p className="text-lg font-semibold text-white">
@@ -290,7 +282,7 @@ export default function DashboardPage() {
           >
             <div className="flex flex-col md:flex-row md:items-start gap-6">
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gold-primary/20 border border-gold-light/30 shrink-0">
-                <Wand2 className="w-8 h-8 text-gold-primary" />
+                <AstraIcon name="wand" size={32} tone="gold" className="text-gold-primary" />
               </div>
               <div className="flex-1">
                 <h2 className="text-2xl font-bold text-white font-playfair mb-2">
@@ -338,7 +330,7 @@ export default function DashboardPage() {
                     </>
                   ) : (
                     <>
-                      <Sparkles className="w-5 h-5" />
+                      <AstraIcon name="sparkles" size={20} />
                       Gerar imagem ({credits} crédito{credits !== 1 ? 's' : ''})
                     </>
                   )}
@@ -364,7 +356,7 @@ export default function DashboardPage() {
             transition={{ delay: 0.25 }}
           >
             <div className="flex items-center gap-2 mb-6">
-              <ImageIcon className="w-5 h-5 text-brand-glow" />
+              <AstraIcon name="imageIcon" size={20} tone="cyan" className="text-brand-glow" />
               <h2 className="text-xl font-bold text-white font-playfair">Suas gerações</h2>
             </div>
 

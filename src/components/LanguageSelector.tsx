@@ -1,7 +1,7 @@
 'use client';
+import { AstraIcon } from '@/components/icons';
 
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Globe } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const languages = [
@@ -16,7 +16,7 @@ export default function LanguageSelector() {
   return (
     <div className="relative group">
       <div className="flex items-center gap-2 px-3 py-2 rounded-lg glass-effect border border-white/10 hover:border-brand-glow/30 transition-colors cursor-pointer">
-        <Globe className="w-4 h-4 text-zinc-400" />
+        <AstraIcon name="globe" size={16} className="text-zinc-400" />
         <span className="text-sm font-medium text-white">{language.toUpperCase()}</span>
       </div>
       

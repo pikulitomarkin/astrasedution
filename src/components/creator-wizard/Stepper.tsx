@@ -1,9 +1,8 @@
 'use client';
-
-import { Check, Circle, User, Palette, Hand, Sparkles } from 'lucide-react';
+import { AstraIcon } from '@/components/icons';
 import { motion } from 'framer-motion';
 
-const stepIcons = [User, Palette, Hand, Sparkles];
+const stepIcons = ['user', 'palette', 'hand', 'sparkles'] as const;
 const stepTitles = ['Base', 'Detalhes', 'Extremidades', 'Acessórios'];
 const stepDescriptions = [
   'Etnia e Idade',
@@ -52,11 +51,11 @@ export default function Stepper({ activeStep, completedSteps, onStepClick }: Ste
                     : 'bg-white/5'
                 }`}>
                   {isCompleted ? (
-                    <Check className="h-5 w-5 text-emerald-400" />
+                    <AstraIcon name="check" size={20} className="text-emerald-400" />
                   ) : isActive ? (
-                    <Circle className="h-5 w-5 text-black" />
+                    <AstraIcon name="circle" size={20} className="text-black" />
                   ) : (
-                    <StepIcon className="h-5 w-5 text-zinc-400" />
+                    <AstraIcon name={StepIcon} size={20} tone="gold" className="h-5 w-5 text-zinc-400" />
                   )}
                 </div>
                 

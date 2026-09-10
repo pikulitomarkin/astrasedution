@@ -1,10 +1,10 @@
 'use client';
+import { AstraIcon } from '@/components/icons';
 
 import { Suspense, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Lock, AlertCircle, CheckCircle } from 'lucide-react';
 import { resetPassword } from '@/lib/api';
 
 function RedefinirSenhaForm() {
@@ -62,7 +62,7 @@ function RedefinirSenhaForm() {
           <label className="block">
             <span className="text-sm text-zinc-300">Nova senha</span>
             <div className="mt-1 flex items-center gap-2 rounded-lg border border-white/10 bg-black/40 px-3 py-2">
-              <Lock className="w-4 h-4 text-zinc-500" />
+              <AstraIcon name="lock" size={16} className="text-zinc-500" />
               <input
                 type="password"
                 required
@@ -78,7 +78,7 @@ function RedefinirSenhaForm() {
           <label className="block">
             <span className="text-sm text-zinc-300">Confirmar senha</span>
             <div className="mt-1 flex items-center gap-2 rounded-lg border border-white/10 bg-black/40 px-3 py-2">
-              <Lock className="w-4 h-4 text-zinc-500" />
+              <AstraIcon name="lock" size={16} className="text-zinc-500" />
               <input
                 type="password"
                 required
@@ -93,12 +93,12 @@ function RedefinirSenhaForm() {
 
           {error && (
             <p className="flex items-center gap-2 text-sm text-red-400">
-              <AlertCircle className="w-4 h-4" /> {error}
+              <AstraIcon name="alert" size={16} /> {error}
             </p>
           )}
           {message && (
             <p className="flex items-center gap-2 text-sm text-emerald-400">
-              <CheckCircle className="w-4 h-4" /> {message}
+              <AstraIcon name="checkCircle" size={16} /> {message}
             </p>
           )}
 
