@@ -4,7 +4,6 @@ import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Loader2 } from 'lucide-react';
 import { Header } from '@/components';
 import { AstraIcon } from '@/components/icons';
 import { PlayerHud } from '@/components/dashboard/PlayerHud';
@@ -87,7 +86,7 @@ function GenerationPoster({
             {error ? (
               <AstraIcon name="image" size={22} className="text-zinc-600" />
             ) : (
-              <Loader2 className="h-5 w-5 animate-spin text-brand-glow" />
+              <AstraIcon name="loader2" size={20} className="h-5 w-5 animate-spin text-brand-glow" />
             )}
           </div>
         )}
@@ -115,7 +114,7 @@ function GenerationPoster({
           {error ? (
             <AstraIcon name="image" size={28} className="text-zinc-600" />
           ) : (
-            <Loader2 className="h-7 w-7 animate-spin text-brand-glow" />
+            <AstraIcon name="loader2" size={28} className="h-7 w-7 animate-spin text-brand-glow" />
           )}
         </div>
       )}
@@ -307,7 +306,7 @@ export default function DashboardPage() {
                   className="inline-flex items-center gap-2 rounded-full border border-brand-glow/40 bg-brand-glow/10 px-6 py-3 text-sm font-semibold text-brand-glow transition hover:bg-brand-glow/20 disabled:opacity-50"
                 >
                   {generatingStyle ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
+                    <AstraIcon name="loader2" size={16} className="h-4 w-4 animate-spin" />
                   ) : (
                     <AstraIcon name="zap" size={18} tone="cyan" />
                   )}
@@ -447,7 +446,7 @@ export default function DashboardPage() {
           >
             {loadingGallery ? (
               <div className="flex h-[280px] w-full items-center justify-center">
-                <Loader2 className="h-8 w-8 animate-spin text-brand-glow" />
+                <AstraIcon name="loader2" size={32} className="h-8 w-8 animate-spin text-brand-glow" />
               </div>
             ) : generations.length === 0 ? (
               <div className="flex h-[200px] min-w-full items-center justify-center rounded-2xl border border-dashed border-white/15 text-sm text-zinc-500">

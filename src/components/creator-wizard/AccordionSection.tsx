@@ -1,5 +1,4 @@
 'use client';
-import { ChevronDown } from 'lucide-react';
 import { AstraIcon } from '@/components/icons';
 
 import { useState } from 'react';
@@ -46,7 +45,7 @@ export default function AccordionSection({
           animate={{ rotate: isExpanded ? 180 : 0 }}
           transition={{ duration: 0.3 }}
         >
-          <ChevronDown className="h-5 w-5 text-zinc-400" />
+          <AstraIcon name="chevronDown" size={20} className="h-5 w-5 text-zinc-400" />
         </motion.div>
       </button>
 

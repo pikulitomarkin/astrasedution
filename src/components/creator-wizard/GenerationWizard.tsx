@@ -1,6 +1,5 @@
 "use client";
 import { AstraIcon } from '@/components/icons';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useWizardState } from '@/hooks/useWizardState';
@@ -310,7 +309,7 @@ export default function GenerationWizard({ onComplete }: GenerationWizardProps) 
                   whileHover={{ scale: state.activeStep === 0 ? 1 : 1.02 }}
                   whileTap={{ scale: state.activeStep === 0 ? 1 : 0.98 }}
                 >
-                  <ChevronLeft className="h-5 w-5" />
+                  <AstraIcon name="chevronLeft" size={20} className="h-5 w-5" />
                   <span className="font-medium">Anterior</span>
                 </motion.button>
 
@@ -338,7 +337,7 @@ export default function GenerationWizard({ onComplete }: GenerationWizardProps) 
                       ? 'Finalizar' 
                       : 'Próximo'}
                   </span>
-                  <ChevronRight className="h-5 w-5" />
+                  <AstraIcon name="chevronRight" size={20} className="h-5 w-5" />
                 </motion.button>
               </div>
             </div>

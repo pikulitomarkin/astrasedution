@@ -1,6 +1,7 @@
 'use client';
 
-import { astraIconSrc } from './astraCatalog';
+import type { CSSProperties } from 'react';
+import { resolveIcon, type IconName } from './iconMap';
 
 export type AstraIconTone = 'gold' | 'cyan' | 'platinum' | 'inherit';
 
@@ -12,16 +13,17 @@ const TONE_CLASS: Record<AstraIconTone, string> = {
 };
 
 type Props = {
-  name: string;
+  /** Nome semântico (mapa Lucide). Desconhecidos caem em `star`. */
+  name: IconName | (string & {});
   size?: number | string;
   className?: string;
-  /** Cor via currentColor (máscara CSS) */
   tone?: AstraIconTone;
   title?: string;
+  strokeWidth?: number;
 };
 
 /**
- * Ícone do sprite Astra — silhueta com máscara, tintável em ouro/ciano.
+ * Ícone unificado do sistema — Lucide SVG tintável via currentColor.
  */
 export function AstraIcon({
   name,
@@ -29,31 +31,25 @@ export function AstraIcon({
   className = '',
   tone = 'inherit',
   title,
+  strokeWidth = 1.75,
 }: Props) {
-  const src = astraIconSrc(name);
-  const dim = typeof size === 'number' ? `${size}px` : size;
+  const Icon = resolveIcon(name);
+  const dim = typeof size === 'number' ? size : undefined;
+  const style: CSSProperties | undefined =
+    typeof size === 'string' ? { width: size, height: size } : undefined;
   const toneClass = TONE_CLASS[tone];
 
   return (
-    <span
+    <Icon
       role={title ? 'img' : 'presentation'}
       aria-label={title}
       aria-hidden={title ? undefined : true}
-      title={title}
+      width={dim}
+      height={dim}
+      size={dim ?? 24}
+      strokeWidth={strokeWidth}
       className={`astra-icon inline-block shrink-0 align-middle ${toneClass} ${className}`.trim()}
-      style={{
-        width: dim,
-        height: dim,
-        backgroundColor: 'currentColor',
-        WebkitMaskImage: `url(${src})`,
-        maskImage: `url(${src})`,
-        WebkitMaskSize: 'contain',
-        maskSize: 'contain',
-        WebkitMaskRepeat: 'no-repeat',
-        maskRepeat: 'no-repeat',
-        WebkitMaskPosition: 'center',
-        maskPosition: 'center',
-      }}
+      style={style}
     />
   );
 }
@@ -65,7 +61,7 @@ export function AstraIconBadge({
   size = 28,
   className = '',
 }: {
-  name: string;
+  name: IconName | (string & {});
   tone?: AstraIconTone;
   size?: number;
   className?: string;
