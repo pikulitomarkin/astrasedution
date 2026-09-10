@@ -4,13 +4,13 @@ import logging
 
 from app.config import get_settings
 from app.database import engine
-from app.routers import admin, auth, credits, generate, health, waitlist
+from app.routers import admin, auth, credits, generate, health, identities, waitlist
 from app.schema_patches import ensure_schema
 
 logger = logging.getLogger("uvicorn.error")
 settings = get_settings()
 
-app = FastAPI(title=settings.app_name, version="0.1.0")
+app = FastAPI(title=settings.app_name, version="0.2.0-fase2")
 
 origins = [o.strip() for o in settings.cors_origins.split(",") if o.strip()]
 app.add_middleware(
@@ -24,6 +24,7 @@ app.add_middleware(
 app.include_router(health.router, prefix="/api/v1")
 app.include_router(auth.router, prefix="/api/v1")
 app.include_router(credits.router, prefix="/api/v1")
+app.include_router(identities.router, prefix="/api/v1")
 app.include_router(generate.router, prefix="/api/v1")
 app.include_router(waitlist.router, prefix="/api/v1")
 app.include_router(admin.router, prefix="/api/v1")

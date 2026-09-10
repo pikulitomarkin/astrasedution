@@ -5,9 +5,10 @@ import { ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 import { useWizardState } from '@/hooks/useWizardState';
 import { Stepper, SliderComponent } from '@/components/creator-wizard';
 import type { SliderConfig } from '@/types/creator-wizard';
+import { collectWizardValues } from '@/lib/wizardPassport';
 
 // Configuração dos passos do wizard
-const STEPS_CONFIG = [
+export const STEPS_CONFIG = [
   {
     id: 0,
     title: 'Base',
@@ -187,8 +188,8 @@ export default function GenerationWizard({ onComplete }: GenerationWizardProps) 
 
   const handleNext = () => {
     if (state.activeStep === STEPS_CONFIG.length - 1) {
-      // Último passo - completar wizard
-      onComplete?.(state.sliderValues);
+      // Flush defaults dos sliders não tocados antes de gravar o passport
+      onComplete?.(collectWizardValues(state.sliderValues, STEPS_CONFIG));
     } else {
       nextStep();
     }
