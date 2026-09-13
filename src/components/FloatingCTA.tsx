@@ -4,10 +4,12 @@ import { AstraIcon } from '@/components/icons';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
+import { useTranslation } from '@/hooks/useTranslation';
 
 export default function FloatingCTA() {
   const [isVisible, setIsVisible] = useState(false);
   const router = useRouter();
+  const t = useTranslation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -91,7 +93,7 @@ export default function FloatingCTA() {
             {/* Conteúdo */}
             <div className="relative z-10 flex items-center gap-2">
               <AstraIcon name="sparkles" size={20} />
-              <span className="hidden sm:inline">Começar Agora</span>
+              <span className="hidden sm:inline">{t.common.startNow}</span>
               <span className="sm:hidden">Criar</span>
               <AstraIcon name="arrowRight" size={20} className="transition-transform group-hover:translate-x-1" />
             </div>
@@ -132,7 +134,7 @@ export default function FloatingCTA() {
             <div className="glass-effect px-3 py-2 rounded-lg border border-brand-glow/30 whitespace-nowrap">
               <p className="text-xs text-white font-medium flex items-center gap-1.5">
                 <AstraIcon name="sparkles" size={12} tone="cyan" />
-                3 gerações gratuitas disponíveis
+                {t.floating.freeAvailable}
               </p>
             </div>
           </motion.div>
