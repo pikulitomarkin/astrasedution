@@ -1,6 +1,6 @@
 "use client";
+import { AstraIcon } from '@/components/icons';
 
-import { Sparkles, Clapperboard } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { useRouter } from 'next/navigation';
@@ -104,7 +104,7 @@ export default function HeroSection() {
             transition={{ duration: 0.6 }}
           >
             <div className="inline-flex items-center gap-2 rounded-full px-5 py-2 glass-effect border border-brand-glow/30">
-              <Sparkles className="h-4 w-4 text-brand-glow" />
+              <AstraIcon name="sparkles" size={16} tone="cyan" className="text-brand-glow" />
               <span className="text-sm font-semibold text-brand-glow">
                 {t.hero.extremeRealismTechnology}
               </span>
@@ -228,6 +228,7 @@ export default function HeroSection() {
               />
               
               <span className="relative z-10">{t.common.startNow}</span>
+              <AstraIcon name="arrowRight" size={20} className="relative z-10 transition-transform group-hover:translate-x-1" />
             </motion.button>
           </motion.div>
 
@@ -261,7 +262,7 @@ export default function HeroSection() {
                 {/* Badge "Em Demonstração" */}
                 <div className="absolute top-4 right-4 z-10">
                   <div className="glass-effect-light px-4 py-2 rounded-full border border-brand-glow/30 inline-flex items-center gap-1.5">
-                    <Clapperboard className="w-3.5 h-3.5 text-brand-glow" aria-hidden />
+                    <AstraIcon name="clapperboard" size={12} tone="cyan" />
                     <span className="text-xs font-semibold text-brand-glow">
                       {t.hero.demo}
                     </span>

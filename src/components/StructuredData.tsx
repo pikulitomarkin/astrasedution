@@ -1,16 +1,17 @@
 /**
  * Schema.org JSON-LD Structured Data Component
- * Melhora SEO com dados estruturados para Google Rich Results
+ * Alinhado ao SSOT Retomada V1 (Future + Seduction).
  */
 
 export default function StructuredData() {
   const organizationSchema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'Astra Seduction',
-    description: 'Plataforma premium de IA para criação de modelos fotorrealísticos com resolução 8K',
-    url: 'https://astraseduction.com',
-    logo: 'https://astraseduction.com/logo-astra.png',
+    name: 'Astra',
+    description:
+      'Astra Future (digital twins B2B) e Astra Seduction (realismo adulto sintético) — identidades digitais persistentes.',
+    url: 'https://astrasedution.com',
+    logo: 'https://astrasedution.com/logo-astra.png',
     sameAs: [
       'https://twitter.com/astraseduction',
       'https://instagram.com/astraseduction',
@@ -18,23 +19,24 @@ export default function StructuredData() {
     ],
     contactPoint: {
       '@type': 'ContactPoint',
-      contactType: 'Suporte VIP',
-      email: 'suporte@astraseduction.com',
-      availableLanguage: ['Portuguese', 'English'],
+      contactType: 'Customer Support',
+      email: 'suporte@astrasedution.com',
+      availableLanguage: ['Portuguese', 'English', 'Spanish'],
     },
   };
 
   const websiteSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'Astra Seduction',
-    url: 'https://astraseduction.com',
-    description: 'Crie modelos IA com realismo extremo. 10.000 créditos mensais, resolução 8K e suporte VIP.',
+    name: 'Astra Future + Astra Seduction',
+    url: 'https://astrasedution.com',
+    description:
+      'Plataforma de identidades digitais persistentes. Future-first vs HeyGen; Seduction para realismo adulto profissional.',
     potentialAction: {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: 'https://astraseduction.com/search?q={search_term_string}',
+        urlTemplate: 'https://astrasedution.com/search?q={search_term_string}',
       },
       'query-input': 'required name=search_term_string',
     },
@@ -43,39 +45,70 @@ export default function StructuredData() {
   const softwareApplicationSchema = {
     '@context': 'https://schema.org',
     '@type': 'SoftwareApplication',
-    name: 'Astra Seduction Creator Wizard',
+    name: 'Astra Future',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Web Browser',
+    offers: [
+      {
+        '@type': 'Offer',
+        price: '0.00',
+        priceCurrency: 'BRL',
+        name: 'Trial',
+        description: 'Marca d\'água, 15 imagens, 1 vídeo 720p',
+      },
+      {
+        '@type': 'Offer',
+        price: '49.00',
+        priceCurrency: 'BRL',
+        name: 'Individual',
+        description: '1 Twin, HD, sem marca d\'água — US$ 10/mês',
+      },
+      {
+        '@type': 'Offer',
+        price: '89.00',
+        priceCurrency: 'BRL',
+        name: 'Profissional',
+        description: '5 Twins, vídeos em lote, voz — US$ 19/mês',
+      },
+      {
+        '@type': 'Offer',
+        price: '199.00',
+        priceCurrency: 'BRL',
+        name: 'Agência/Corp',
+        description: 'Twins ilimitados, API, multi-usuário — US$ 39/mês',
+      },
+    ],
+  };
+
+  const seductionOffersSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'Astra Seduction',
     applicationCategory: 'DesignApplication',
     operatingSystem: 'Web Browser',
     offers: [
       {
         '@type': 'Offer',
-        price: '49.00',
+        price: '59.00',
         priceCurrency: 'BRL',
-        name: 'Plano Standard',
-        description: '500 créditos mensais, Resolução HD 1080p',
+        name: 'Básico',
+        description: 'Alta resolução, 1 personagem — US$ 12/mês',
       },
       {
         '@type': 'Offer',
-        price: '149.00',
+        price: '119.00',
         priceCurrency: 'BRL',
-        name: 'Plano Premium',
-        description: '2.000 créditos mensais, Resolução Ultra HD 4K',
+        name: 'Premium',
+        description: 'Unhas/pés avançados, 3 personagens — US$ 24/mês',
       },
       {
         '@type': 'Offer',
-        price: '399.00',
+        price: '199.00',
         priceCurrency: 'BRL',
-        name: 'Plano Deluxe',
-        description: '10.000 créditos mensais, Resolução 8K, Suporte VIP',
+        name: 'Creator Studio',
+        description: 'Vídeos, uso comercial — US$ 39/mês',
       },
     ],
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: '4.8',
-      ratingCount: '1247',
-      bestRating: '5',
-      worstRating: '1',
-    },
   };
 
   const breadcrumbSchema = {
@@ -86,19 +119,19 @@ export default function StructuredData() {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://astraseduction.com',
+        item: 'https://astrasedution.com',
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Planos',
-        item: 'https://astraseduction.com/#pricing',
+        item: 'https://astrasedution.com/#pricing',
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: 'Creator Wizard',
-        item: 'https://astraseduction.com/create',
+        item: 'https://astrasedution.com/create',
       },
     ],
   };
@@ -116,6 +149,10 @@ export default function StructuredData() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareApplicationSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(seductionOffersSchema) }}
       />
       <script
         type="application/ld+json"

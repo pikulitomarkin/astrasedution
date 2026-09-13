@@ -3,12 +3,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, User, LogOut, Zap, LayoutDashboard, Wand2 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTranslation } from '@/hooks/useTranslation';
 import LanguageSelector from './LanguageSelector';
 import CurrencySelector from './CurrencySelector';
-import { AstraMarkIcon } from '@/components/icons';
+import { AstraIcon, AstraMarkIcon } from '@/components/icons';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -89,7 +88,7 @@ export default function Header() {
             onClick={() => go('/dashboard')}
             className="mt-1 flex w-full items-center gap-2 rounded-xl px-3 py-2.5 text-left text-sm text-white transition hover:bg-white/5"
           >
-            <LayoutDashboard className="h-4 w-4 text-gold-primary" />
+            <AstraIcon name="layoutDashboard" size={16} tone="gold" />
             Dashboard
           </button>
           <button
@@ -97,7 +96,7 @@ export default function Header() {
             onClick={() => go('/create')}
             className="flex w-full items-center gap-2 rounded-xl px-3 py-2.5 text-left text-sm text-white transition hover:bg-white/5"
           >
-            <Wand2 className="h-4 w-4 text-brand-glow" />
+            <AstraIcon name="wand" size={16} tone="cyan" />
             {t.common.myCreator}
           </button>
           <button
@@ -105,7 +104,7 @@ export default function Header() {
             onClick={handleLogout}
             className="flex w-full items-center gap-2 rounded-xl px-3 py-2.5 text-left text-sm text-red-400 transition hover:bg-red-500/10"
           >
-            <LogOut className="h-4 w-4" />
+            <AstraIcon name="logout" size={16} />
             {t.common.logout}
           </button>
         </motion.div>
@@ -130,7 +129,7 @@ export default function Header() {
                   : 'border-white/15 bg-black/40 text-white backdrop-blur-md hover:border-gold-primary/40 hover:text-gold-primary'
               }`}
             >
-              <User className="h-5 w-5" />
+              <AstraIcon name="user" size={20} />
             </button>
             {profileMenu}
           </div>
@@ -176,7 +175,7 @@ export default function Header() {
             transition={{ duration: 0.2 }}
           >
             <div className="h-2 w-2 rounded-full bg-brand-glow brand-glow-shadow" />
-            <Zap className="h-4 w-4 text-brand-glow" fill="currentColor" />
+            <AstraIcon name="zap" size={16} tone="cyan" />
             <span className="text-sm font-semibold text-white">{t.common.freeGenerations}:</span>
             <span className="min-w-[24px] text-center text-lg font-bold text-brand-glow">
               {freeGenerations}
@@ -224,9 +223,9 @@ export default function Header() {
             aria-label="Toggle menu"
           >
             {isMenuOpen ? (
-              <X className="h-6 w-6 text-white" />
+              <AstraIcon name="x" size={24} className="text-white" />
             ) : (
-              <Menu className="h-6 w-6 text-white" />
+              <AstraIcon name="menu" size={24} className="text-white" />
             )}
           </button>
         </nav>
@@ -234,7 +233,7 @@ export default function Header() {
         {isMenuOpen ? (
           <div className="glass-effect-light mt-2 rounded-2xl p-6 md:hidden">
             <div className="mb-4 flex items-center gap-3 rounded-full border border-brand-glow/20 bg-brand-glow/10 px-4 py-3">
-              <Zap className="h-4 w-4 text-brand-glow" fill="currentColor" />
+              <AstraIcon name="zap" size={16} tone="cyan" />
               <span className="flex-1 text-sm font-semibold text-white">
                 {t.common.freeGenerations}:
               </span>

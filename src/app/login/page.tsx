@@ -6,8 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { LogIn, Mail, Lock, AlertCircle } from 'lucide-react';
-import { AstraMarkIcon } from '@/components/icons';
+import { AstraIcon, AstraMarkIcon } from '@/components/icons';
 import LanguageSelector from '@/components/LanguageSelector';
 import { useTranslation } from '@/hooks/useTranslation';
 
@@ -78,7 +77,7 @@ function LoginForm() {
         <div className="glass-panel border border-gold-light/20 rounded-2xl p-8 backdrop-blur-xl">
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gold-gradient mb-4">
-              <LogIn className="w-8 h-8 text-black" />
+              <AstraIcon name="login" size={32} className="text-black" />
             </div>
             <h1 className="text-3xl font-bold text-white mb-2 font-playfair">
               {t.auth.loginTitle}
@@ -88,7 +87,7 @@ function LoginForm() {
 
           {error && (
             <div className="mb-6 p-4 rounded-lg bg-red-500/10 border border-red-500/30 flex items-center gap-3">
-              <AlertCircle className="w-5 h-5 text-red-400" />
+              <AstraIcon name="alert" size={20} className="text-red-400" />
               <span className="text-red-300 text-sm">{error}</span>
             </div>
           )}
@@ -99,7 +98,7 @@ function LoginForm() {
                 {t.common.email}
               </label>
               <div className="relative">
-                <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gold-light" />
+                <AstraIcon name="mail" size={20} tone="gold" className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gold-light" />
                 <input
                   type="email"
                   value={email}
@@ -116,7 +115,7 @@ function LoginForm() {
                 {t.common.password}
               </label>
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gold-light" />
+                <AstraIcon name="lock" size={20} tone="gold" className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gold-light" />
                 <input
                   type="password"
                   value={password}
@@ -131,10 +130,29 @@ function LoginForm() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full btn-gold font-semibold py-3 px-4 rounded-lg hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full btn-gold font-semibold py-3 px-4 rounded-lg hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              {loading ? t.auth.loggingIn : t.common.login}
+              {loading ? (
+                <>
+                  <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
+                  {t.auth.loggingIn}
+                </>
+              ) : (
+                <>
+                  <AstraIcon name="login" size={20} />
+                  {t.common.login}
+                </>
+              )}
             </button>
+
+            <div className="text-center">
+              <Link
+                href="/esqueci-senha"
+                className="text-sm text-gold-primary hover:text-gold-light transition-colors"
+              >
+                Esqueci minha senha
+              </Link>
+            </div>
 
             <div className="relative">
               <div className="absolute inset-0 flex items-center">

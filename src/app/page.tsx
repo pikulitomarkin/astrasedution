@@ -1,11 +1,10 @@
 'use client';
 
 import { Header, HeroSection } from '@/components';
-import { Cpu, Lock, Globe, Zap, Shield } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { useTranslation } from '@/hooks/useTranslation';
-import { AstraMarkIcon } from '@/components/icons';
+import { AstraIcon, AstraMarkIcon } from '@/components/icons';
 
 const PricingSection = dynamic(() => import('@/components').then(mod => mod.PricingSection), { ssr: false });
 const Footer = dynamic(() => import('@/components').then(mod => mod.Footer), { ssr: false });
@@ -17,40 +16,40 @@ export default function Home() {
   const t = useTranslation();
   const features = [
     {
-      icon: <Cpu className="h-8 w-8" strokeWidth={1.75} />,
+      icon: <AstraIcon name="brain" size={32} tone="cyan" />,
       title: t.features.advancedAI,
       description: t.features.advancedAIDesc,
-      color: 'from-blue-500/20 to-cyan-500/20',
+      color: 'from-brand-glow/25 to-transparent',
     },
     {
-      icon: <Lock className="h-8 w-8" strokeWidth={1.75} />,
+      icon: <AstraIcon name="vault" size={32} tone="gold" />,
       title: t.features.maximumSecurity,
       description: t.features.maximumSecurityDesc,
-      color: 'from-emerald-500/20 to-green-500/20',
+      color: 'from-gold-primary/20 to-transparent',
     },
     {
-      icon: <AstraMarkIcon className="h-8 w-8" size={32} />,
+      icon: <AstraMarkIcon className="h-8 w-8 text-gold-primary" size={32} />,
       title: t.features.premiumDesign,
       description: t.features.premiumDesignDesc,
-      color: 'from-amber-500/20 to-yellow-500/20',
+      color: 'from-gold-secondary/20 to-transparent',
     },
     {
-      icon: <Globe className="h-8 w-8" strokeWidth={1.75} />,
+      icon: <AstraIcon name="globe" size={32} tone="cyan" />,
       title: t.features.globalScale,
       description: t.features.globalScaleDesc,
-      color: 'from-cyan-500/20 to-brand-glow/20',
+      color: 'from-brand-glow/20 to-transparent',
     },
     {
-      icon: <Zap className="h-8 w-8" strokeWidth={1.75} />,
+      icon: <AstraIcon name="zap" size={32} tone="gold" />,
       title: t.features.performance,
       description: t.features.performanceDesc,
-      color: 'from-red-500/20 to-rose-500/20',
+      color: 'from-gold-primary/15 to-brand-glow/10',
     },
     {
-      icon: <Shield className="h-8 w-8" strokeWidth={1.75} />,
+      icon: <AstraIcon name="passport" size={32} tone="gold" />,
       title: t.features.compliance,
       description: t.features.complianceDesc,
-      color: 'from-indigo-500/20 to-violet-500/20',
+      color: 'from-gold-primary/20 to-transparent',
     },
   ];
 
@@ -110,8 +109,9 @@ export default function Home() {
             <div className="mt-10 flex justify-center">
               <button
                 onClick={() => router.push('/login')}
-                className="group gold-border rounded-full px-8 py-3 text-lg font-semibold text-white transition-all hover:bg-gold-primary/10 hover:gold-shadow"
+                className="group gold-border rounded-full px-8 py-3 text-lg font-semibold text-white transition-all hover:bg-gold-primary/10 hover:gold-shadow flex items-center gap-2"
               >
+                <AstraIcon name="sparkles" size={20} tone="gold" className="text-gold-primary group-hover:scale-110 transition-transform" />
                 {t.common.startNow}
               </button>
             </div>

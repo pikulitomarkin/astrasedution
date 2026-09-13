@@ -34,11 +34,31 @@ export type CreditsInfo = {
   credits: number;
   max_free_credits: number;
   email_verified: boolean;
+  first_recharge_available?: boolean;
+  recharge_bonus_credits?: number;
 };
 
 export type DebitCreditsResponse = {
   credits: number;
   debited: number;
+  message: string;
+};
+
+export type RechargePack = {
+  id: string;
+  name: string;
+  credits: number;
+  price_brl_cents: number;
+  description: string;
+  first_recharge_only: boolean;
+};
+
+export type RechargeResponse = {
+  recharge_id: string;
+  credits: number;
+  credits_granted: number;
+  is_first_bonus: boolean;
+  status: string;
   message: string;
 };
 
@@ -125,6 +145,38 @@ export function resendVerificationEmail(accessToken: string) {
   return apiRequest<MessageResponse>(
     "/auth/resend-verification",
     { method: "POST" },
+    accessToken
+  );
+}
+
+export function forgotPassword(email: string) {
+  return apiRequest<MessageResponse>("/auth/forgot-password", {
+    method: "POST",
+    body: JSON.stringify({ email }),
+  });
+}
+
+export function resetPassword(token: string, newPassword: string) {
+  return apiRequest<MessageResponse>("/auth/reset-password", {
+    method: "POST",
+    body: JSON.stringify({ token, new_password: newPassword }),
+  });
+}
+
+export function changePassword(
+  accessToken: string,
+  currentPassword: string,
+  newPassword: string
+) {
+  return apiRequest<MessageResponse>(
+    "/auth/change-password",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        current_password: currentPassword,
+        new_password: newPassword,
+      }),
+    },
     accessToken
   );
 }

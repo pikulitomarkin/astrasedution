@@ -16,6 +16,7 @@ class User(Base):
     email_verified: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
     plan: Mapped[str] = mapped_column(String(32), default="free", nullable=False)
     credits: Mapped[int] = mapped_column(Integer, default=3, nullable=False)
+    first_recharge_claimed: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), nullable=False
@@ -30,6 +31,19 @@ class User(Base):
 
 class EmailVerificationToken(Base):
     __tablename__ = "email_verification_tokens"
+
+    id: Mapped[str] = mapped_column(String(64), primary_key=True)
+    user_id: Mapped[str] = mapped_column(String(64), index=True, nullable=False)
+    token: Mapped[str] = mapped_column(String(128), unique=True, index=True, nullable=False)
+    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    used_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+
+
+class PasswordResetToken(Base):
+    __tablename__ = "password_reset_tokens"
 
     id: Mapped[str] = mapped_column(String(64), primary_key=True)
     user_id: Mapped[str] = mapped_column(String(64), index=True, nullable=False)
@@ -61,6 +75,22 @@ class Generation(Base):
     style: Mapped[str] = mapped_column(String(64), default="solo_lifestyle", nullable=False)
     image_path: Mapped[str] = mapped_column(Text, nullable=False)
     watermarked: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+
+
+class CreditRecharge(Base):
+    __tablename__ = "credit_recharges"
+
+    id: Mapped[str] = mapped_column(String(64), primary_key=True)
+    user_id: Mapped[str] = mapped_column(String(64), index=True, nullable=False)
+    pack_id: Mapped[str] = mapped_column(String(64), nullable=False)
+    credits_granted: Mapped[int] = mapped_column(Integer, nullable=False)
+    amount_brl: Mapped[int] = mapped_column(Integer, nullable=False)  # centavos
+    status: Mapped[str] = mapped_column(String(32), default="completed", nullable=False)
+    is_first_bonus: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    provider: Mapped[str] = mapped_column(String(64), default="manual", nullable=False)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), nullable=False
     )
