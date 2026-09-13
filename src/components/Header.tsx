@@ -1,13 +1,13 @@
 'use client';
 
-import { Menu, X, User, LogOut, Zap } from 'lucide-react';
-import { useState, useEffect } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Menu, X, User, LogOut, Zap, LayoutDashboard, Wand2 } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { useTranslation } from '@/hooks/useTranslation';
 import LanguageSelector from './LanguageSelector';
 import CurrencySelector from './CurrencySelector';
-import { useTranslation } from '@/hooks/useTranslation';
 import { AstraMarkIcon } from '@/components/icons';
 
 export default function Header() {
@@ -15,10 +15,11 @@ export default function Header() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { user, logout, status } = useAuth();
-  const freeGenerations = user?.credits ?? 3;
   const router = useRouter();
   const t = useTranslation();
+  const menuRef = useRef<HTMLDivElement>(null);
   const isAuthenticated = status === 'authenticated' && !!user;
+  const freeGenerations = user?.credits ?? 3;
 
   const menuItems = [
     { label: t.navigation.home, href: '/' },
@@ -28,115 +29,160 @@ export default function Header() {
     { label: t.navigation.contact, href: '#contact' },
   ];
 
-  // Detectar scroll para efeito de backdrop-blur
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => setIsScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  useEffect(() => {
+    if (!isUserMenuOpen) return;
+    const onPointerDown = (event: MouseEvent) => {
+      if (!menuRef.current?.contains(event.target as Node)) {
+        setIsUserMenuOpen(false);
+      }
+    };
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsUserMenuOpen(false);
+    };
+    document.addEventListener('mousedown', onPointerDown);
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', onPointerDown);
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, [isUserMenuOpen]);
+
+  const closeMenus = () => {
+    setIsUserMenuOpen(false);
+    setIsMenuOpen(false);
+  };
+
+  const go = (path: string) => {
+    closeMenus();
+    router.push(path);
+  };
+
+  const handleLogout = () => {
+    closeMenus();
+    logout();
+    router.push('/');
+  };
+
+  const profileMenu = (
+    <AnimatePresence>
+      {isUserMenuOpen && user ? (
+        <motion.div
+          initial={{ opacity: 0, y: -6, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -6, scale: 0.98 }}
+          transition={{ duration: 0.16 }}
+          className="absolute right-0 top-full mt-3 w-64 overflow-hidden rounded-2xl border border-gold-primary/20 bg-black/90 p-2 shadow-[0_20px_60px_rgba(0,0,0,0.65)] backdrop-blur-xl"
+        >
+          <div className="border-b border-white/10 px-3 py-3">
+            <p className="truncate text-sm font-medium text-white">{user.name || user.email}</p>
+            <p className="truncate text-xs text-zinc-400">{user.email}</p>
+            <p className="mt-1 text-xs text-brand-glow">Créditos: {user.credits}</p>
+          </div>
+          <button
+            type="button"
+            onClick={() => go('/dashboard')}
+            className="mt-1 flex w-full items-center gap-2 rounded-xl px-3 py-2.5 text-left text-sm text-white transition hover:bg-white/5"
+          >
+            <LayoutDashboard className="h-4 w-4 text-gold-primary" />
+            Dashboard
+          </button>
+          <button
+            type="button"
+            onClick={() => go('/create')}
+            className="flex w-full items-center gap-2 rounded-xl px-3 py-2.5 text-left text-sm text-white transition hover:bg-white/5"
+          >
+            <Wand2 className="h-4 w-4 text-brand-glow" />
+            {t.common.myCreator}
+          </button>
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="flex w-full items-center gap-2 rounded-xl px-3 py-2.5 text-left text-sm text-red-400 transition hover:bg-red-500/10"
+          >
+            <LogOut className="h-4 w-4" />
+            {t.common.logout}
+          </button>
+        </motion.div>
+      ) : null}
+    </AnimatePresence>
+  );
+
+  /* Pós-login: só o ícone de perfil no canto direito */
+  if (isAuthenticated) {
+    return (
+      <header className="pointer-events-none fixed inset-x-0 top-0 z-50">
+        <div className="flex justify-end px-4 py-4 sm:px-6 lg:px-8">
+          <div ref={menuRef} className="pointer-events-auto relative">
+            <button
+              type="button"
+              aria-label="Abrir perfil"
+              aria-expanded={isUserMenuOpen}
+              onClick={() => setIsUserMenuOpen((open) => !open)}
+              className={`inline-flex h-11 w-11 items-center justify-center rounded-full border transition ${
+                isScrolled || isUserMenuOpen
+                  ? 'border-gold-primary/40 bg-black/70 text-gold-primary shadow-[0_0_24px_rgba(212,175,55,0.25)] backdrop-blur-xl'
+                  : 'border-white/15 bg-black/40 text-white backdrop-blur-md hover:border-gold-primary/40 hover:text-gold-primary'
+              }`}
+            >
+              <User className="h-5 w-5" />
+            </button>
+            {profileMenu}
+          </div>
+        </div>
+      </header>
+    );
+  }
+
+  /* Visitante: navbar completa de marketing */
   return (
     <header className="fixed top-0 z-50 w-full">
       <div className="mx-auto max-w-7xl px-6 py-4 lg:px-8">
-        <nav 
-          className={`
-            flex items-center justify-between rounded-2xl px-6 py-4 transition-all duration-300
-            ${isScrolled 
-              ? 'glass-effect-light backdrop-blur-xl bg-black/30' 
+        <nav
+          className={`flex items-center justify-between rounded-2xl px-6 py-4 transition-all duration-300 ${
+            isScrolled
+              ? 'glass-effect-light bg-black/30 backdrop-blur-xl'
               : 'glass-effect'
-            }
-          `}
+          }`}
         >
-          {/* Logo */}
-          <div className="flex items-center space-x-2">
+          <button
+            type="button"
+            onClick={() => router.push('/')}
+            className="flex items-center space-x-2"
+          >
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-gold-primary to-gold-secondary p-2">
               <AstraMarkIcon className="h-6 w-6 text-black" size={24} />
             </div>
-            <div className="flex flex-col">
-              <span className="text-xl font-bold tracking-tight text-white">
-                AstraFuture
-              </span>
-              <span className="text-xs font-medium text-gold-gradient tracking-widest">
+            <div className="flex flex-col text-left">
+              <span className="text-xl font-bold tracking-tight text-white">AstraFuture</span>
+              <span className="text-xs font-medium tracking-widest text-gold-gradient">
                 SEDUCTION
               </span>
             </div>
-          </div>
+          </button>
 
-          {/* Free Generations Hook - Widget de Status */}
-          <motion.div 
-            className="hidden lg:flex items-center gap-3 px-5 py-2.5 rounded-full relative overflow-hidden"
+          <motion.div
+            className="relative hidden items-center gap-3 overflow-hidden rounded-full px-5 py-2.5 lg:flex"
             style={{
-              background: 'linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(34, 211, 238, 0.05) 100%)',
-              border: '1px solid transparent',
-              backgroundClip: 'padding-box',
+              background:
+                'linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(34, 211, 238, 0.05) 100%)',
             }}
             whileHover={{ scale: 1.02 }}
             transition={{ duration: 0.2 }}
           >
-            {/* Borda em degradê */}
-            <div 
-              className="absolute inset-0 rounded-full opacity-50"
-              style={{
-                background: 'linear-gradient(135deg, #06b6d4 0%, #22d3ee 50%, #0891b2 100%)',
-                padding: '1px',
-                mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-                WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-                maskComposite: 'exclude',
-                WebkitMaskComposite: 'xor',
-              }}
-            />
-
-            {/* Ponto pulsante (glow indicator) */}
-            <motion.div
-              className="relative flex items-center justify-center"
-              animate={{
-                scale: [1, 1.2, 1],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            >
-              <div className="w-2 h-2 rounded-full bg-brand-glow brand-glow-shadow" />
-              <motion.div 
-                className="absolute w-2 h-2 rounded-full bg-brand-glow"
-                animate={{
-                  scale: [1, 1.5, 1],
-                  opacity: [0.8, 0, 0.8],
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              />
-            </motion.div>
-
-            {/* Ícone de raio */}
-            <Zap className="w-4 h-4 text-brand-glow" fill="currentColor" />
-
-            {/* Texto do contador */}
-            <span className="text-sm font-semibold text-white">
-              {t.common.freeGenerations}:
-            </span>
-            
-            {/* Número com destaque */}
-            <motion.span 
-              className="text-lg font-bold text-brand-glow text-brand-glow min-w-[24px] text-center"
-              key={freeGenerations}
-              initial={{ scale: 1.3, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.3 }}
-            >
+            <div className="h-2 w-2 rounded-full bg-brand-glow brand-glow-shadow" />
+            <Zap className="h-4 w-4 text-brand-glow" fill="currentColor" />
+            <span className="text-sm font-semibold text-white">{t.common.freeGenerations}:</span>
+            <span className="min-w-[24px] text-center text-lg font-bold text-brand-glow">
               {freeGenerations}
-            </motion.span>
+            </span>
           </motion.div>
 
-          {/* Desktop Navigation */}
           <div className="hidden items-center space-x-8 md:flex">
             {menuItems.map((item) => (
               <a
@@ -147,76 +193,34 @@ export default function Header() {
                 {item.label}
               </a>
             ))}
-            
+
             <div className="flex items-center gap-2">
               <LanguageSelector />
               <CurrencySelector />
             </div>
-            
-            {isAuthenticated ? (
-              <div className="relative">
-                <button
-                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                  className="flex items-center gap-2 rounded-full border border-gold-primary/30 bg-black/50 px-4 py-2 text-sm font-semibold text-white transition-all hover:bg-gold-primary/10"
-                >
-                  <User className="h-4 w-4" />
-                  <span className="max-w-[120px] truncate">{user.email}</span>
-                </button>
-                
-                {isUserMenuOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-48 rounded-xl glass-effect border border-gold-light/20 p-2 shadow-xl backdrop-blur-xl">
-                    <div className="p-3 border-b border-white/10">
-                      <p className="text-sm font-medium text-white truncate">{user.name || user.email}</p>
-                      <p className="text-xs text-gray-400 truncate">{user.email}</p>
-                      <p className="text-xs text-brand-glow mt-1">Créditos: {user.credits}</p>
-                    </div>
-                    <button
-                      onClick={() => router.push('/dashboard')}
-                      className="w-full text-left px-3 py-2 text-sm text-white hover:bg-white/5 rounded-lg transition-colors"
-                    >
-                      Dashboard
-                    </button>
-                    <button
-                      onClick={() => router.push('/create')}
-                      className="w-full text-left px-3 py-2 text-sm text-white hover:bg-white/5 rounded-lg transition-colors"
-                    >
-                      {t.common.myCreator}
-                    </button>
-                    <button
-                      onClick={() => {
-                        logout();
-                        router.push('/');
-                      }}
-                      className="w-full text-left px-3 py-2 text-sm text-red-400 hover:bg-red-500/10 rounded-lg transition-colors flex items-center gap-2"
-                    >
-                      <LogOut className="h-4 w-4" />
-                      {t.common.logout}
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => router.push('/login')}
-                  className="rounded-full border border-gold-primary/40 px-5 py-2 text-sm font-semibold text-white transition-all hover:bg-gold-primary/10"
-                >
-                  {t.common.login}
-                </button>
-                <button
-                  onClick={() => router.push('/cadastro')}
-                  className="btn-gold rounded-full px-6 py-2 text-sm font-semibold transition-all hover:opacity-90 hover:gold-shadow"
-                >
-                  {t.common.vipAccess}
-                </button>
-              </div>
-            )}
+
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => router.push('/login')}
+                className="rounded-full border border-gold-primary/40 px-5 py-2 text-sm font-semibold text-white transition-all hover:bg-gold-primary/10"
+              >
+                {t.common.login}
+              </button>
+              <button
+                type="button"
+                onClick={() => router.push('/cadastro')}
+                className="btn-gold rounded-full px-6 py-2 text-sm font-semibold transition-all hover:opacity-90 hover:gold-shadow"
+              >
+                {t.common.vipAccess}
+              </button>
+            </div>
           </div>
 
-          {/* Mobile Menu Button */}
           <button
+            type="button"
             className="md:hidden"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            onClick={() => setIsMenuOpen((open) => !open)}
             aria-label="Toggle menu"
           >
             {isMenuOpen ? (
@@ -227,66 +231,15 @@ export default function Header() {
           </button>
         </nav>
 
-        {/* Mobile Menu */}
-        {isMenuOpen && (
+        {isMenuOpen ? (
           <div className="glass-effect-light mt-2 rounded-2xl p-6 md:hidden">
-            {/* Free Generations Hook - Versão Mobile */}
-            <motion.div 
-              className="mb-4 flex items-center gap-3 px-4 py-3 rounded-full relative overflow-hidden"
-              style={{
-                background: 'linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(34, 211, 238, 0.05) 100%)',
-                border: '1px solid transparent',
-                backgroundClip: 'padding-box',
-              }}
-            >
-              {/* Borda em degradê */}
-              <div 
-                className="absolute inset-0 rounded-full opacity-50"
-                style={{
-                  background: 'linear-gradient(135deg, #06b6d4 0%, #22d3ee 50%, #0891b2 100%)',
-                  padding: '1px',
-                  mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-                  WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-                  maskComposite: 'exclude',
-                  WebkitMaskComposite: 'xor',
-                }}
-              />
-
-              {/* Ponto pulsante */}
-              <motion.div
-                className="relative flex items-center justify-center"
-                animate={{
-                  scale: [1, 1.2, 1],
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              >
-                <div className="w-2 h-2 rounded-full bg-brand-glow brand-glow-shadow" />
-                <motion.div 
-                  className="absolute w-2 h-2 rounded-full bg-brand-glow"
-                  animate={{
-                    scale: [1, 1.5, 1],
-                    opacity: [0.8, 0, 0.8],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                />
-              </motion.div>
-
-              <Zap className="w-4 h-4 text-brand-glow" fill="currentColor" />
-              <span className="text-sm font-semibold text-white flex-1">
+            <div className="mb-4 flex items-center gap-3 rounded-full border border-brand-glow/20 bg-brand-glow/10 px-4 py-3">
+              <Zap className="h-4 w-4 text-brand-glow" fill="currentColor" />
+              <span className="flex-1 text-sm font-semibold text-white">
                 {t.common.freeGenerations}:
               </span>
-              <span className="text-lg font-bold text-brand-glow text-brand-glow">
-                {freeGenerations}
-              </span>
-            </motion.div>
+              <span className="text-lg font-bold text-brand-glow">{freeGenerations}</span>
+            </div>
 
             <div className="flex flex-col space-y-4">
               {menuItems.map((item) => (
@@ -299,67 +252,31 @@ export default function Header() {
                   {item.label}
                 </a>
               ))}
-              
-              <div className="py-2 space-y-2">
+
+              <div className="space-y-2 py-2">
                 <LanguageSelector />
                 <CurrencySelector />
               </div>
-              
-              {isAuthenticated ? (
-                <div className="mt-4 space-y-2">
-                  <div className="p-3 rounded-lg bg-white/5 border border-gold-light/20">
-                    <p className="text-sm font-medium text-white truncate">{user.name || user.email}</p>
-                    <p className="text-xs text-gray-400 truncate">{user.email}</p>
-                    <p className="text-xs text-brand-glow mt-1">Créditos: {user.credits}</p>
-                  </div>
-                  <button
-                    onClick={() => router.push('/dashboard')}
-                    className="w-full text-left px-4 py-3 text-base font-medium text-white hover:bg-white/5 rounded-lg transition-colors border border-white/20"
-                  >
-                    Dashboard
-                  </button>
-                  <button
-                    onClick={() => router.push('/create')}
-                    className="w-full text-left px-4 py-3 text-base font-medium text-white hover:bg-white/5 rounded-lg transition-colors border border-white/20"
-                  >
-                    {t.common.myCreator}
-                  </button>
-                  <button
-                    onClick={() => {
-                      logout();
-                      router.push('/');
-                    }}
-                    className="w-full text-left px-4 py-3 text-base font-medium text-red-400 hover:bg-red-500/10 rounded-lg transition-colors border border-red-500/20 flex items-center gap-2"
-                  >
-                    <LogOut className="h-5 w-5" />
-                    {t.common.logout}
-                  </button>
-                </div>
-              ) : (
-                <div className="mt-4 space-y-2">
-                  <button
-                    onClick={() => {
-                      router.push('/login');
-                      setIsMenuOpen(false);
-                    }}
-                    className="w-full rounded-full border border-gold-primary/40 px-6 py-3 text-base font-semibold text-white transition-all hover:bg-gold-primary/10"
-                  >
-                    {t.common.login}
-                  </button>
-                  <button
-                    onClick={() => {
-                      router.push('/cadastro');
-                      setIsMenuOpen(false);
-                    }}
-                    className="btn-gold w-full rounded-full px-6 py-3 text-base font-semibold transition-all hover:opacity-90"
-                  >
-                    {t.common.vipAccess}
-                  </button>
-                </div>
-              )}
+
+              <div className="mt-4 space-y-2">
+                <button
+                  type="button"
+                  onClick={() => go('/login')}
+                  className="w-full rounded-full border border-gold-primary/40 px-6 py-3 text-base font-semibold text-white transition-all hover:bg-gold-primary/10"
+                >
+                  {t.common.login}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => go('/cadastro')}
+                  className="btn-gold w-full rounded-full px-6 py-3 text-base font-semibold transition-all hover:opacity-90"
+                >
+                  {t.common.vipAccess}
+                </button>
+              </div>
             </div>
           </div>
-        )}
+        ) : null}
       </div>
     </header>
   );
