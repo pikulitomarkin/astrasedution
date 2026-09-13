@@ -2,14 +2,8 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sliders, Upload, Palette, Sparkles, X } from 'lucide-react';
 import SliderComponent from './SliderComponent';
-import {
-  JewelryCategoryIcon,
-  NailShapeIcon,
-  type JewelryCategory,
-  type NailShapeId,
-} from '@/components/icons';
+import { AstraIcon, JewelryCategoryIcon, NailShapeIcon, type JewelryCategory, type NailShapeId } from '@/components/icons';
 
 interface NailType {
   id: NailShapeId;
@@ -172,7 +166,7 @@ export default function NailArtJewelrySelector() {
           >
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
-                <Sliders className="h-6 w-6 text-gold-primary" />
+                <AstraIcon name="sliders" size={24} tone="gold" className="text-gold-primary" />
                 <h3 className="text-xl font-bold text-white">
                   {selectedNail ? `Customizar ${selectedNail.name}` : `Personalizar ${selectedJewelry?.name}`}
                 </h3>
@@ -184,7 +178,7 @@ export default function NailArtJewelrySelector() {
                 }}
                 className="p-2 rounded-lg hover:bg-white/10 transition-colors"
               >
-                <X className="h-5 w-5 text-gray-400" />
+                <AstraIcon name="x" size={20} className="text-gray-400" />
               </button>
             </div>
 
@@ -275,7 +269,7 @@ export default function NailArtJewelrySelector() {
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-3">
                     <div className="flex items-center gap-2">
-                      <Palette className="h-4 w-4 text-gold-light" />
+                      <AstraIcon name="palette" size={16} tone="gold" className="text-gold-light" />
                       Cor Personalizada
                     </div>
                   </label>
@@ -306,7 +300,7 @@ export default function NailArtJewelrySelector() {
               <div className="space-y-6">
                 <div className="glass-effect-light rounded-xl p-6 border border-gold-light/20">
                   <div className="flex items-center gap-3 mb-4">
-                    <Upload className="h-6 w-6 text-gold-primary" />
+                    <AstraIcon name="upload" size={24} tone="gold" className="text-gold-primary" />
                     <h4 className="text-lg font-semibold text-white">Upload de Textura Customizada</h4>
                   </div>
                   
@@ -319,7 +313,7 @@ export default function NailArtJewelrySelector() {
                     
                     <label className="block">
                       <div className="border-2 border-dashed border-gold-light/30 rounded-xl p-8 text-center cursor-pointer hover:border-gold-primary/50 transition-colors">
-                        <Upload className="h-12 w-12 text-gold-light/50 mx-auto mb-3" />
+                        <AstraIcon name="upload" size={48} tone="gold" className="text-gold-light/50 mx-auto mb-3" />
                         <p className="text-white font-medium mb-1">
                           Clique para selecionar um arquivo
                         </p>
@@ -353,7 +347,7 @@ export default function NailArtJewelrySelector() {
                           onClick={() => setCustomTexture(null)}
                           className="text-red-400 hover:text-red-300"
                         >
-                          <X className="h-5 w-5" />
+                          <AstraIcon name="x" size={20} />
                         </button>
                       </div>
                     </motion.div>
@@ -361,7 +355,7 @@ export default function NailArtJewelrySelector() {
 
                   <div className="mt-6">
                     <button className="w-full gold-gradient text-black font-semibold py-3 px-4 rounded-lg hover:opacity-90 transition-all flex items-center justify-center gap-2">
-                      <Sparkles className="h-5 w-5" />
+                      <AstraIcon name="sparkles" size={20} />
                       Aplicar Textura ao Modelo
                     </button>
                   </div>

@@ -1,8 +1,8 @@
 'use client';
+import { AstraIcon } from '@/components/icons';
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, Watch, Gem, Cpu } from 'lucide-react';
 import SliderComponent from './SliderComponent';
 import { AccordionCategory } from '@/types/creator-wizard';
 
@@ -12,10 +12,10 @@ interface AccordionSectionProps {
   onSliderChange: (id: string, value: number) => void;
 }
 
-const categoryIcons: Record<string, React.ElementType> = {
-  'relogios': Watch,
-  'joias': Gem,
-  'eletronicos': Cpu,
+const categoryIcons: Record<string, string> = {
+  relogios: 'watch',
+  joias: 'gem',
+  eletronicos: 'cpu',
 };
 
 export default function AccordionSection({ 
@@ -24,7 +24,7 @@ export default function AccordionSection({
   onSliderChange 
 }: AccordionSectionProps) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const Icon = categoryIcons[category.id] || ChevronDown;
+  const iconName = categoryIcons[category.id] || 'sliders';
 
   return (
     <div className="glass-effect overflow-hidden rounded-2xl">
@@ -34,7 +34,7 @@ export default function AccordionSection({
       >
         <div className="flex items-center gap-4">
           <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-gold-primary/20 to-gold-secondary/20">
-            <Icon className="h-6 w-6 text-gold-primary" />
+            <AstraIcon name={iconName} size={24} tone="gold" className="text-gold-primary" />
           </div>
           <div>
             <h3 className="text-lg font-semibold text-white">{category.title}</h3>
@@ -45,7 +45,7 @@ export default function AccordionSection({
           animate={{ rotate: isExpanded ? 180 : 0 }}
           transition={{ duration: 0.3 }}
         >
-          <ChevronDown className="h-5 w-5 text-zinc-400" />
+          <AstraIcon name="chevronDown" size={20} className="h-5 w-5 text-zinc-400" />
         </motion.div>
       </button>
 

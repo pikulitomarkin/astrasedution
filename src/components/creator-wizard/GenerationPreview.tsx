@@ -1,8 +1,8 @@
 'use client';
+import { AstraIcon } from '@/components/icons';
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Zap, Sparkles, Cpu, Palette, Anchor, Sun, CheckCircle } from 'lucide-react';
 
 interface GenerationPreviewProps {
   isGenerating?: boolean;
@@ -11,12 +11,12 @@ interface GenerationPreviewProps {
 }
 
 const steps = [
-  { text: 'Injetando texturas de pele...', icon: Palette, color: '#A78BFA' },
-  { text: 'Ancorando acessórios...', icon: Anchor, color: '#38BDF8' },
-  { text: 'Sincronizando luz ambiente...', icon: Sun, color: '#FBBF24' },
-  { text: 'Processando reflexos...', icon: Sparkles, color: '#F472B6' },
-  { text: 'Otimizando geometria...', icon: Cpu, color: '#34D399' },
-  { text: 'Renderizando final...', icon: Zap, color: '#F87171' },
+  { text: 'Injetando texturas de pele...', icon: 'palette', color: '#D4AF37' },
+  { text: 'Ancorando acessórios...', icon: 'anchor', color: '#06b6d4' },
+  { text: 'Sincronizando luz ambiente...', icon: 'sun', color: '#FFD700' },
+  { text: 'Processando reflexos...', icon: 'sparkles', color: '#22d3ee' },
+  { text: 'Otimizando geometria...', icon: 'cpu', color: '#D4AF37' },
+  { text: 'Renderizando final...', icon: 'zap', color: '#06b6d4' },
 ];
 
 export default function GenerationPreview({ 
@@ -81,7 +81,7 @@ export default function GenerationPreview({
           {/* Cabeçalho */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-gold-primary to-gold-secondary mb-4">
-              <Zap className="w-8 h-8 text-black" />
+              <AstraIcon name="zap" size={32} className="text-black" />
             </div>
             <h2 className="text-2xl font-bold text-white mb-2">
               {isComplete ? 'Master Scene Gerada!' : 'Gerando Master Scene'}
@@ -162,15 +162,14 @@ export default function GenerationPreview({
                 <div className="inline-flex items-center justify-center w-12 h-12 rounded-full mb-4"
                   style={{ backgroundColor: steps[currentStep]?.color + '20' }}
                 >
-                  {(() => {
-                    const IconComponent = steps[currentStep]?.icon;
-                    return IconComponent ? (
-                      <IconComponent 
+                  {steps[currentStep]?.icon ? (
+                      <AstraIcon
+                        name={steps[currentStep].icon}
+                        size={24}
                         className="w-6 h-6"
-                        style={{ color: steps[currentStep]?.color }}
+                        tone="gold"
                       />
-                    ) : null;
-                  })()}
+                    ) : null}
                 </div>
                 <h3 className="text-xl font-semibold text-white mb-2">
                   {steps[currentStep]?.text}
@@ -186,7 +185,7 @@ export default function GenerationPreview({
                 className="text-center"
               >
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-green-500 to-emerald-400 mb-4">
-                  <CheckCircle className="w-8 h-8 text-white" />
+                  <AstraIcon name="checkCircle" size={32} className="text-white" />
                 </div>
                 <h3 className="text-xl font-semibold text-white mb-2">
                   Criação Concluída!
@@ -226,7 +225,7 @@ export default function GenerationPreview({
           {/* Nota de créditos */}
           <div className="mt-8 p-4 bg-gold-primary/5 border border-gold-primary/20 rounded-xl">
             <p className="text-sm text-gold-light text-center flex items-center justify-center gap-2">
-              <Zap className="w-4 h-4 shrink-0 fill-current" aria-hidden />
+              <AstraIcon name="zap" size={16} className="fill-current" />
               Esta geração consumiu {Math.round(calculatedProgress * 2)} créditos do seu plano VIP
             </p>
           </div>

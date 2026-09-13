@@ -1,4 +1,5 @@
 'use client';
+import { AstraIcon } from '@/components/icons';
 
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
@@ -6,7 +7,6 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 import { Header } from '@/components';
 import { GenerationWizard } from '@/components/creator-wizard';
-import { Mail, AlertCircle } from 'lucide-react';
 
 export default function CreatePage() {
   const { user, status } = useAuth();
@@ -40,7 +40,7 @@ export default function CreatePage() {
         <div className="flex items-center justify-center min-h-[70vh] p-4">
           <div className="glass-panel border border-gold-light/20 rounded-2xl p-8 max-w-md text-center">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gold-gradient mb-4">
-              <Mail className="w-8 h-8 text-black" />
+              <AstraIcon name="mail" size={32} className="text-black" />
             </div>
             <h2 className="text-2xl font-bold text-white mb-3 font-playfair">
               Verifique seu email
@@ -50,7 +50,7 @@ export default function CreatePage() {
               <span className="text-white">{user.email}</span>.
             </p>
             <div className="p-4 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-start gap-3 mb-6 text-left">
-              <AlertCircle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+              <AstraIcon name="alert" size={20} tone="gold" className="text-amber-400 mt-0.5" />
               <p className="text-amber-200 text-sm">
                 O acesso ao criador fica bloqueado até a verificação do email (requisito da Fase 1).
               </p>

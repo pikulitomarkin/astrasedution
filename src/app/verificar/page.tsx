@@ -1,10 +1,10 @@
 'use client';
+import { AstraIcon } from '@/components/icons';
 
 import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Mail, CheckCircle, AlertCircle, RefreshCw } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { verifyEmailToken } from '@/lib/api';
 
@@ -70,7 +70,7 @@ function VerificarContent() {
         >
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gold-gradient mb-4">
-              <Mail className="w-8 h-8 text-black" />
+              <AstraIcon name="mail" size={32} className="text-black" />
             </div>
             <h1 className="text-3xl font-bold text-white mb-2 font-playfair">
               Verificação de Email
@@ -87,7 +87,7 @@ function VerificarContent() {
           {token && verifyState === 'success' && (
             <div className="space-y-6">
               <div className="p-4 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-start gap-3">
-                <CheckCircle className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+                <AstraIcon name="checkCircle" size={20} className="text-emerald-400 mt-0.5" />
                 <p className="text-emerald-300 text-sm">{verifyMessage}</p>
               </div>
               <button
@@ -102,7 +102,7 @@ function VerificarContent() {
           {token && verifyState === 'error' && (
             <div className="space-y-6">
               <div className="p-4 rounded-lg bg-red-500/10 border border-red-500/30 flex items-start gap-3">
-                <AlertCircle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
+                <AstraIcon name="alert" size={20} className="text-red-400 mt-0.5" />
                 <p className="text-red-300 text-sm">{verifyMessage}</p>
               </div>
               {status === 'authenticated' && (
@@ -111,7 +111,7 @@ function VerificarContent() {
                   disabled={resendLoading}
                   className="w-full border border-gold-light/30 text-white py-3 rounded-lg flex items-center justify-center gap-2"
                 >
-                  <RefreshCw className={`w-4 h-4 ${resendLoading ? 'animate-spin' : ''}`} />
+                  <AstraIcon name="refreshCw" size={24} />
                   Reenviar email
                 </button>
               )}
@@ -133,7 +133,7 @@ function VerificarContent() {
                 disabled={resendLoading || !accessToken}
                 className="w-full border border-gold-light/30 text-white py-3 rounded-lg flex items-center justify-center gap-2 disabled:opacity-50"
               >
-                <RefreshCw className={`w-4 h-4 ${resendLoading ? 'animate-spin' : ''}`} />
+                <AstraIcon name="refreshCw" size={24} />
                 Reenviar email de verificação
               </button>
               <Link href="/" className="block text-center text-sm text-zinc-500 hover:text-white">
