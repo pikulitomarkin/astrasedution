@@ -4,11 +4,10 @@ import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { UserPlus, User, Mail, Lock, AlertCircle } from 'lucide-react';
-import LanguageSelector from '@/components/LanguageSelector';
+import { UserPlus, User, Mail, Lock, AlertCircle, ArrowRight, Sparkles } from 'lucide-react';
 import { useTranslation } from '@/hooks/useTranslation';
+import AuthShell from '@/components/AuthShell';
 
 export default function CadastroPage() {
   const t = useTranslation();
@@ -36,175 +35,147 @@ export default function CadastroPage() {
     }
   };
 
+  const fieldClass =
+    'w-full rounded-xl border border-white/10 bg-black/40 py-3.5 pl-12 pr-4 text-white placeholder:text-zinc-600 outline-none transition focus:border-gold-primary/60 focus:ring-1 focus:ring-gold-primary/40';
+
+  const benefits = [
+    t.auth.creatorAccess,
+    t.common.freeCredits,
+    t.auth.realTimePreview,
+    t.common.highResExport,
+  ];
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black p-4 relative">
-      <div className="absolute top-4 right-4 z-20">
-        <LanguageSelector />
-      </div>
+    <AuthShell backLabel={t.common.backToHome}>
+      <div className="relative overflow-hidden rounded-3xl border border-gold-primary/20 bg-black/50 p-7 shadow-[0_0_0_1px_rgba(6,182,212,0.08)_inset,0_30px_80px_rgba(0,0,0,0.55)] backdrop-blur-2xl sm:p-9">
+        <div
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-glow/60 to-transparent"
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute -left-16 top-24 h-44 w-44 rounded-full bg-gold-primary/10 blur-3xl"
+          aria-hidden
+        />
 
-      <div className="w-full max-w-md">
-        <motion.div
-          className="flex justify-center mb-8"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="relative">
-            <motion.div
-              className="w-32 h-32 rounded-full overflow-hidden relative"
-              whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.3 }}
-            >
-              <Image
-                src="/logo-astra.png"
-                alt="Astra Seduction Logo"
-                width={128}
-                height={128}
-                className="w-full h-full object-contain"
-                priority={false}
-              />
-            </motion.div>
-            <motion.div
-              className="absolute -inset-3 bg-gradient-to-r from-brand-glow/20 via-gold-primary/20 to-brand-glow/20 rounded-full blur-2xl -z-10"
-              animate={{ opacity: [0.3, 0.6, 0.3], scale: [1, 1.1, 1] }}
-              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-            />
+        <div className="relative mb-8 text-center">
+          <motion.div
+            className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl border border-brand-glow/35 bg-gradient-to-br from-brand-glow/15 to-transparent shadow-[0_0_28px_rgba(6,182,212,0.2)]"
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.15, duration: 0.4 }}
+          >
+            <UserPlus className="h-6 w-6 text-brand-glow" strokeWidth={1.75} />
+          </motion.div>
+          <h1 className="font-serif text-4xl font-bold tracking-tight text-white sm:text-[2.75rem]">
+            {t.auth.signupTitle}
+          </h1>
+          <p className="mt-3 text-sm leading-relaxed text-zinc-400">{t.auth.signupSubtitle}</p>
+        </div>
+
+        {error ? (
+          <div className="mb-6 flex items-center gap-3 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3">
+            <AlertCircle className="h-5 w-5 shrink-0 text-red-400" />
+            <span className="text-sm text-red-300">{error}</span>
           </div>
-        </motion.div>
+        ) : null}
 
-        <div className="glass-panel border border-gold-light/20 rounded-2xl p-8 backdrop-blur-xl">
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gold-gradient mb-4">
-              <UserPlus className="w-8 h-8 text-black" />
-            </div>
-            <h1 className="text-3xl font-bold text-white mb-2 font-playfair">
-              {t.auth.signupTitle}
-            </h1>
-            <p className="text-gray-400">{t.auth.signupSubtitle}</p>
-          </div>
-
-          {error && (
-            <div className="mb-6 p-4 rounded-lg bg-red-500/10 border border-red-500/30 flex items-center gap-3">
-              <AlertCircle className="w-5 h-5 text-red-400" />
-              <span className="text-red-300 text-sm">{error}</span>
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                {t.common.name}
-              </label>
-              <div className="relative">
-                <User className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gold-light" />
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 bg-black/50 border border-gold-light/30 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-gold-primary focus:ring-1 focus:ring-gold-primary transition-all"
-                  placeholder={t.auth.namePlaceholder}
-                  required
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                {t.common.email}
-              </label>
-              <div className="relative">
-                <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gold-light" />
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 bg-black/50 border border-gold-light/30 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-gold-primary focus:ring-1 focus:ring-gold-primary transition-all"
-                  placeholder={t.auth.emailPlaceholder}
-                  required
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                {t.common.password}
-              </label>
-              <div className="relative">
-                <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gold-light" />
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 bg-black/50 border border-gold-light/30 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-gold-primary focus:ring-1 focus:ring-gold-primary transition-all"
-                  placeholder="••••••••"
-                  required
-                  minLength={6}
-                />
-              </div>
-              <p className="mt-2 text-xs text-gray-500">{t.common.minimumChars}</p>
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full btn-gold font-semibold py-3 px-4 rounded-lg hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading ? t.auth.creatingAccount : t.auth.createAccount}
-            </button>
-
+        <form onSubmit={handleSubmit} className="relative space-y-5">
+          <div>
+            <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.18em] text-zinc-400">
+              {t.common.name}
+            </label>
             <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gold-light/20"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-black text-gray-400">ou</span>
-              </div>
+              <User className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gold-primary/80" strokeWidth={1.75} />
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className={fieldClass}
+                placeholder={t.auth.namePlaceholder}
+                required
+                autoComplete="name"
+              />
             </div>
+          </div>
 
-            <div className="text-center">
-              <p className="text-gray-400">
-                {t.common.alreadyHaveAccount}{' '}
-                <Link
-                  href="/login"
-                  className="text-gold-primary hover:text-gold-light font-semibold transition-colors"
-                >
-                  {t.common.loginHere}
-                </Link>
-              </p>
+          <div>
+            <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.18em] text-zinc-400">
+              {t.common.email}
+            </label>
+            <div className="relative">
+              <Mail className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gold-primary/80" strokeWidth={1.75} />
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className={fieldClass}
+                placeholder={t.auth.emailPlaceholder}
+                required
+                autoComplete="email"
+              />
             </div>
+          </div>
 
-            <div className="mt-8 space-y-3">
-              <h3 className="text-lg font-semibold text-gold-light text-center">
-                {t.common.benefits}
-              </h3>
-              <ul className="space-y-2 text-sm text-gray-300">
-                <li className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-gold-primary rounded-full" />
-                  {t.auth.creatorAccess}
-                </li>
-                <li className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-gold-primary rounded-full" />
-                  {t.common.freeCredits}
-                </li>
-                <li className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-gold-primary rounded-full" />
-                  {t.auth.realTimePreview}
-                </li>
-                <li className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-gold-primary rounded-full" />
-                  {t.common.highResExport}
-                </li>
-              </ul>
+          <div>
+            <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.18em] text-zinc-400">
+              {t.common.password}
+            </label>
+            <div className="relative">
+              <Lock className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gold-primary/80" strokeWidth={1.75} />
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className={fieldClass}
+                placeholder="••••••••"
+                required
+                minLength={6}
+                autoComplete="new-password"
+              />
             </div>
-          </form>
-        </div>
+            <p className="mt-2 text-xs text-zinc-500">{t.common.minimumChars}</p>
+          </div>
 
-        <div className="text-center mt-6">
-          <Link href="/" className="text-gray-500 hover:text-white text-sm transition-colors">
-            {t.common.backToHome}
-          </Link>
-        </div>
+          <motion.button
+            type="submit"
+            disabled={loading}
+            whileHover={loading ? undefined : { scale: 1.01 }}
+            whileTap={loading ? undefined : { scale: 0.99 }}
+            className="btn-gold group mt-2 flex w-full items-center justify-center gap-2 rounded-full py-3.5 text-sm font-bold tracking-wide transition disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {loading ? (
+              t.auth.creatingAccount
+            ) : (
+              <>
+                {t.auth.createAccount}
+                <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+              </>
+            )}
+          </motion.button>
+
+          <p className="pt-2 text-center text-sm text-zinc-400">
+            {t.common.alreadyHaveAccount}{' '}
+            <Link href="/login" className="font-semibold text-gold-primary transition hover:text-gold-accent">
+              {t.common.loginHere}
+            </Link>
+          </p>
+
+          <div className="rounded-2xl border border-white/10 bg-gradient-to-br from-gold-primary/10 to-brand-glow/5 p-4">
+            <div className="mb-3 flex items-center justify-center gap-2 text-gold-primary">
+              <Sparkles className="h-4 w-4" strokeWidth={1.75} />
+              <h3 className="text-xs font-semibold uppercase tracking-[0.22em]">{t.common.benefits}</h3>
+            </div>
+            <ul className="space-y-2.5">
+              {benefits.map((item) => (
+                <li key={item} className="flex items-start gap-3 text-sm text-zinc-300">
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-r from-gold-primary to-brand-glow" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </form>
       </div>
-    </div>
+    </AuthShell>
   );
 }
